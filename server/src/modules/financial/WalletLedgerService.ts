@@ -25,7 +25,6 @@ import {
   Prisma,
   TransactionType,
   TransactionStatus,
-  KYCStatus,
   RewardStatus,
   WithdrawalStatus,
   WalletTransaction,
@@ -73,17 +72,6 @@ export class InsufficientFundsException extends ConcurrencyException {
     );
     this.name = "InsufficientFundsException";
     Object.setPrototypeOf(this, InsufficientFundsException.prototype);
-  }
-}
-
-export class KYCNotApprovedException extends Error {
-  public readonly statusCode = 403;
-  constructor(memberId: string, currentStatus: string) {
-    super(
-      `KYC not approved for member ${memberId}. Current status: ${currentStatus}`
-    );
-    this.name = "KYCNotApprovedException";
-    Object.setPrototypeOf(this, KYCNotApprovedException.prototype);
   }
 }
 
@@ -257,28 +245,16 @@ export class WalletLedgerService {
   async requestWithdrawal(
     memberId: string,
     amount: Prisma.Decimal,
-    bankAccountId: string
+    payoutAddress: string
   ): Promise<WalletTransaction> {
-    // ── Pre-flight: KYC gate (outside transaction for speed) ──
-    const kyc = await this.prisma.kYC.findUnique({
-      where: { memberId },
-    });
-
-    if (!kyc || kyc.status !== KYCStatus.APPROVED) {
-      throw new KYCNotApprovedException(
-        memberId,
-        kyc?.status ?? "NOT_SUBMITTED"
-      );
-    }
-
-    // ── Pre-flight: Verify bank account belongs to member ──
+    // 🛡️ Pre-flight: Verify bank account (or UPI profile) belongs to member 🛡️──
     const bankAccount = await this.prisma.bankAccount.findFirst({
-      where: { id: bankAccountId, memberId, isVerified: true },
+      where: { id: payoutAddress, memberId, isVerified: true },
     });
 
     if (!bankAccount) {
       throw new Error(
-        `Verified bank account ${bankAccountId} not found for member ${memberId}`
+        `Verified bank account or UPI profile ${payoutAddress} not found for member ${memberId}`
       );
     }
 
@@ -340,7 +316,7 @@ export class WalletLedgerService {
           data: {
             memberId,
             walletId: wallet.id,
-            bankAccountId,
+            bankAccountId: payoutAddress,
             requestedAmount: amount,
             status: WithdrawalStatus.REQUESTED,
           },
@@ -356,7 +332,7 @@ export class WalletLedgerService {
             amount,
             balanceAfter: newBalance,
             idempotencyKey,
-            notes: `Withdrawal request to bank account ${bankAccount.bankName} ****${bankAccount.accountNumber.slice(-4)}`,
+            notes: `Withdrawal request to ${payoutAddress}`,
           },
         });
 

@@ -124,13 +124,6 @@ enum TreeSide {
   RIGHT
 }
 
-enum KYCStatus {
-  NOT_SUBMITTED
-  PENDING_REVIEW
-  APPROVED
-  REJECTED
-  EXPIRED
-}
 
 enum WithdrawalStatus {
   REQUESTED
@@ -212,9 +205,6 @@ enum AuditAction {
   WITHDRAWAL_REQUESTED
   WITHDRAWAL_APPROVED
   WITHDRAWAL_PAID
-  KYC_SUBMITTED
-  KYC_APPROVED
-  KYC_REJECTED
   BINARY_VOLUME_CREATED
   BINARY_VOLUME_REVERSED
   RULE_VERSION_ACTIVATED
@@ -282,7 +272,6 @@ model Member {
   rewards             Reward[]
   rewardLedgerEntries RewardLedger[]
   withdrawals         Withdrawal[]
-  kyc                 KYC?
   bankAccounts        BankAccount[]
   bookings            Booking[]      @relation("MemberBookings")
 
@@ -841,7 +830,8 @@ model Withdrawal {
   id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   memberId        String           @db.Uuid
   walletId        String           @db.Uuid
-  bankAccountId   String           @db.Uuid
+  bankAccountId   String?          @db.Uuid
+  upiId           String?
   requestedAmount Decimal          @db.Decimal(12, 2)
   approvedAmount  Decimal?         @db.Decimal(12, 2)
   tdsAmount       Decimal          @default(0) @db.Decimal(12, 2)
@@ -861,7 +851,7 @@ model Withdrawal {
   // Relations
   member      Member      @relation(fields: [memberId], references: [id], onDelete: Restrict)
   wallet      Wallet      @relation(fields: [walletId], references: [id], onDelete: Restrict)
-  bankAccount BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Restrict)
+  bankAccount BankAccount? @relation(fields: [bankAccountId], references: [id], onDelete: Restrict)
 
   @@index([memberId])
   @@index([memberId, status])
@@ -870,36 +860,7 @@ model Withdrawal {
   @@map("withdrawals")
 }
 
-// =============================================================================
-// MODEL 21 — KYC
-// Identity verification. Required before first withdrawal is processed.
-// =============================================================================
-model KYC {
-  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  memberId           String    @unique @db.Uuid
-  status             KYCStatus @default(NOT_SUBMITTED)
-  panNumber          String? // Encrypted at application layer (AES-256-GCM)
-  aadhaarNumber      String? // Encrypted at application layer
-  panDocumentUrl     String?
-  aadhaarDocFrontUrl String?
-  aadhaarDocBackUrl  String?
-  selfieUrl          String?
-  reviewedBy         String?   @db.Uuid // AdminUser.id
-  reviewNotes        String?
-  submittedAt        DateTime?
-  approvedAt         DateTime?
-  rejectedAt         DateTime?
-  expiresAt          DateTime?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
 
-  // Relations
-  member Member @relation(fields: [memberId], references: [id], onDelete: Restrict)
-
-  @@index([memberId, status])
-  @@index([status])
-  @@map("kyc")
-}
 
 // =============================================================================
 // MODEL 22 — BankAccount
@@ -908,11 +869,12 @@ model KYC {
 model BankAccount {
   id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   memberId          String    @db.Uuid
-  accountHolderName String
-  bankName          String
-  accountNumber     String // Encrypted at application layer
-  ifscCode          String
-  accountType       String // SAVINGS | CURRENT
+  accountHolderName String?
+  bankName          String?
+  accountNumber     String? // Encrypted at application layer
+  ifscCode          String?
+  upiId             String?
+  accountType       String? // SAVINGS | CURRENT
   isPrimary         Boolean   @default(false)
   isVerified        Boolean   @default(false)
   verifiedAt        DateTime?

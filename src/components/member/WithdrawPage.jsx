@@ -17,9 +17,8 @@ import {
 export const WithdrawPage = () => {
   const { showToast, navigateTo } = useWaypoint();
   const [balanceInfo, setBalanceInfo] = useState(null);
-  const [bankAccounts, setBankAccounts] = useState([]);
   const [history, setHistory] = useState([]);
-  const [selectedBankId, setSelectedBankId] = useState('');
+  const [payoutAddress, setPayoutAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,15 +28,10 @@ export const WithdrawPage = () => {
     setIsLoading(true);
     Promise.all([
       withdrawalsApi.getEligibleBalance(),
-      withdrawalsApi.getBankAccounts(),
       withdrawalsApi.getHistory(),
     ])
-      .then(([balRes, bankRes, histRes]) => {
+      .then(([balRes, histRes]) => {
         if (balRes.success) setBalanceInfo(balRes.data);
-        if (bankRes.success) {
-          setBankAccounts(bankRes.data);
-          if (bankRes.data.length > 0) setSelectedBankId(bankRes.data[0].id);
-        }
         if (histRes.success) setHistory(histRes.data);
       })
       .finally(() => setIsLoading(false));
@@ -67,7 +61,7 @@ export const WithdrawPage = () => {
     try {
       const res = await withdrawalsApi.requestWithdrawal({
         amount: Number(amount),
-        bankAccountId: selectedBankId,
+        payoutAddress: payoutAddress,
       });
       if (res.success) {
         showToast(`Withdrawal request of ${formatINR(Number(amount))} submitted successfully!`, 'success');
@@ -84,8 +78,6 @@ export const WithdrawPage = () => {
   };
 
   if (isLoading) return <CardSkeleton />;
-
-  const selectedBank = bankAccounts.find((b) => b.id === selectedBankId);
 
   return (
     <div className="space-y-8 animate-fadeIn">
@@ -136,41 +128,17 @@ export const WithdrawPage = () => {
 
             <div className="space-y-1.5">
               <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 block">
-                Receiving Bank Account
+                Payout Address (UPI ID or Bank Details)
               </label>
-              <div className="space-y-2">
-                {bankAccounts.map((bank) => (
-                  <label
-                    key={bank.id}
-                    className={`flex items-center justify-between p-3.5 rounded-2xl border cursor-pointer transition-all ${
-                      selectedBankId === bank.id
-                        ? 'border-blue-600 bg-blue-50/50 shadow-xs ring-1 ring-blue-600/30'
-                        : 'border-slate-200 bg-slate-50 hover:bg-slate-100'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="radio"
-                        name="bankSelect"
-                        checked={selectedBankId === bank.id}
-                        onChange={() => setSelectedBankId(bank.id)}
-                        className="text-blue-600"
-                      />
-                      <div>
-                        <div className="font-bold text-xs text-slate-900">{bank.bankName}</div>
-                        <div className="font-mono text-[10px] text-slate-500">
-                          {bank.accountNumberMasked} • IFSC: {bank.ifscCode}
-                        </div>
-                      </div>
-                    </div>
-
-                    {bank.isPrimary && (
-                      <span className="text-[9px] font-black uppercase tracking-wider bg-slate-900 text-white px-2 py-0.5 rounded-md">
-                        PRIMARY
-                      </span>
-                    )}
-                  </label>
-                ))}
+              <div className="relative flex items-center">
+                <input
+                  type="text"
+                  value={payoutAddress}
+                  onChange={(e) => setPayoutAddress(e.target.value)}
+                  placeholder="e.g. yourname@upi OR A/c 1234, IFSC HDFC..."
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:bg-white"
+                  required
+                />
               </div>
             </div>
 
@@ -228,7 +196,7 @@ export const WithdrawPage = () => {
       <ConfirmDialog
         isOpen={isConfirmOpen}
         title="Confirm Bank Withdrawal"
-        description={`Are you sure you want to request a bank transfer of ${formatINR(Number(amount))} to your registered ${selectedBank?.bankName} account ending in ${selectedBank?.accountNumberMasked.slice(-4)}?`}
+        description={`Are you sure you want to request a transfer of ${formatINR(Number(amount))} to ${payoutAddress}?`}
         confirmLabel="Confirm & Submit"
         cancelLabel="Review Amount"
         onConfirm={handleConfirmWithdrawal}

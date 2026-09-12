@@ -15,7 +15,6 @@ import {
   WalletLedgerService,
   ConcurrencyException,
   InsufficientFundsException,
-  KYCNotApprovedException,
   WalletNotFoundException,
   InvalidStateException,
   RewardNotFoundException,
@@ -23,7 +22,6 @@ import {
 import {
   PrismaClient,
   Prisma,
-  KYCStatus,
   TransactionType,
   TransactionStatus,
   RewardStatus,
@@ -115,53 +113,6 @@ describe("WalletLedgerService", () => {
   });
 
   // ===========================================================================
-  // B. requestWithdrawal — KYC Gate
-  // ===========================================================================
-  describe("B. KYC Gate", () => {
-    it("B1: should reject withdrawal when KYC is not approved", async () => {
-      prisma.kYC.findUnique.mockResolvedValueOnce({
-        id: "kyc-001",
-        memberId: "member-001",
-        status: KYCStatus.PENDING_REVIEW,
-        panNumber: null,
-        aadhaarNumber: null,
-        panDocumentUrl: null,
-        aadhaarDocFrontUrl: null,
-        aadhaarDocBackUrl: null,
-        selfieUrl: null,
-        reviewedBy: null,
-        reviewNotes: null,
-        submittedAt: new Date(),
-        approvedAt: null,
-        rejectedAt: null,
-        expiresAt: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-
-      await expect(
-        sut.requestWithdrawal(
-          "member-001",
-          new Prisma.Decimal(1000),
-          "bank-001"
-        )
-      ).rejects.toThrow(KYCNotApprovedException);
-    });
-
-    it("B2: should reject withdrawal when KYC record does not exist", async () => {
-      prisma.kYC.findUnique.mockResolvedValueOnce(null);
-
-      await expect(
-        sut.requestWithdrawal(
-          "member-001",
-          new Prisma.Decimal(1000),
-          "bank-001"
-        )
-      ).rejects.toThrow(KYCNotApprovedException);
-    });
-  });
-
-  // ===========================================================================
   // C. requestWithdrawal — Concurrency Stress Test
   //
   // Scenario: Member has ₹1,000 available. 5 simultaneous ₹1,000 withdrawal
@@ -169,33 +120,14 @@ describe("WalletLedgerService", () => {
   // ===========================================================================
   describe("C. Concurrency — 5 simultaneous ₹1,000 withdrawals", () => {
     it("C1: should allow exactly 1 withdrawal and reject 4", async () => {
-      // KYC and bank account pre-flight pass for all requests
-      prisma.kYC.findUnique.mockResolvedValue({
-        id: "kyc-001",
-        memberId: "member-001",
-        status: KYCStatus.APPROVED,
-        panNumber: null,
-        aadhaarNumber: null,
-        panDocumentUrl: null,
-        aadhaarDocFrontUrl: null,
-        aadhaarDocBackUrl: null,
-        selfieUrl: null,
-        reviewedBy: null,
-        reviewNotes: null,
-        submittedAt: new Date(),
-        approvedAt: new Date(),
-        rejectedAt: null,
-        expiresAt: null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-
+      // Pre-flight pass for all requests
       prisma.bankAccount.findFirst.mockResolvedValue({
         id: "bank-001",
         memberId: "member-001",
+        upiId: null,
         accountHolderName: "Test User",
         bankName: "HDFC",
-        accountNumber: "XXXX1234",
+        accountNumber: "123456789",
         ifscCode: "HDFC0001234",
         accountType: "SAVINGS",
         isPrimary: true,
