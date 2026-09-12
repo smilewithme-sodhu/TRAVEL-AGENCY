@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useWaypoint } from '../../context/WaypointContext';
 import { walletApi } from '../../api';
 import { formatINR, formatDate } from '../../utils/formatters';
@@ -37,18 +37,26 @@ export const WalletPage = () => {
 
   const transactions = summary?.transactions || [];
 
-  const filtered = transactions.filter((t) => {
-    const matchesSearch =
-      t.description.toLowerCase().includes(search.toLowerCase()) ||
-      t.id.toLowerCase().includes(search.toLowerCase());
+  const filtered = useMemo(() => {
+    // ⚡ Bolt Optimization:
+    // 1. Hoist toLowerCase() outside the loop to prevent O(N) redundant string allocations.
+    // 2. Memoize the filtered list so it only recalculates when search, filter, or data changes
+    //    rather than on every render cycle.
+    const lowercaseSearch = search.toLowerCase();
 
-    if (!matchesSearch) return false;
-    if (filter === 'ALL') return true;
-    if (filter === 'CREDIT') return t.direction === 'CREDIT';
-    if (filter === 'DEBIT') return t.direction === 'DEBIT';
-    if (filter === 'WITHDRAWAL') return t.type === 'WITHDRAWAL';
-    return true;
-  });
+    return transactions.filter((t) => {
+      const matchesSearch =
+        t.description.toLowerCase().includes(lowercaseSearch) ||
+        t.id.toLowerCase().includes(lowercaseSearch);
+
+      if (!matchesSearch) return false;
+      if (filter === 'ALL') return true;
+      if (filter === 'CREDIT') return t.direction === 'CREDIT';
+      if (filter === 'DEBIT') return t.direction === 'DEBIT';
+      if (filter === 'WITHDRAWAL') return t.type === 'WITHDRAWAL';
+      return true;
+    });
+  }, [transactions, search, filter]);
 
   return (
     <div className="space-y-6 animate-fadeIn">
