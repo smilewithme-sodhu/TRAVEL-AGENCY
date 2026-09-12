@@ -191,7 +191,6 @@ export class BinaryVolumeEngine {
         await tx.binaryVolumeEvent.create({
           data: {
             binaryNodeId: row.binaryNodeId,
-            sourceBookingId: cycleId, // Assuming cycleId is a valid UUID satisfying the FK, or we bypass FK if it's relaxed.
             memberId: row.memberId,
             treeSide: leftAvailable.greaterThan(rightAvailable) ? TreeSide.LEFT : TreeSide.RIGHT, // Dominant side
             eligibleAmount: 0,
@@ -208,7 +207,6 @@ export class BinaryVolumeEngine {
           data: {
             id: rewardId,
             memberId: row.memberId,
-            sourceBookingId: cycleId, 
             ruleVersionId: cycleId, // Using cycle as the temporal reference
             rewardType: RewardType.BINARY,
             baseAmount: matchedVolume,
@@ -225,7 +223,6 @@ export class BinaryVolumeEngine {
           data: {
             rewardId,
             memberId: row.memberId,
-            sourceBookingId: cycleId,
             transactionType: TransactionType.CREDIT_BINARY_REWARD,
             status: TransactionStatus.PENDING,
             amount: commissionAmount,
