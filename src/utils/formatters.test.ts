@@ -2,6 +2,10 @@ import { formatINR, formatDate } from './formatters';
 
 describe('formatters', () => {
   describe('formatINR', () => {
+    it('formats zero correctly', () => {
+      expect(formatINR(0)).toBe('₹0');
+    });
+
     it('formats positive numbers correctly', () => {
       expect(formatINR(2500)).toBe('₹2,500');
       expect(formatINR(125000)).toBe('₹1,25,000');
@@ -9,6 +13,19 @@ describe('formatters', () => {
 
     it('formats negative numbers correctly', () => {
       expect(formatINR(-2500)).toBe('-₹2,500');
+      expect(formatINR(-125000)).toBe('-₹1,25,000');
+    });
+
+    it('formats lakhs and crores correctly', () => {
+      expect(formatINR(100000)).toBe('₹1,00,000'); // 1 Lakh
+      expect(formatINR(10000000)).toBe('₹1,00,00,000'); // 1 Crore
+      expect(formatINR(123456789)).toBe('₹12,34,56,789');
+    });
+
+    it('rounds decimal numbers correctly', () => {
+      expect(formatINR(2500.4)).toBe('₹2,500');
+      expect(formatINR(2500.5)).toBe('₹2,501');
+      expect(formatINR(-2500.5)).toBe('-₹2,501');
     });
 
     it('handles null, undefined, and NaN', () => {
