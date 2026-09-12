@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useWaypoint } from '../../context/WaypointContext';
-import { walletApi } from '../../api';
+import { useQuery } from '@tanstack/react-query';
+import { apiClient } from '../../api/client';
 import { formatINR, formatDate } from '../../utils/formatters';
 import { TableSkeleton } from '../ui/Skeleton';
 import { EmptyState } from '../ui/EmptyState';
@@ -18,22 +19,19 @@ import {
 
 export const WalletPage = () => {
   const { navigateTo } = useWaypoint();
-  const [summary, setSummary] = useState(null);
   const [filter, setFilter] = useState('ALL');
   const [search, setSearch] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    setIsLoading(true);
-    walletApi
-      .getSummary()
-      .then((res) => {
-        if (res.success) setSummary(res.data);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+  const { data: summary, isLoading, isError } = useQuery({
+    queryKey: ['walletSummary'],
+    queryFn: async () => {
+      const response = await apiClient.get('/api/member/wallet');
+      return response.data.data; // assuming standard envelope
+    }
+  });
 
   if (isLoading) return <TableSkeleton rows={5} />;
+  if (isError) return <div className="text-red-500">Failed to load wallet data</div>;
 
   const transactions = summary?.transactions || [];
 

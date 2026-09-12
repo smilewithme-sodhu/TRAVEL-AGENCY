@@ -16,14 +16,17 @@
     "@prisma/adapter-pg": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-query": "^5.102.8",
     "@types/decimal.js": "^0.0.32",
     "@types/pg": "^8.23.1",
+    "axios": "^1.20.0",
     "decimal.js": "^10.6.0",
     "firebase": "^12.18.0",
     "lucide-react": "^1.28.0",
     "pg": "^8.23.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.3",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
