@@ -1,6 +1,6 @@
 import { ApiResponse } from './client';
 import { auth, db } from '../config/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 
 export interface BinaryNode {
   id: string;
@@ -27,38 +27,53 @@ export interface BinaryOverview {
   rootNode: BinaryNode;
 }
 
+
+
 const buildRealRootNode = async (uid?: string, depth = 0, maxDepth = 2): Promise<BinaryNode> => {
   const targetUid = uid || auth.currentUser?.uid;
   if (!targetUid) throw new Error("Not authenticated");
 
-  const userDoc = await getDoc(doc(db, 'users', targetUid));
-  const userData = userDoc.exists() ? userDoc.data() : null;
+  // Fetch all users in a single round-trip to prevent N+1 queries
+  const usersSnap = await getDocs(collection(db, 'users'));
+  const userMap = new Map<string, any>();
+  usersSnap.forEach((docSnap) => {
+    userMap.set(docSnap.id, docSnap.data());
+  });
 
-  const status = userData?.status === 'GREEN_ACTIVE' ? 'ACTIVE' : (userData?.status || 'REGISTERED');
+  const assembleNode = (currentUid: string, currentDepth: number): BinaryNode | null => {
+    const userData = userMap.get(currentUid);
+    if (!userData) return null;
 
-  let leftChild = null;
-  let rightChild = null;
+    const status = userData.status === 'GREEN_ACTIVE' ? 'ACTIVE' : (userData.status || 'REGISTERED');
 
-  if (depth < maxDepth) {
-    if (userData?.leftId) leftChild = await buildRealRootNode(userData.leftId, depth + 1, maxDepth);
-    if (userData?.rightId) rightChild = await buildRealRootNode(userData.rightId, depth + 1, maxDepth);
-  }
+    let leftChild: BinaryNode | null = null;
+    let rightChild: BinaryNode | null = null;
 
-  return {
-    id: targetUid,
-    memberCode: userData?.referralCode || `TRV${targetUid.substring(0,4).toUpperCase()}`,
-    name: userData?.name || 'Member',
-    status: status,
-    leftVolume: 0,
-    rightVolume: 0,
-    leftCarry: 0,
-    rightCarry: 0,
-    matchedPairs: 0,
-    level: depth,
-    hasChildren: !!(userData?.leftId || userData?.rightId),
-    leftChild,
-    rightChild,
+    if (currentDepth < maxDepth) {
+      if (userData.leftId) leftChild = assembleNode(userData.leftId, currentDepth + 1);
+      if (userData.rightId) rightChild = assembleNode(userData.rightId, currentDepth + 1);
+    }
+
+    return {
+      id: currentUid,
+      memberCode: userData.referralCode || `TRV${currentUid.substring(0,4).toUpperCase()}`,
+      name: userData.name || 'Member',
+      status: status,
+      leftVolume: 0,
+      rightVolume: 0,
+      leftCarry: 0,
+      rightCarry: 0,
+      matchedPairs: 0,
+      level: currentDepth,
+      hasChildren: !!(userData.leftId || userData.rightId),
+      leftChild,
+      rightChild,
+    };
   };
+
+  const rootNode = assembleNode(targetUid, depth);
+  if (!rootNode) throw new Error("Root node not found in network");
+  return rootNode;
 };
 
 export const binaryApi = {
@@ -94,18 +109,55 @@ export const binaryApi = {
 
   getNodeChildren: async (nodeId: string): Promise<ApiResponse<{ left: BinaryNode | null; right: BinaryNode | null }>> => {
     try {
-      const userDoc = await getDoc(doc(db, 'users', nodeId));
-      if (!userDoc.exists()) throw new Error("Node not found");
-      
-      const data = userDoc.data();
+      // Single fetch to avoid N+1
+      const usersSnap = await getDocs(collection(db, 'users'));
+      const userMap = new Map<string, any>();
+      usersSnap.forEach((docSnap) => {
+        userMap.set(docSnap.id, docSnap.data());
+      });
+
+      const data = userMap.get(nodeId);
+      if (!data) throw new Error("Node not found");
+
+      const assembleNode = (currentUid: string, currentDepth: number, maxDepth: number = 2): BinaryNode | null => {
+        const userData = userMap.get(currentUid);
+        if (!userData) return null;
+
+        const status = userData.status === 'GREEN_ACTIVE' ? 'ACTIVE' : (userData.status || 'REGISTERED');
+        let leftChild: BinaryNode | null = null;
+        let rightChild: BinaryNode | null = null;
+
+        if (currentDepth < maxDepth) {
+          if (userData.leftId) leftChild = assembleNode(userData.leftId, currentDepth + 1, maxDepth);
+          if (userData.rightId) rightChild = assembleNode(userData.rightId, currentDepth + 1, maxDepth);
+        }
+
+        return {
+          id: currentUid,
+          memberCode: userData.referralCode || `TRV${currentUid.substring(0,4).toUpperCase()}`,
+          name: userData.name || 'Member',
+          status: status,
+          leftVolume: 0,
+          rightVolume: 0,
+          leftCarry: 0,
+          rightCarry: 0,
+          matchedPairs: 0,
+          level: currentDepth,
+          hasChildren: !!(userData.leftId || userData.rightId),
+          leftChild,
+          rightChild,
+        };
+      };
+
       let left = null;
       let right = null;
-
+      
+      // Node children are depth 0 relative to their root, up to maxDepth 2
       if (data.leftId) {
-        left = await buildRealRootNode(data.leftId);
+        left = assembleNode(data.leftId, 0, 2);
       }
       if (data.rightId) {
-        right = await buildRealRootNode(data.rightId);
+        right = assembleNode(data.rightId, 0, 2);
       }
 
       return {
