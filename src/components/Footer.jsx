@@ -1,9 +1,11 @@
 import React from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
 import { Compass, MessageSquare, Phone, Mail, MapPin } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const Footer = () => {
-  const { navigateTo, openWhatsApp, openPhoneCall, agencyPhone } = useWanderlust();
+  const { openWhatsApp, openPhoneCall, agencyPhone } = useWanderlust();
+  const navigate = useNavigate();
 
   return (
     <footer className="bg-[#0F172A] text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-slate-800">
@@ -15,7 +17,7 @@ export const Footer = () => {
           {/* Col 1: Brand & Tagline (5 cols on lg) */}
           <div className="lg:col-span-5 space-y-4">
             <div
-              onClick={() => navigateTo('home')}
+              onClick={() => navigate('/')}
               className="flex items-center gap-3 cursor-pointer select-none group inline-flex"
             >
               <div className="w-9 h-9 rounded-xl bg-[#C9A455] text-[#0F172A] flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
@@ -43,10 +45,9 @@ export const Footer = () => {
               EXPLORE
             </div>
             <div className="flex flex-col space-y-2 text-xs font-medium text-slate-300">
-              <button onClick={() => navigateTo('home')} className="text-left hover:text-white transition-colors cursor-pointer">Home</button>
-              <button onClick={() => navigateTo('domestic')} className="text-left hover:text-white transition-colors cursor-pointer">Domestic Escapes</button>
-              <button onClick={() => navigateTo('international')} className="text-left hover:text-white transition-colors cursor-pointer">International Adventures</button>
-              <button onClick={() => navigateTo('gallery')} className="text-left hover:text-white transition-colors cursor-pointer">Traveler Gallery</button>
+              <button onClick={() => navigate('/')} className="text-left hover:text-white transition-colors cursor-pointer">Home</button>
+              <button onClick={() => navigate('/destinations')} className="text-left hover:text-white transition-colors cursor-pointer">All Destinations</button>
+              <button onClick={() => navigate('/gallery')} className="text-left hover:text-white transition-colors cursor-pointer">Traveler Gallery</button>
             </div>
           </div>
 
@@ -56,9 +57,9 @@ export const Footer = () => {
               COMPANY
             </div>
             <div className="flex flex-col space-y-2 text-xs font-medium text-slate-300">
-              <button onClick={() => navigateTo('about')} className="text-left hover:text-white transition-colors cursor-pointer">About Wanderlust</button>
-              <button onClick={() => navigateTo('contact')} className="text-left hover:text-white transition-colors cursor-pointer">Contact Experts</button>
-              <button onClick={() => navigateTo('member-dashboard')} className="text-left text-[#C9A455] hover:underline cursor-pointer font-bold">Member Portal</button>
+              <button onClick={() => navigate('/about')} className="text-left hover:text-white transition-colors cursor-pointer">About Wanderlust</button>
+              <button onClick={() => navigate('/contact')} className="text-left hover:text-white transition-colors cursor-pointer">Contact Experts</button>
+              <button onClick={() => navigate('/member')} className="text-left text-[#C9A455] hover:underline cursor-pointer font-bold">Member Portal</button>
             </div>
           </div>
 

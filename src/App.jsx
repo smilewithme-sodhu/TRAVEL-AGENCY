@@ -25,8 +25,7 @@ const TestimonialsSection = React.lazy(() => import('./components/TestimonialsSe
 const FestivalDealBanner = React.lazy(() => import('./components/FestivalDealBanner').then(m => ({ default: m.FestivalDealBanner })));
 const ContactSection = React.lazy(() => import('./components/ContactSection').then(m => ({ default: m.ContactSection })));
 
-const DomesticToursPage = React.lazy(() => import('./components/DomesticToursPage').then(m => ({ default: m.DomesticToursPage })));
-const InternationalToursPage = React.lazy(() => import('./components/InternationalToursPage').then(m => ({ default: m.InternationalToursPage })));
+const DestinationsCatalogPage = React.lazy(() => import('./components/DestinationsCatalogPage').then(m => ({ default: m.DestinationsCatalogPage })));
 const TravelerGalleryPage = React.lazy(() => import('./components/TravelerGalleryPage').then(m => ({ default: m.TravelerGalleryPage })));
 const AboutWanderlustPage = React.lazy(() => import('./components/AboutWanderlustPage').then(m => ({ default: m.AboutWanderlustPage })));
 const DestinationDetail = React.lazy(() => import('./components/DestinationDetail').then(m => ({ default: m.DestinationDetail })));
@@ -152,9 +151,7 @@ export default function App() {
                     <ContactSection />
                   </>
                 } />
-                <Route path="/destinations" element={<ExploreJourneysSection />} />
-                <Route path="/domestic" element={<DomesticToursPage />} />
-                <Route path="/international" element={<InternationalToursPage />} />
+                <Route path="/destinations" element={<DestinationsCatalogPage />} />
                 <Route path="/gallery" element={<TravelerGalleryPage />} />
                 <Route path="/about" element={<AboutWanderlustPage />} />
                 <Route path="/contact" element={<ContactSection />} />

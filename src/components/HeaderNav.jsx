@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
 import { Compass, MessageSquare, Menu, X, Phone, User, ShieldCheck } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const HeaderNav = () => {
   const {
@@ -15,6 +16,8 @@ export const HeaderNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -27,18 +30,17 @@ export const HeaderNav = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (view) => {
-    navigateTo(view);
+  const handleNavClick = (path) => {
+    navigate(path);
     setMobileMenuOpen(false);
   };
 
   const navLinks = [
-    { id: 'home', label: 'Home' },
-    { id: 'domestic', label: 'Domestic Tours' },
-    { id: 'international', label: 'International Tours' },
-    { id: 'gallery', label: 'Traveler Gallery' },
-    { id: 'about', label: 'About Wanderlust' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', label: 'Home', path: '/' },
+    { id: 'destinations', label: 'Destinations', path: '/destinations' },
+    { id: 'gallery', label: 'Traveler Gallery', path: '/gallery' },
+    { id: 'about', label: 'About Wanderlust', path: '/about' },
+    { id: 'contact', label: 'Contact', path: '/contact' },
   ];
 
   return (
@@ -54,7 +56,7 @@ export const HeaderNav = () => {
           
           {/* 1. Brand Logo */}
           <div
-            onClick={() => handleNavClick('home')}
+            onClick={() => handleNavClick('/')}
             className="flex items-center gap-3 cursor-pointer select-none group"
           >
             <div className="w-10 h-10 rounded-2xl bg-[#0F172A] flex items-center justify-center text-[#C9A455] shadow-xs group-hover:scale-105 transition-transform duration-200">
@@ -73,11 +75,11 @@ export const HeaderNav = () => {
           {/* 2. Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-7 text-xs font-bold">
             {navLinks.map((link) => {
-              const isActive = currentView === link.id;
+              const isActive = window.location.pathname === link.path || (link.path === '/' && window.location.pathname === '');
               return (
                 <button
                   key={link.id}
-                  onClick={() => handleNavClick(link.id)}
+                  onClick={() => handleNavClick(link.path)}
                   className={`transition-colors cursor-pointer ${
                     isActive
                       ? 'text-[#C9A455] font-extrabold'
@@ -105,7 +107,7 @@ export const HeaderNav = () => {
 
             {/* Member Portal Access Button */}
             <button
-              onClick={() => handleNavClick('member-dashboard')}
+              onClick={() => handleNavClick('/member')}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
             >
               <User className="w-3.5 h-3.5 text-[#C9A455]" />
@@ -159,9 +161,9 @@ export const HeaderNav = () => {
               {navLinks.map((link) => (
                 <button
                   key={link.id}
-                  onClick={() => handleNavClick(link.id)}
+                  onClick={() => handleNavClick(link.path)}
                   className={`w-full text-left px-4 py-3 rounded-2xl text-xs font-bold transition-all ${
-                    currentView === link.id
+                    window.location.pathname === link.path
                       ? 'bg-slate-900 text-white'
                       : 'text-slate-800 hover:bg-slate-50'
                   }`}
@@ -173,7 +175,7 @@ export const HeaderNav = () => {
 
             <div className="pt-3 border-t border-slate-100 space-y-2">
               <button
-                onClick={() => handleNavClick('member-dashboard')}
+                onClick={() => handleNavClick('/member')}
                 className="w-full py-3 px-4 rounded-2xl bg-slate-900 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs"
               >
                 <User className="w-4 h-4 text-[#C9A455]" />
