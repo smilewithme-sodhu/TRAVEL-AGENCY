@@ -1,0 +1,39 @@
+# SYSTEM ARCHITECTURE & GOVERNANCE RULES
+Project: Luxury Travel Commerce + Binary Referral & Ledger System
+
+## 1. Core Technical Stack
+- Backend: Node.js / TypeScript (REST API)
+- Primary Database: PostgreSQL
+- ORM: Prisma ORM
+- Frontend: React 18+ (Vite, Tailwind CSS)
+- Transaction Ledger: Double-entry, append-only ledger pattern
+
+## 2. Inviolable Financial Rules
+1. Zero Balance Mutations: Never execute raw `UPDATE` queries on user balance columns. 
+   - All balance values must be computed dynamically by aggregating `WalletTransaction` entries.
+2. Source Linking: No reward or volume record can exist without a valid `sourceTransactionId` pointing to an eligible `Booking`.
+3. High-Precision Math: All monetary amounts and eligible volume figures must use `Decimal(12, 2)`. JavaScript floating-point arithmetic is strictly prohibited for money.
+4. Concurrency Locking: Every withdrawal or balance deduction must use database-level transactional locks (`SELECT ... FOR UPDATE`) to prevent double-spend exploits.
+
+## 3. Booking State Machine
+Bookings strictly transition through 11 deterministic states:
+1. QUOTE_REQUESTED
+2. QUOTE_CREATED
+3. PAYMENT_PENDING
+4. PAYMENT_RECEIVED
+5. BOOKING_CONFIRMED (Triggers PENDING rewards and binary volume creation)
+6. TRAVEL_UPCOMING
+7. TRAVELING
+8. COMPLETED (Releases PENDING rewards to AVAILABLE for withdrawal)
+9. CANCELLED (Freezes/reverses pending allocations)
+10. REFUND_PROCESS
+11. REFUNDED (Appends REVERSED transactions to the ledger)
+
+## 4. Binary Volume Matching Logic
+- Payouts are calculated on qualifying travel volume, NOT headcount.
+- Tree Structure: Binary placement with `LEFT` and `RIGHT` legs per node.
+- Volume Rollup: Upstream ancestral nodes receive volume events tagged by the branch path.
+- Cycle Calculation:
+  - Matched Volume = MIN(Left Volume, Right Volume)
+  - Carry Forward = ABS(Left Volume - Right Volume)
+  - Payout = Matched Volume * Commission Rate (subject to package safety caps)

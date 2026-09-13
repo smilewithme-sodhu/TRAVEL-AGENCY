@@ -160,7 +160,7 @@ export default function App() {
                 <Route path="/about" element={<AboutWanderlustPage />} />
                 <Route path="/contact" element={<ContactSection />} />
                 <Route path="/detail/:id" element={<DestinationDetail />} />
-                <Route path="/ai-planner" element={<AITripPlanner />} />
+
                 <Route path="/live-mode" element={<LiveTripMode />} />
                 <Route path="/trip-dashboard" element={<TripDashboard />} />
                 <Route path="/checkout" element={<CheckoutFlow />} />

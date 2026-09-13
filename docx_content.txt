@@ -1,0 +1,636 @@
+PROJECT 1
+MASTER BUSINESS, PRODUCT & SOFTWARE BLUEPRINT
+Travel Commerce + Membership + Referral + Reward Ecosystem
+Version 1.0 — 11 September 2026
+1. Executive Definition
+Project 1 is a travel-commerce platform combined with a membership and referral ecosystem. The core business sells and supports genuine domestic and international travel. The member layer lets people share travel products through personal referral identities and, subject to the final compliant compensation plan, receive rewards connected to eligible travel transactions.
+It is three connected products: (1) a premium public travel website, (2) a member portal, and (3) an admin/cloud control centre.
+North Star: REAL TRAVEL → REAL BOOKINGS → REAL REVENUE → CONTROLLED, TRACEABLE REWARDS.
+2. Business Model
+Travel business
+Destination discovery
+Travel packages
+Customized itineraries
+WhatsApp concierge
+Quotes
+Payments and bookings
+Travel documents
+On-trip support
+Post-trip completion
+Membership
+Working concept: ₹500 one-time membership. It creates a member account, Member ID, personal referral link and access to member tools. Direct referral rewards are tied to qualifying genuine travel transactions.
+Active / Green travel status
+A member becomes GREEN when they complete a qualifying personal travel booking under the final rules. Green represents an active travel/qualification cycle. The qualifying booking is displayed in the member portal. When the relevant travel cycle is completed, the status can expire/reset according to the approved policy.
+The purpose is to keep higher-level participation connected to real travel activity rather than making one ₹500 payment an indefinite qualification.
+Working travel economics
+Item
+Working assumption
+Software treatment
+Domestic package
+~₹26,000 average
+Variable by package/season/supplier
+International package
+~₹40,000 average
+Variable by package/season/supplier
+Minimum contribution discussed
+₹2,000+ domestic / ₹3,000+ international
+Calculate per transaction
+Membership
+₹500
+Separate from travel revenue
+Package prices and margins are not fixed. The system must calculate actual supplier cost, operational costs, applicable charges, selling price and company contribution for every booking.
+3. Customer Journey
+Discover a destination or package.
+Select dates, travellers and preferences.
+Request a quote or start WhatsApp concierge.
+Concierge creates/customizes the quote.
+Customer accepts and pays.
+Booking is confirmed.
+Travel documents and support are delivered.
+Customer travels.
+Trip is completed and the booking becomes financially final under the policy.
+4. Member Journey
+Join for ₹500.
+Receive Member ID and personal referral link.
+Share travel packages/link.
+Prospective traveller enters through referral attribution.
+Customer makes an eligible genuine booking.
+Backend verifies payment, booking and cancellation conditions.
+Direct reward enters its appropriate status.
+If active qualification is satisfied, eligible additional reward logic may run.
+Money moves through the wallet lifecycle.
+Member withdraws once KYC, balance and payout conditions are satisfied.
+5. Referral Engine
+Every member receives a unique referral identity, for example /r/TRV8821. Attribution must survive the customer's journey and be stored in the database.
+Referral/member ID
+Landing/session attribution
+Customer record
+Booking association
+Source transaction
+Eligibility status
+Fraud checks
+Timestamp and audit trail
+The system must prevent duplicate attribution and duplicate reward creation.
+6. Direct Reward Engine
+Direct rewards are generated only when the published eligibility conditions are met by a genuine travel transaction. Registration alone should not create a promised income event.
+Status
+Meaning
+PENDING
+Booking exists but release conditions are not met
+APPROVED
+Transaction and eligibility verified
+AVAILABLE
+Released into withdrawable balance
+PAID
+Withdrawal completed
+REVERSED
+Booking/refund/eligibility caused the reward to be invalidated
+7. Binary / Two-Side Volume
+The proposed binary concept has a left and right structure, but matching is intended to represent qualifying travel/package volume rather than simply counting people.
+Example
+Amount
+Left eligible volume
+₹50,000
+Right eligible volume
+₹40,000
+Matched volume
+₹40,000
+Left carry-forward
+₹10,000
+Right carry-forward
+₹0
+The exact payout rate, caps, qualification, carry-forward and expiration rules must be finalized through financial modelling and legal/compliance review. The software should make them configurable.
+Binary ledger
+Volume event ID
+Booking/source transaction
+Member
+Tree side
+Eligible amount
+Date/time
+Matched amount
+Carry-forward
+Reversal/adjustment history
+Do not store only a final left/right number. Store individual volume events so every calculation can be audited.
+8. Team / Upstream Rewards
+Any upstream/team reward must be tied to a legitimate eligible travel transaction and the final compensation rules. Every reward record should contain source transaction, member, level, rule version, calculation and status.
+The system must never depend on unexplained or manually invented balances.
+9. Financial Safety Engine
+The company needs to know the economics of every booking before rewards are distributed.
+Component
+Purpose
+Selling price
+Customer revenue
+Supplier cost
+Hotel/transport/activity/etc.
+Payment cost
+Gateway/banking costs
+Operational cost
+Booking/support costs where applicable
+Applicable taxes/charges
+Amounts not treated as distributable margin
+Gross contribution
+Economic contribution
+Direct reward
+Eligible direct allocation
+Team reward
+Eligible team allocation
+Binary reward
+Eligible binary allocation
+Refund reserve
+Risk provision if used
+Net company contribution
+Remaining contribution
+The compensation engine should enforce a maximum reward budget defined by the approved plan. This is essential for long-term sustainability.
+10. Booking State Machine
+State
+Meaning
+QUOTE_REQUESTED
+Quote requested
+QUOTE_CREATED
+Quote prepared
+PAYMENT_PENDING
+Waiting for payment
+PAYMENT_RECEIVED
+Payment received
+BOOKING_CONFIRMED
+Travel confirmed
+TRAVEL_UPCOMING
+Trip scheduled
+TRAVELING
+Trip started
+COMPLETED
+Trip completed
+CANCELLED
+Cancelled
+REFUND_PROCESS
+Refund in process
+REFUNDED
+Refund completed
+Reward calculations must listen to booking state changes. Cancellation/refund events must be capable of freezing or reversing affected rewards.
+11. Package & Pricing System
+Package ID/name
+Destination
+Domestic/international
+Duration
+Travellers
+Hotel
+Transfers
+Activities
+Meals
+Inclusions/exclusions
+Images
+Travel windows
+Supplier cost
+Internal cost
+Selling price
+Margin
+Cancellation policy
+Availability
+Status
+Pricing should be dynamic and admin-configurable. Conceptually: BASE COST + SEASONAL/HOTEL/TRANSPORT/ACTIVITY ADJUSTMENTS + APPLICABLE COSTS + COMPANY MARGIN = CUSTOMER PRICE.
+12. Public Website
+The public site must feel like a premium travel company first. The membership business should appear naturally later in the journey. The current screenshots have strong writing and useful information, but the visual issue is hierarchy: too many cards, badges, colours, CTAs and messages compete at once.
+Recommended home flow
+Hero
+Featured destinations
+Popular packages
+Why travel with us
+How it works
+Travel inspiration
+WhatsApp concierge
+Member community introduction
+Footer
+Primary calls to action
+Explore Trips
+Talk to Concierge
+Get Personalized Quote
+Join the Travel Community
+13. Destination & Package Pages
+Destination page
+Hero imagery/video
+Best time
+Travel styles
+Popular places
+Experiences
+Featured packages
+FAQ
+WhatsApp CTA
+Package page
+Image gallery
+Title
+Duration
+Rating if genuine/verified
+Starting price
+Highlights
+Inclusions/exclusions
+Day-by-day itinerary
+Hotel/transport
+Cancellation terms
+Personalized quote CTA
+WhatsApp CTA
+14. WhatsApp Concierge
+WhatsApp is a core conversion channel. A button should open a prefilled message containing package, traveller and date context. The lead should be stored in the CRM and connected to the package, customer and referral attribution where applicable.
+15. Member Portal
+The member portal should look like a modern financial/travel application, not a long marketing page.
+Greeting + member identity
+Green/Active badge
+Qualifying booking
+Travel-cycle timeline/countdown
+Total earnings
+Pending earnings
+Direct reward
+Team reward
+Binary reward
+Left/right volume
+Wallet
+Referral link
+Binary Tree Explorer
+Recent activity
+Navigation
+Dashboard
+Explore Trips
+My Bookings
+Referral
+Network
+Rewards
+Binary
+Wallet
+Withdraw
+Profile
+Support
+16. Wallet & Withdrawal
+The wallet is a financial ledger, not just a number.
+Balance
+Meaning
+Pending
+Not yet released
+Available
+Eligible to withdraw
+Withdrawn
+Already paid
+Reversed
+Previously credited but invalidated
+Member requests withdrawal.
+System checks available balance.
+KYC and bank details are checked.
+Risk/fraud checks run.
+Request enters processing/review.
+Payout is executed.
+Wallet is debited only according to the final payout state.
+Member is notified.
+Audit record is preserved.
+17. KYC & Security
+Role-based access
+Admin 2FA
+Secure password hashing
+OTP rate limiting
+Webhook verification
+Idempotent payment/reward processing
+Encryption for sensitive data
+Audit logs
+API rate limits
+Backups
+Monitoring
+Least-privilege access
+KYC and financial data should be access-controlled and retained only as legally/business-necessary.
+18. Admin Cloud Console
+Dashboard
+Customers
+Members
+KYC
+Destinations
+Packages
+Quotes
+Bookings
+Payments
+Refunds
+Commissions
+Team rewards
+Binary
+Wallets
+Withdrawals
+Support
+CRM/WhatsApp
+Reports
+Fraud/Risk
+Configuration
+Audit logs
+Key KPIs
+KPI
+Purpose
+Gross travel sales
+Revenue
+Confirmed bookings
+Real travel activity
+Domestic/international sales
+Performance
+Active members
+Member activity
+Pending rewards
+Reward liability
+Available wallet liability
+Payout exposure
+Pending withdrawals
+Cash requirement
+Gross contribution
+Travel economics
+Reward allocation
+Compensation cost
+Net contribution
+Sustainability
+19. Backend Architecture
+Module
+Responsibilities
+Authentication
+Login, OTP/password, sessions, roles
+Users/Members
+Identity, membership, profiles
+KYC
+Verification
+Destinations
+Content
+Packages
+Catalogue/pricing
+Quotes
+Quote lifecycle
+Bookings
+Travel lifecycle
+Payments
+Transactions/webhooks
+Referrals
+Attribution
+Rewards
+Rule evaluation
+Binary
+Tree/volume/matching
+Wallet
+Ledger
+Withdrawals
+Payouts
+Notifications
+Email/SMS/WhatsApp/in-app
+Support
+Tickets/concierge
+Admin
+Operations
+Audit
+Immutable history
+20. Core Database Entities
+User
+Member
+Membership
+Referral
+Destination
+Package
+PackagePrice
+Traveller
+Quote
+Booking
+Payment
+Refund
+Commission
+Reward
+RewardLedger
+BinaryNode
+BinaryVolumeEvent
+Wallet
+WalletTransaction
+Withdrawal
+KYC
+BankAccount
+Notification
+SupportTicket
+AdminUser
+AuditLog
+21. API / Endpoint Blueprint
+Authentication
+POST /auth/register — create account
+POST /auth/login — authenticate
+POST /auth/logout — invalidate session
+POST /auth/otp/send — send OTP
+POST /auth/otp/verify — verify OTP
+POST /auth/password/forgot — recovery
+POST /auth/password/reset — reset password
+Member
+GET /member/me — profile/status
+GET /member/dashboard — dashboard summary
+GET /member/status — active cycle
+GET /member/bookings — bookings
+GET /member/referral — referral identity/link
+GET /member/network — permitted network
+GET /member/rewards — rewards
+GET /member/binary — volume/matches
+GET /member/wallet — balances/ledger
+POST /member/withdrawals — withdrawal request
+GET /member/withdrawals — withdrawal history
+Travel
+GET /destinations
+GET /destinations/:id
+GET /packages
+GET /packages/:id
+POST /quotes
+GET /quotes/:id
+Bookings/Payments
+POST /bookings
+GET /bookings/:id
+POST /bookings/:id/payment
+POST /payments/webhook
+POST /bookings/:id/cancel
+GET /bookings/:id/invoice
+Rewards/Binary
+GET /referrals/me
+GET /rewards
+GET /rewards/:id
+GET /binary/tree
+GET /binary/volume
+GET /binary/matches
+GET /binary/carry-forward
+POST /rewards/recalculate — restricted
+POST /binary/recalculate — restricted
+Admin
+GET /admin/dashboard
+GET /admin/members
+GET /admin/customers
+GET /admin/bookings
+GET /admin/packages
+POST /admin/packages
+PATCH /admin/packages/:id
+GET /admin/payments
+GET /admin/rewards
+GET /admin/withdrawals
+GET /admin/binary
+GET /admin/reports
+GET /admin/audit-logs
+22. Reward Engine Design
+Use a versioned rules engine, not hard-coded compensation logic. Every calculation records the rule version used.
+Source transaction ID
+Member ID
+Reward type
+Qualification state
+Rule version
+Base amount
+Rate/formula
+Calculated amount
+Cap
+Adjustment
+Final amount
+Status
+Timestamp
+This lets finance reproduce a calculation and lets administrators change future rules without corrupting historical calculations.
+23. Event-Driven Workflows
+MEMBERSHIP_PAID → membership record
+REFERRAL_ATTRIBUTED → attribution record
+BOOKING_CREATED → source transaction
+PAYMENT_CONFIRMED → eligibility checks
+BOOKING_CONFIRMED → pending rewards where applicable
+TRIP_STARTED → cycle update
+TRIP_COMPLETED → cycle completion/expiry
+BOOKING_CANCELLED → freeze/reverse
+REFUND_COMPLETED → reward reversal
+WITHDRAWAL_REQUESTED → validation
+WITHDRAWAL_PAID → wallet finalization
+24. Fraud & Abuse
+Duplicate accounts
+Self-referrals
+Suspicious payment patterns
+Fake/cancelled bookings
+Artificial volume
+Unusual referral velocity
+Multiple-account patterns
+Suspicious withdrawals
+Manual review queue
+Immutable financial audit logs
+25. Reconciliation & Reporting
+Finance must reconcile: (1) gateway/bank records, (2) booking/accounting records, and (3) member wallet/reward records.
+Daily sales
+Bookings
+Package profitability
+Member growth
+Referral conversion
+Reward liability
+Binary volume
+Withdrawals
+Refunds/reversals
+Net contribution
+Fraud/risk
+Accounting/tax exports where required
+26. UX / Design System
+Travel-first public website
+One primary CTA per section
+Premium photography
+Strong typography hierarchy
+Generous spacing
+Limited accent colours
+Mobile-first
+Fast loading
+Accessible contrast
+Separate customer/member experiences
+Transparent financial explanations
+The current content can be retained, but the visual hierarchy should be redesigned. The public site and member portal should feel like two connected products rather than one huge page.
+27. Suggested Technical Direction
+Modern responsive frontend such as React/Next.js or equivalent
+Strongly typed backend such as TypeScript/Node.js, Java, Go or equivalent
+PostgreSQL-class relational database
+Redis/queue layer where needed
+Cloud object storage
+Regulated payment gateway with verified webhooks
+WhatsApp provider/API
+Centralized logging, monitoring and error tracking
+Separate staging and production environments
+These are architectural directions, not mandatory vendors.
+28. Development Roadmap
+Brand and design system
+Public travel website
+Destination/package CMS
+Customer lead + WhatsApp flow
+Authentication/member accounts
+Membership/referrals
+Booking/payment
+Member dashboard
+Wallet/ledger
+Reward engine
+Binary volume engine
+Admin console
+KYC/withdrawals
+Fraud/risk
+Reports/reconciliation
+Security testing
+Legal/compliance review
+Production launch and monitoring
+29. MVP
+Public website
+Destinations
+Packages
+Quote requests
+WhatsApp concierge
+Customer accounts
+Membership
+Referral links
+Bookings
+Payments
+Basic member dashboard
+Direct reward ledger
+Admin dashboard
+Later phases
+Green/active cycle
+Full configurable reward engine
+Binary volume
+Wallet
+Withdrawals
+KYC
+Advanced reporting
+Fraud engine
+Supplier integrations
+Dynamic pricing
+Advanced CRM
+Personalized recommendations
+Mobile apps if justified
+30. What Project 1 Must NOT Become
+A recruitment-first website
+A system where money appears without a source transaction
+An unlimited reward engine regardless of margin
+A system with unaudited manual balance changes
+A cancelled booking that keeps generating rewards
+A public site overloaded with business/compensation details
+A hard-coded compensation plan that requires developers for every rule change
+31. Master Ecosystem
+PROJECT 1
+├── TRAVEL COMMERCE → Destinations → Packages → Quotes → Bookings → Payments → Concierge
+├── MEMBER ECOSYSTEM → Membership → Referral → Active/Green status → Network → Portal
+├── REWARD ENGINE → Direct → Team/upstream → Binary → Caps → Reversals
+├── FINANCIAL ENGINE → Wallet → Ledger → Withdrawals → Reconciliation → Reports
+└── ADMIN CLOUD → Operations → Finance → Members → Bookings → Risk → Configuration
+32. Final Product Definition
+Project 1 is a premium travel-commerce platform where customers discover and book real journeys, members share those journeys through a structured referral system, and secure cloud software tracks bookings, qualification, eligible rewards, wallets, payouts and business economics from one auditable system.
+Excellent travel products and customer experience.
+Beautiful premium public website.
+Simple, enjoyable member portal.
+Financially controlled and auditable reward engine.
+Strong legal, consumer-protection, payment, privacy and tax compliance.
+33. Compensation & Compliance — Mandatory Before Launch
+The figures and concepts discussed in this project — including ₹500 membership, package price examples, direct rewards, team rewards, binary matching and Green activation — are working business assumptions, not a final legal compensation plan.
+Before launch, the exact plan should be reviewed by qualified Indian legal/compliance professionals. In particular, review the Consumer Protection (Direct Selling) Rules, 2021, the Consumer Protection Act framework, the Prize Chits and Money Circulation Schemes (Banning) Act, 1978, applicable tax/payment rules, privacy requirements and advertising/consumer-protection claims.
+The software should be configurable so that the final approved rules can be implemented without rebuilding the entire platform.
+34. Developer Handoff Checklist
+Database schema + migrations
+Authentication and role model
+Booking state machine
+Payment webhook verification + idempotency
+Referral attribution
+Immutable financial ledger
+Versioned reward rules
+Booking-to-reward source links
+Refund/reversal workflows
+Left/right volume ledger
+Admin audit logs
+Wallet reconciliation
+KYC/payout controls
+Fraud review queue
+Notifications
+API documentation
+Unit/integration tests for financial rules
+Security testing
+Financial reconciliation testing
+Legal/compliance approval before public launch
+35. Founder North Star
+BUILD THE TRAVEL BUSINESS FIRST. MAKE THE MEMBER BUSINESS SUPPORT THE TRAVEL BUSINESS. MAKE EVERY REWARD TRACEABLE. MAKE EVERY PAYOUT AFFORDABLE. MAKE THE CUSTOMER EXPERIENCE PREMIUM. MAKE THE SOFTWARE AUDITABLE.
