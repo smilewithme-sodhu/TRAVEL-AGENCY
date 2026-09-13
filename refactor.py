@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import sys
+
+new_content = """import React, { useState } from 'react';
 import { useWaypoint } from '../../context/WaypointContext';
 import {
   Share2,
   Copy,
-
+  Check,
   MessageSquare,
   QrCode,
-
-
-
-
+  Users,
+  Award,
+  ArrowRight,
+  ShieldCheck
 } from 'lucide-react';
 
 const ShareLinksCard = ({ shareUrl, handleCopy, handleWebShare }) => (
@@ -154,9 +156,7 @@ const AttributionGuidelines = () => (
 
 export const ReferralsPage = () => {
   const { memberProfile, showToast } = useWaypoint();
-
-
-  const [_isCopied, setIsCopied] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const referralCode = memberProfile?.referralCode || (memberProfile?.id ? `TRV${memberProfile.id.substring(0,4).toUpperCase()}` : 'NEW');
   const baseUrl = window.location.origin;
@@ -210,3 +210,7 @@ export const ReferralsPage = () => {
     </div>
   );
 };
+"""
+
+with open("src/components/member/ReferralsPage.jsx", "w") as f:
+    f.write(new_content)
