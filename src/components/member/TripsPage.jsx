@@ -11,12 +11,13 @@ import {
   ArrowRight,
   MapPin
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const TripsPage = () => {
   const { navigateTo } = useWanderlust();
+  const navigate = useNavigate();
   const [trips, setTrips] = useState([]);
   const [activeTab, setActiveTab] = useState('ALL');
-  const [selectedTrip, setSelectedTrip] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -138,8 +139,8 @@ export const TripsPage = () => {
 
                 <div className="pt-2 flex items-center justify-between gap-2 border-t border-slate-100">
                   <button
-                    onClick={() => setSelectedTrip(trip)}
-                    className="text-xs font-extrabold text-slate-900 hover:text-blue-600 flex items-center gap-1 cursor-pointer"
+                    onClick={() => navigate(`/member/trips/${trip.id}`)}
+                    className="text-xs font-extrabold text-slate-900 hover:text-blue-600 flex items-center gap-1 cursor-pointer bg-transparent border-none p-0"
                   >
                     <span>View Details</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -154,71 +155,6 @@ export const TripsPage = () => {
               </div>
             </div>
           ))}
-        </div>
-      )}
-
-      {/* Progressive Disclosure: Booking Details Modal */}
-      {selectedTrip && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-slate-100 space-y-5 max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div>
-                <span className="font-mono text-[10px] uppercase font-bold text-[#C9A455]">
-                  CONFIRMED BOOKING RECORD
-                </span>
-                <h3 className="font-sans font-extrabold text-xl text-slate-900">
-                  {selectedTrip.destination}
-                </h3>
-              </div>
-              <button
-                onClick={() => setSelectedTrip(null)}
-                className="text-slate-400 hover:text-slate-700 p-1 cursor-pointer font-bold text-sm"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="space-y-3 text-xs">
-              <div className="p-3 bg-slate-50 rounded-2xl space-y-1">
-                <div className="text-[10px] font-bold uppercase text-slate-400">Reference ID</div>
-                <div className="font-mono font-bold text-slate-900">#{selectedTrip.referenceNumber}</div>
-              </div>
-
-              <div className="p-3 bg-slate-50 rounded-2xl space-y-1">
-                <div className="text-[10px] font-bold uppercase text-slate-400">Travel Window</div>
-                <div className="font-bold text-slate-900">{selectedTrip.travelDates}</div>
-              </div>
-
-              <div className="p-3 bg-slate-50 rounded-2xl space-y-1">
-                <div className="text-[10px] font-bold uppercase text-slate-400">Registered Passengers</div>
-                <div className="font-bold text-slate-900">{selectedTrip.travellerNames.join(', ')}</div>
-              </div>
-
-              <div className="p-3 bg-slate-50 rounded-2xl space-y-1">
-                <div className="text-[10px] font-bold uppercase text-slate-400">Concierge Arrangements</div>
-                <div className="text-slate-700 leading-relaxed font-medium">{selectedTrip.arrangementsNote}</div>
-              </div>
-
-              <div className="p-3 bg-slate-50 rounded-2xl space-y-1">
-                <div className="text-[10px] font-bold uppercase text-slate-400">Assigned Travel Consultant</div>
-                <div className="font-bold text-slate-900">{selectedTrip.consultantName}</div>
-              </div>
-            </div>
-
-            <div className="pt-2 flex flex-col sm:flex-row gap-2">
-              <WhatsAppConciergeButton
-                size="md"
-                className="w-full"
-                customMessage={`Hi ${selectedTrip.consultantName}, regarding my booking #${selectedTrip.referenceNumber} for ${selectedTrip.destination}...`}
-              />
-              <button
-                onClick={() => setSelectedTrip(null)}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-full border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
-              >
-                Close
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>

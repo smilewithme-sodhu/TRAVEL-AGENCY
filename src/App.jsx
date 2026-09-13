@@ -30,8 +30,6 @@ const InternationalToursPage = React.lazy(() => import('./components/Internation
 const TravelerGalleryPage = React.lazy(() => import('./components/TravelerGalleryPage').then(m => ({ default: m.TravelerGalleryPage })));
 const AboutWanderlustPage = React.lazy(() => import('./components/AboutWanderlustPage').then(m => ({ default: m.AboutWanderlustPage })));
 const DestinationDetail = React.lazy(() => import('./components/DestinationDetail').then(m => ({ default: m.DestinationDetail })));
-const LiveTripMode = React.lazy(() => import('./components/LiveTripMode').then(m => ({ default: m.LiveTripMode })));
-const TripDashboard = React.lazy(() => import('./components/TripDashboard').then(m => ({ default: m.TripDashboard })));
 const CheckoutFlow = React.lazy(() => import('./components/CheckoutFlow').then(m => ({ default: m.CheckoutFlow })));
 
 // --- Lazy Load Auth ---
@@ -42,6 +40,7 @@ const ForgotPasswordPage = React.lazy(() => import('./components/auth/ForgotPass
 // --- Lazy Load Member Pages ---
 const MemberDashboard = React.lazy(() => import('./components/member/MemberDashboard').then(m => ({ default: m.MemberDashboard })));
 const TripsPage = React.lazy(() => import('./components/member/TripsPage').then(m => ({ default: m.TripsPage })));
+const TripItineraryView = React.lazy(() => import('./components/member/TripItineraryView').then(m => ({ default: m.TripItineraryView })));
 const ExplorePage = React.lazy(() => import('./components/member/ExplorePage').then(m => ({ default: m.ExplorePage })));
 const NetworkPage = React.lazy(() => import('./components/member/NetworkPage').then(m => ({ default: m.NetworkPage })));
 const BinaryPage = React.lazy(() => import('./components/member/BinaryPage').then(m => ({ default: m.BinaryPage })));
@@ -160,9 +159,6 @@ export default function App() {
                 <Route path="/about" element={<AboutWanderlustPage />} />
                 <Route path="/contact" element={<ContactSection />} />
                 <Route path="/detail/:id" element={<DestinationDetail />} />
-
-                <Route path="/live-mode" element={<LiveTripMode />} />
-                <Route path="/trip-dashboard" element={<TripDashboard />} />
                 <Route path="/checkout" element={<CheckoutFlow />} />
               </Route>
 
@@ -177,6 +173,7 @@ export default function App() {
               }>
                 <Route index element={<MemberDashboard />} />
                 <Route path="trips" element={<TripsPage />} />
+                <Route path="trips/:id" element={<TripItineraryView />} />
                 <Route path="explore" element={<ExplorePage />} />
                 <Route path="network" element={<NetworkPage />} />
                 <Route path="binary" element={<BinaryPage />} />
