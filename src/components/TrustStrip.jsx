@@ -1,5 +1,5 @@
 import React from 'react';
-import { TRUST_PARTNERS } from '../data/waypointData';
+import { TRUST_PARTNERS } from '../data/wanderlustData';
 import { ShieldCheck } from 'lucide-react';
 
 export const TrustStrip = () => {

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
-import { DESTINATIONS } from '../data/waypointData';
+import { useWanderlust } from '../context/WanderlustContext';
+import { DESTINATIONS } from '../data/wanderlustData';
 import { MapPin, Navigation, Compass, Sun, Shield, PhoneCall, ChevronUp, ChevronDown, Check } from 'lucide-react';
 
 export const LiveTripMode = () => {
-  const { activeTrip, navigateTo } = useWaypoint();
+  const { activeTrip, navigateTo } = useWanderlust();
   const trip = activeTrip || DESTINATIONS[0];
   const [isSheetExpanded, setIsSheetExpanded] = useState(true);
 

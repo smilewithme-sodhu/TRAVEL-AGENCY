@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supportApi } from '../../api';
 import { formatDate } from '../../utils/formatters';
 import { WhatsAppConciergeButton } from '../ui/WhatsAppConciergeButton';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import {
   Headphones,
   MessageSquare,
@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export const SupportPage = () => {
-  const { showToast } = useWaypoint();
+  const { showToast } = useWanderlust();
   const [tickets, setTickets] = useState([]);
   const [category, setCategory] = useState('BOOKING');
   const [subject, setSubject] = useState('');

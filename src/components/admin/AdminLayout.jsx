@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import {
   ShieldCheck,
   Package,
@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 export const AdminLayout = ({ children }) => {
-  const { currentView, navigateTo } = useWaypoint();
+  const { currentView, navigateTo } = useWanderlust();
 
   const navItems = [
     { view: 'admin-dashboard', label: 'Overview', icon: <ShieldCheck className="w-4 h-4" /> },

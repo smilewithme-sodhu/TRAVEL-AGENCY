@@ -1,5 +1,5 @@
 import React from 'react';
-import { TESTIMONIALS } from '../data/waypointData';
+import { TESTIMONIALS } from '../data/wanderlustData';
 import { Star, CheckCircle2 } from 'lucide-react';
 
 export const TestimonialsSection = () => {

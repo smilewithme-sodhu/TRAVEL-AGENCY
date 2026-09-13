@@ -1,10 +1,10 @@
 import React from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { PackageCard } from './PackageCard';
 import { MessageSquare } from 'lucide-react';
 
 export const InternationalToursPage = () => {
-  const { internationalPackages, openWhatsApp } = useWaypoint();
+  const { internationalPackages, openWhatsApp } = useWanderlust();
 
   return (
     <div style={{ backgroundColor: '#FFFFFF', minHeight: '100vh', paddingBottom: '80px' }}>

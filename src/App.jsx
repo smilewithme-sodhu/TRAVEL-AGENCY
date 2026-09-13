@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation, Outlet, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WaypointProvider, useWaypoint } from './context/WaypointContext';
+import { WanderlustProvider, useWanderlust } from './context/WanderlustContext';
 
 // Layout Components
 import { HeaderNav } from './components/HeaderNav';
@@ -86,7 +86,7 @@ const RefTracker = () => {
 
 // 3. Protected Route Wrapper
 const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn, authLoading } = useWaypoint();
+  const { isLoggedIn, authLoading } = useWanderlust();
   const token = localStorage.getItem('token');
   
   if (authLoading) {
@@ -134,7 +134,7 @@ const SuspenseFallback = () => (
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <WaypointProvider>
+      <WanderlustProvider>
         <BrowserRouter>
           <RefTracker />
           <Suspense fallback={<SuspenseFallback />}>
@@ -206,7 +206,7 @@ export default function App() {
             </Routes>
           </Suspense>
         </BrowserRouter>
-      </WaypointProvider>
+      </WanderlustProvider>
     </QueryClientProvider>
   );
 }

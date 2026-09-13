@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { X, Upload, Image as ImageIcon, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export const UploadPhotoModal = () => {
-  const { isUploadModalOpen, setIsUploadModalOpen, uploadTravelerPhoto } = useWaypoint();
+  const { isUploadModalOpen, setIsUploadModalOpen, uploadTravelerPhoto } = useWanderlust();
 
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');

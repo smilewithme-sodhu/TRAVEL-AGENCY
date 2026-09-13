@@ -6,7 +6,7 @@ import { auth, db } from '../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
-const WaypointContext = createContext();
+const WanderlustContext = createContext();
 
 export const AGENCY_PHONE = '+91 98765 43210';
 export const AGENCY_WHATSAPP = '919876543210';
@@ -20,7 +20,7 @@ export const AGENCY_CONTACT = {
   googleReviewCount: '1,450+'
 };
 
-export const WaypointProvider = ({ children }) => {
+export const WanderlustProvider = ({ children }) => {
   const [currentView, setCurrentView] = useState('home');
   const [selectedPackage, setSelectedPackage] = useState(DESTINATION_PACKAGES[0]);
   const [memberProfile, setMemberProfile] = useState(null);
@@ -202,7 +202,7 @@ export const WaypointProvider = ({ children }) => {
   const internationalPackages = DESTINATION_PACKAGES.filter(p => p.category === 'international');
 
   return (
-    <WaypointContext.Provider
+    <WanderlustContext.Provider
       value={{
         currentView,
         setCurrentView,
@@ -243,17 +243,17 @@ export const WaypointProvider = ({ children }) => {
       }}
     >
       {children}
-    </WaypointContext.Provider>
+    </WanderlustContext.Provider>
   );
 };
 
-export const useWaypoint = () => {
-  const context = useContext(WaypointContext);
+export const useWanderlust = () => {
+  const context = useContext(WanderlustContext);
   if (!context) {
-    throw new Error('useWaypoint must be used within a WaypointProvider');
+    throw new Error('useWanderlust must be used within a WanderlustProvider');
   }
   return context;
 };
 
 // Also export useApp as an alias so any component importing useApp works seamlessly
-export const useApp = useWaypoint;
+export const useApp = useWanderlust;

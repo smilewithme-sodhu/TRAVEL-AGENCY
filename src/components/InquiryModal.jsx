@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { X, Phone, MessageSquare, Send, CheckCircle2, MapPin, ShieldCheck, Utensils, CreditCard } from 'lucide-react';
 
 export const InquiryModal = () => {
-  const { inquiryModal, closeInquiryModal, openWhatsAppInquiry, openPhoneCall, showToast, contact } = useWaypoint();
+  const { inquiryModal, closeInquiryModal, openWhatsAppInquiry, openPhoneCall, showToast, contact } = useWanderlust();
 
   const [formData, setFormData] = useState({
     name: '',

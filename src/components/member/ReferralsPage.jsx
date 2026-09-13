@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import {
   Share2,
   Copy,
@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export const ReferralsPage = () => {
-  const { memberProfile, showToast } = useWaypoint();
+  const { memberProfile, showToast } = useWanderlust();
   const [isCopied, setIsCopied] = useState(false);
 
   const referralCode = memberProfile?.referralCode || (memberProfile?.id ? `TRV${memberProfile.id.substring(0,4).toUpperCase()}` : 'NEW');

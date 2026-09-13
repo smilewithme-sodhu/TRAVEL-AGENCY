@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { maskBankAccount, maskPhone, maskEmail } from '../../utils/security';
 import { memberApi } from '../../api';
 import {
@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 export const ProfilePage = () => {
-  const { memberProfile, showToast } = useWaypoint();
+  const { memberProfile, showToast } = useWanderlust();
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdatingPlacement, setIsUpdatingPlacement] = useState(false);
 

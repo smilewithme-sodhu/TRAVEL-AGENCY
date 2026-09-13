@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { SplitFlapCounter } from './SplitFlapCounter';
-import { DESTINATIONS } from '../data/waypointData';
+import { DESTINATIONS } from '../data/wanderlustData';
 import { Plane, Hotel, Navigation, Calendar, ChevronDown, ChevronUp, MapPin, ArrowRight, Shield, CheckCircle2 } from 'lucide-react';
 
 export const TripDashboard = () => {
-  const { activeTrip, formatPrice, navigateTo } = useWaypoint();
+  const { activeTrip, formatPrice, navigateTo } = useWanderlust();
   const trip = activeTrip || DESTINATIONS[0];
   const [expandedNodeIndex, setExpandedNodeIndex] = useState(0);
 

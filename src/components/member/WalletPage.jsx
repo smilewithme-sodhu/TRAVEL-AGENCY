@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../../api/client';
 import { formatINR, formatDate } from '../../utils/formatters';
@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 export const WalletPage = () => {
-  const { navigateTo } = useWaypoint();
+  const { navigateTo } = useWanderlust();
   const [filter, setFilter] = useState('ALL');
   const [search, setSearch] = useState('');
 

@@ -1,3 +1,3 @@
-export * from './WaypointContext';
-export { useWaypoint as useApp } from './WaypointContext';
-export { WaypointProvider as AppProvider } from './WaypointContext';
+export * from './WanderlustContext';
+export { useWanderlust as useApp } from './WanderlustContext';
+export { WanderlustProvider as AppProvider } from './WanderlustContext';

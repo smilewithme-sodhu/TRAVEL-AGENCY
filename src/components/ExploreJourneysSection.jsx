@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { PackageCard } from './PackageCard';
 import { ArrowRight, Compass } from 'lucide-react';
 
 export const ExploreJourneysSection = () => {
-  const { allPackages, domesticPackages, internationalPackages, navigateTo } = useWaypoint();
+  const { allPackages, domesticPackages, internationalPackages, navigateTo } = useWanderlust();
   const [filter, setFilter] = useState('all');
 
   const featuredList =

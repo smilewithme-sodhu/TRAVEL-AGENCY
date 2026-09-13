@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { notificationsApi } from '../../api';
 import { formatDate } from '../../utils/formatters';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { EmptyState } from '../ui/EmptyState';
 import {
   Bell,
@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export const NotificationsPage = () => {
-  const { navigateTo, showToast } = useWaypoint();
+  const { navigateTo, showToast } = useWanderlust();
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 

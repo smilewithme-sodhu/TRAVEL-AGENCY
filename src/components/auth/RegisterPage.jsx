@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { Compass, ArrowRight, User, Mail, Phone, Lock, Tag, ArrowLeft } from 'lucide-react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../../config/firebase';
 import { doc, setDoc, getDocs, query, collection, where, getDoc, updateDoc } from 'firebase/firestore';
 
 export const RegisterPage = () => {
-  const { navigateTo, showToast } = useWaypoint();
+  const { navigateTo, showToast } = useWanderlust();
   const [fullName, setFullName] = useState('');
   const [mobile, setMobile] = useState('');
   const [email, setEmail] = useState('');

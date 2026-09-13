@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { withdrawalsApi } from '../../api';
 import { formatINR, formatDate } from '../../utils/formatters';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const WithdrawPage = () => {
-  const { showToast, navigateTo } = useWaypoint();
+  const { showToast, navigateTo } = useWanderlust();
   const [balanceInfo, setBalanceInfo] = useState(null);
   const [history, setHistory] = useState([]);
   const [payoutAddress, setPayoutAddress] = useState('');

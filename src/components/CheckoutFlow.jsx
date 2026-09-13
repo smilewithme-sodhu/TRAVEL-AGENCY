@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
-import { DESTINATIONS } from '../data/waypointData';
+import { useWanderlust } from '../context/WanderlustContext';
+import { DESTINATIONS } from '../data/wanderlustData';
 import { CheckCircle2, ShieldCheck, Plane, Lock, CreditCard, ArrowRight, ArrowLeft } from 'lucide-react';
 
 export const CheckoutFlow = () => {
-  const { selectedDestination, formatPrice, navigateTo, bookingDetails, setBookingDetails, showToast } = useWaypoint();
+  const { selectedDestination, formatPrice, navigateTo, bookingDetails, setBookingDetails, showToast } = useWanderlust();
   const dest = selectedDestination || DESTINATIONS[0];
   
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     firstName: 'Alexander',
     lastName: 'Wright',
-    email: 'alexander.wright@waypoint.com',
+    email: 'alexander.wright@wanderlust.com',
     phone: '+1 (555) 019-2834',
     cardNumber: '•••• •••• •••• 4242',
     expDate: '08/28',

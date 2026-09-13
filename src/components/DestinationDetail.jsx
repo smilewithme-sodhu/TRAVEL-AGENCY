@@ -1,9 +1,9 @@
 import React from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { Clock, Star, ArrowLeft, Check, MapPin, MessageSquare, Phone, ShieldCheck, Heart, Sparkles, Compass } from 'lucide-react';
 
 export const DestinationDetail = () => {
-  const { selectedDestination, selectedPackage, navigateTo, toggleWishlist, savedWishlist, openWhatsApp, openPhoneCall, agencyPhone } = useWaypoint();
+  const { selectedDestination, selectedPackage, navigateTo, toggleWishlist, savedWishlist, openWhatsApp, openPhoneCall, agencyPhone } = useWanderlust();
   
   const dest = selectedDestination || selectedPackage || {};
   const isSaved = savedWishlist?.includes(dest.id) || false;

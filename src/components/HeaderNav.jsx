@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { Compass, MessageSquare, Menu, X, Phone, User, ShieldCheck } from 'lucide-react';
 
 export const HeaderNav = () => {
@@ -10,7 +10,7 @@ export const HeaderNav = () => {
     openPhoneCall,
     agencyPhone,
     memberProfile
-  } = useWaypoint();
+  } = useWanderlust();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { notificationsApi } from '../../api';
 import {
   LayoutDashboard,
@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 
 export const MemberLayout = ({ children }) => {
-  const { currentView, navigateTo, memberProfile, setMemberStatusDemo, setIsLoggedIn, showToast } = useWaypoint();
+  const { currentView, navigateTo, memberProfile, setMemberStatusDemo, setIsLoggedIn, showToast } = useWanderlust();
   const [unreadCount, setUnreadCount] = useState(2);
   const [searchQuery, setSearchQuery] = useState('');
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);

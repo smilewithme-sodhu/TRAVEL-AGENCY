@@ -1,9 +1,9 @@
 import React from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { MessageSquare, Phone, MapPin, Mail, Clock, Compass } from 'lucide-react';
 
 export const ContactSection = () => {
-  const { openWhatsApp, openPhoneCall, agencyPhone } = useWaypoint();
+  const { openWhatsApp, openPhoneCall, agencyPhone } = useWanderlust();
 
   return (
     <section className="bg-white py-16 sm:py-24">

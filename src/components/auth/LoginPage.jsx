@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { Compass, ArrowRight, Lock, User, CheckCircle2 } from 'lucide-react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 
 export const LoginPage = () => {
-  const { navigateTo, showToast } = useWaypoint();
+  const { navigateTo, showToast } = useWanderlust();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);

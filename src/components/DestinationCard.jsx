@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { Heart, Clock, Star, MapPin, MessageSquare, Utensils, ShieldCheck } from 'lucide-react';
 
 export const DestinationCard = ({ destination }) => {
-  const { savedWishlist, toggleWishlist, navigateTo, openInquiryModal, openWhatsAppInquiry } = useWaypoint();
+  const { savedWishlist, toggleWishlist, navigateTo, openInquiryModal, openWhatsAppInquiry } = useWanderlust();
   const [isHovered, setIsHovered] = useState(false);
   const isSaved = savedWishlist.includes(destination.id);
 

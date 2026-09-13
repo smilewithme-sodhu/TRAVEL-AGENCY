@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { Upload, MapPin, ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 
 export const TravelerGalleryCarousel = () => {
-  const { galleryPhotos, setIsUploadModalOpen, navigateTo } = useWaypoint();
+  const { galleryPhotos, setIsUploadModalOpen, navigateTo } = useWanderlust();
   const carouselRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);

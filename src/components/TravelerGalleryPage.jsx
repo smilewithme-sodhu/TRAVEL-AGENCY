@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { Upload, MapPin, Sparkles, SlidersHorizontal, Camera, Heart } from 'lucide-react';
 
 export const TravelerGalleryPage = () => {
-  const { galleryPhotos, setIsUploadModalOpen } = useWaypoint();
+  const { galleryPhotos, setIsUploadModalOpen } = useWanderlust();
   const [filter, setFilter] = useState('all');
 
   const filteredPhotos = filter === 'all'

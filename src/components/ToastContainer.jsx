@@ -1,9 +1,9 @@
 import React from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { CheckCircle2, Info, AlertTriangle } from 'lucide-react';
 
 export const ToastContainer = () => {
-  const { toast } = useWaypoint();
+  const { toast } = useWanderlust();
 
   if (!toast.visible) return null;
 

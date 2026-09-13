@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { tripsApi } from '../../api';
 import { EmptyState } from '../ui/EmptyState';
 import { CardSkeleton } from '../ui/Skeleton';
@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export const TripsPage = () => {
-  const { navigateTo } = useWaypoint();
+  const { navigateTo } = useWanderlust();
   const [trips, setTrips] = useState([]);
   const [activeTab, setActiveTab] = useState('ALL');
   const [selectedTrip, setSelectedTrip] = useState(null);

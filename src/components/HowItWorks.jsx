@@ -1,10 +1,10 @@
 import React from 'react';
-import { HOW_IT_WORKS_STEPS } from '../data/waypointData';
+import { HOW_IT_WORKS_STEPS } from '../data/wanderlustData';
 import { Compass, Sparkles, CheckCircle2, ArrowRight, MessageSquare } from 'lucide-react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 
 export const HowItWorks = () => {
-  const { openWhatsApp } = useWaypoint();
+  const { openWhatsApp } = useWanderlust();
   const stepIcons = [Compass, Sparkles, CheckCircle2];
 
   return (

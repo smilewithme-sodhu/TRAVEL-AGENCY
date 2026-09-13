@@ -1,9 +1,9 @@
 import React from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { MapPin, ArrowRight, Heart, Sparkles } from 'lucide-react';
 
 export const PackageCard = ({ pkg }) => {
-  const { navigateTo, savedWishlist, toggleWishlist } = useWaypoint();
+  const { navigateTo, savedWishlist, toggleWishlist } = useWanderlust();
   const isSaved = savedWishlist.includes(pkg.id);
 
   return (

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { Compass, MessageSquare, Phone, Mail, MapPin } from 'lucide-react';
 
 export const Footer = () => {
-  const { navigateTo, openWhatsApp, openPhoneCall, agencyPhone } = useWaypoint();
+  const { navigateTo, openWhatsApp, openPhoneCall, agencyPhone } = useWanderlust();
 
   return (
     <footer className="bg-[#0F172A] text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-slate-800">

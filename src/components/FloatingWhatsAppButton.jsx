@@ -1,9 +1,9 @@
 import React from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { MessageSquare } from 'lucide-react';
 
 export const FloatingWhatsAppButton = () => {
-  const { openWhatsAppInquiry } = useWaypoint();
+  const { openWhatsAppInquiry } = useWanderlust();
 
   return (
     <div

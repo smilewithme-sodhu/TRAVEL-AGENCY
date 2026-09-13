@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { Compass, ArrowRight, MessageSquare, ShieldCheck, Sparkles, MapPin } from 'lucide-react';
 
 /**
@@ -9,7 +9,7 @@ import { Compass, ArrowRight, MessageSquare, ShieldCheck, Sparkles, MapPin } fro
 export const HERO_BACKGROUND_IMAGE = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=85';
 
 export const HeroFlightPath = () => {
-  const { navigateTo, openWhatsApp } = useWaypoint();
+  const { navigateTo, openWhatsApp } = useWanderlust();
 
   return (
     <section className="relative w-full min-h-[82vh] lg:min-h-[86vh] flex items-center justify-center overflow-hidden bg-[#0F172A]">

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { authApi } from '../../api';
 import { Compass, ArrowRight, ArrowLeft, Mail, CheckCircle2 } from 'lucide-react';
 
 export const ForgotPasswordPage = () => {
-  const { navigateTo, showToast } = useWaypoint();
+  const { navigateTo, showToast } = useWanderlust();
   const [identifier, setIdentifier] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useWaypoint } from '../../context/WaypointContext';
+import { useWanderlust } from '../../context/WanderlustContext';
 import { memberApi } from '../../api';
 import { formatINR, formatDate } from '../../utils/formatters';
 import { DashboardSkeleton } from '../ui/Skeleton';
@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 
 export const MemberDashboard = () => {
-  const { navigateTo, showToast, memberProfile } = useWaypoint();
+  const { navigateTo, showToast, memberProfile } = useWanderlust();
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');

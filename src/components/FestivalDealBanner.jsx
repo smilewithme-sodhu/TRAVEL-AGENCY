@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useWaypoint } from '../context/WaypointContext';
+import { useWanderlust } from '../context/WanderlustContext';
 import { Sparkles, MessageSquare, X } from 'lucide-react';
 
 export const FestivalDealBanner = () => {
   const [dismissed, setDismissed] = useState(false);
-  const { openWhatsApp } = useWaypoint();
+  const { openWhatsApp } = useWanderlust();
 
   if (dismissed) return null;
 
