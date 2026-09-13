@@ -116,7 +116,6 @@ const PublicLayout = () => {
       <FloatingWhatsAppButton />
       <InquiryModal />
       <UploadPhotoModal />
-      <ToastContainer />
     </div>
   );
 };
@@ -135,6 +134,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <WanderlustProvider>
+        <ToastContainer />
         <BrowserRouter>
           <RefTracker />
           <Suspense fallback={<SuspenseFallback />}>
