@@ -40,8 +40,12 @@ const buildRealRootNode = async (uid?: string, depth = 0, maxDepth = 2): Promise
   let rightChild = null;
 
   if (depth < maxDepth) {
-    if (userData?.leftId) leftChild = await buildRealRootNode(userData.leftId, depth + 1, maxDepth);
-    if (userData?.rightId) rightChild = await buildRealRootNode(userData.rightId, depth + 1, maxDepth);
+    const [left, right] = await Promise.all([
+      userData?.leftId ? buildRealRootNode(userData.leftId, depth + 1, maxDepth) : Promise.resolve(null),
+      userData?.rightId ? buildRealRootNode(userData.rightId, depth + 1, maxDepth) : Promise.resolve(null),
+    ]);
+    leftChild = left;
+    rightChild = right;
   }
 
   return {
