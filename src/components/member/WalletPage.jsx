@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useWaypoint } from '../../context/WaypointContext';
 import { walletApi } from '../../api';
 import { formatINR, formatDate } from '../../utils/formatters';
@@ -33,11 +33,9 @@ export const WalletPage = () => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  if (isLoading) return <TableSkeleton rows={5} />;
-
   const transactions = summary?.transactions || [];
 
-  const filtered = transactions.filter((t) => {
+  const filtered = useMemo(() => transactions.filter((t) => {
     const matchesSearch =
       t.description.toLowerCase().includes(search.toLowerCase()) ||
       t.id.toLowerCase().includes(search.toLowerCase());
@@ -48,7 +46,9 @@ export const WalletPage = () => {
     if (filter === 'DEBIT') return t.direction === 'DEBIT';
     if (filter === 'WITHDRAWAL') return t.type === 'WITHDRAWAL';
     return true;
-  });
+  }), [transactions, search, filter]);
+
+  if (isLoading) return <TableSkeleton rows={5} />;
 
   return (
     <div className="space-y-6 animate-fadeIn">
