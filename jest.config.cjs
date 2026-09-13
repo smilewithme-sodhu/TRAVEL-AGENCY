@@ -21,15 +21,19 @@ module.exports = {
     ],
   },
 
-  // Only run files inside server/src — never touch the React frontend tests.
-  testMatch: ["<rootDir>/server/src/**/__tests__/**/*.test.ts"],
+  // Run files inside server/src and utility files in src/utils
+  testMatch: [
+    "<rootDir>/server/src/**/__tests__/**/*.test.ts",
+    "<rootDir>/src/utils/**/*.test.ts"
+  ],
 
   // Module file extensions: check .ts before .js.
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
 
-  // Coverage collection scoped strictly to the server source tree.
+  // Coverage collection scoped strictly to the server source tree and utils
   collectCoverageFrom: [
     "server/src/**/*.ts",
+    "src/utils/**/*.ts",
     "!server/src/**/__tests__/**",
     "!server/src/**/*.d.ts",
   ],
