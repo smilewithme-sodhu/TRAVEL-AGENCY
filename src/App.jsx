@@ -8,6 +8,7 @@ import { HeaderNav } from './components/HeaderNav';
 import { Footer } from './components/Footer';
 import { MemberLayout } from './components/member/MemberLayout';
 import { AdminLayout } from './components/admin/AdminLayout';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
 // Modals & Overlays
 import { InquiryModal } from './components/InquiryModal';
@@ -80,26 +81,6 @@ const RefTracker = () => {
   }, [location, navigate]);
 
   return null;
-};
-
-// 3. Protected Route Wrapper
-const ProtectedRoute = ({ children }) => {
-  const { isLoggedIn, authLoading } = useWanderlust();
-  const token = localStorage.getItem('token');
-  
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#0F172A] flex items-center justify-center">
-        <div className="w-10 h-10 rounded-full border-4 border-slate-700 border-t-[#C9A455] animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (!token && !isLoggedIn) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children ? children : <Outlet />;
 };
 
 // 4. Public Layout (Header + Footer)
@@ -184,7 +165,7 @@ export default function App() {
               </Route>
 
               <Route path="/admin" element={
-                <ProtectedRoute>
+                <ProtectedRoute requireAdmin={true}>
                   <AdminLayout />
                 </ProtectedRoute>
               }>

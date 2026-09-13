@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useWanderlust } from '../../context/WanderlustContext';
 import { Compass, ArrowRight, Lock, User, CheckCircle2 } from 'lucide-react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../config/firebase';
+import { useNavigate } from 'react-router-dom';
+import { apiClient } from '../../api/client';
 
 export const LoginPage = () => {
-  const { navigateTo, showToast } = useWanderlust();
+  const { navigateTo, showToast, setIsLoggedIn, setMemberProfile } = useWanderlust();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,10 +20,27 @@ export const LoginPage = () => {
 
     setIsLoading(true);
     try {
-      // Use Firebase Email/Password Auth
-      await signInWithEmailAndPassword(auth, identifier, password);
-      showToast('Signed in successfully! Welcome to your Member Atelier.', 'success');
-      navigateTo('member-dashboard');
+      // Use real backend auth endpoint
+      const { data } = await apiClient.post('/auth/login', { email: identifier, password });
+      
+      localStorage.setItem('token', data.token);
+      setIsLoggedIn(true);
+      
+      if (data.user) {
+        setMemberProfile(data.user);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        showToast('Signed in successfully! Welcome back.', 'success');
+        
+        if (data.user.role === 'ADMIN') {
+          navigate('/admin');
+        } else {
+          navigate('/member');
+        }
+      } else {
+        showToast('Signed in successfully! Welcome back.', 'success');
+        navigate('/member');
+      }
     } catch (err) {
       console.error(err);
       showToast('Authentication failed. Please check your credentials.', 'error');
@@ -37,7 +55,7 @@ export const LoginPage = () => {
         {/* Brand Header */}
         <div className="text-center space-y-2">
           <div
-            onClick={() => navigateTo('home')}
+            onClick={() => navigate('/')}
             className="inline-flex items-center gap-2 cursor-pointer select-none group"
           >
             <div className="w-10 h-10 rounded-full bg-[#0F172A] flex items-center justify-center text-[#C9A455] shadow-md group-hover:scale-105 transition-transform">
@@ -84,7 +102,7 @@ export const LoginPage = () => {
               </label>
               <button
                 type="button"
-                onClick={() => navigateTo('forgot-password')}
+                onClick={() => navigate('/forgot-password')}
                 className="text-[11px] font-semibold text-blue-600 hover:text-blue-700 cursor-pointer"
               >
                 Forgot?
@@ -118,7 +136,7 @@ export const LoginPage = () => {
           <span>Don't have a member account? </span>
           <button
             type="button"
-            onClick={() => navigateTo('register')}
+            onClick={() => navigate('/register')}
             className="font-bold text-slate-900 hover:text-blue-600 cursor-pointer"
           >
             Apply for Membership
