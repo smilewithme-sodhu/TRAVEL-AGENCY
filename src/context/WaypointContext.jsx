@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { DESTINATION_PACKAGES } from '../data/packageData';
 import { INITIAL_GALLERY_PHOTOS } from '../data/galleryData';
 import { memberService } from '../services/memberService';
@@ -109,56 +109,56 @@ export const WaypointProvider = ({ children }) => {
   }, [galleryPhotos]);
 
   // Show Toast
-  const showToast = (message, type = 'info') => {
+  const showToast = useCallback((message, type = 'info') => {
     setToast({ message, type, visible: true });
     setTimeout(() => {
       setToast(prev => ({ ...prev, visible: false }));
     }, 3500);
-  };
+  }, []);
 
   // Toggle Wishlist
-  const toggleWishlist = (packageId) => {
+  const toggleWishlist = useCallback((packageId) => {
     setSavedWishlist(prev => {
       const exists = prev.includes(packageId);
       const updated = exists ? prev.filter(id => id !== packageId) : [...prev, packageId];
       showToast(exists ? 'Removed from saved trips' : 'Saved to your dream wishlist', exists ? 'info' : 'success');
       return updated;
     });
-  };
+  }, [showToast]);
 
   // Direct WhatsApp Inquiry Routing
-  const openWhatsApp = (packageObj = null, customNote = '') => {
+  const openWhatsApp = useCallback((packageObj = null, customNote = '') => {
     const pkg = packageObj || selectedPackage;
     const destinationName = pkg ? (pkg.name || pkg.title) : 'a dream holiday destination';
     const message = customNote || `Hello Wanderlust Travel Agency, I would like to know more about ${destinationName}.`;
     const encodedText = encodeURIComponent(message);
     const url = `https://wa.me/${AGENCY_WHATSAPP}?text=${encodedText}`;
     window.open(url, '_blank');
-  };
+  }, [selectedPackage]);
 
-  const openWhatsAppInquiry = (packageObj = null, customNote = '') => {
+  const openWhatsAppInquiry = useCallback((packageObj = null, customNote = '') => {
     openWhatsApp(packageObj, customNote);
-  };
+  }, [openWhatsApp]);
 
   // Phone Call Routing
-  const openPhoneCall = () => {
+  const openPhoneCall = useCallback(() => {
     window.location.href = `tel:${AGENCY_PHONE.replace(/\s+/g, '')}`;
-  };
+  }, []);
 
   // Inquiry Modal Helpers
-  const openInquiryModal = (dest = null) => {
+  const openInquiryModal = useCallback((dest = null) => {
     setInquiryModal({
       isOpen: true,
       destination: dest || selectedPackage
     });
-  };
+  }, [selectedPackage]);
 
-  const closeInquiryModal = () => {
+  const closeInquiryModal = useCallback(() => {
     setInquiryModal(prev => ({ ...prev, isOpen: false }));
-  };
+  }, []);
 
   // Upload Photo Helper
-  const uploadTravelerPhoto = async (photoData) => {
+  const uploadTravelerPhoto = useCallback(async (photoData) => {
     const newPhoto = {
       id: `user-${Date.now()}`,
       imageUrl: photoData.file ? URL.createObjectURL(photoData.file) : 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80',
@@ -174,74 +174,98 @@ export const WaypointProvider = ({ children }) => {
     showToast('Photo uploaded successfully! Added to Traveler Gallery.', 'success');
     setIsUploadModalOpen(false);
     return true;
-  };
+  }, [showToast]);
 
   // Navigation Helper
-  const navigateTo = (view, packageObj = null) => {
+  const navigateTo = useCallback((view, packageObj = null) => {
     if (packageObj) {
       setSelectedPackage(packageObj);
     }
     setCurrentView(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
 
   // Demo status switcher
-  const setMemberStatusDemo = (status, stage = 'Confirmed') => {
+  const setMemberStatusDemo = useCallback((status, stage = 'Confirmed') => {
     const updated = memberService.updateStatusForDemo(status, stage);
     setMemberProfile(updated);
     showToast(`Switched Member Status to: ${status === 'GREEN_ACTIVE' ? '🟢 Active Travel Member' : status === 'YELLOW' ? '🟡 Yellow Member' : '⚪ Inactive'}`, 'success');
-  };
+  }, [showToast]);
 
-  const formatPrice = (amount) => {
+  const formatPrice = useCallback((amount) => {
     if (!amount) return 'Custom Quote';
     return `$${Number(amount).toLocaleString()}`;
-  };
+  }, []);
 
-  // Filter Helpers
-  const domesticPackages = DESTINATION_PACKAGES.filter(p => p.category === 'domestic');
-  const internationalPackages = DESTINATION_PACKAGES.filter(p => p.category === 'international');
+  // Filter Helpers (Memoized to prevent unnecessary re-computations on context updates)
+  const domesticPackages = useMemo(() => DESTINATION_PACKAGES.filter(p => p.category === 'domestic'), []);
+  const internationalPackages = useMemo(() => DESTINATION_PACKAGES.filter(p => p.category === 'international'), []);
+
+  const providerValue = useMemo(() => ({
+    currentView,
+    setCurrentView,
+    selectedPackage,
+    setSelectedPackage,
+    selectedDestination: selectedPackage,
+    setSelectedDestination: setSelectedPackage,
+    inquiryModal,
+    openInquiryModal,
+    closeInquiryModal,
+    openWhatsAppInquiry,
+    memberProfile,
+    setMemberProfile,
+    isLoggedIn,
+    setIsLoggedIn,
+    authLoading,
+    setMemberStatusDemo,
+    savedWishlist,
+    toggleWishlist,
+    galleryPhotos,
+    setGalleryPhotos,
+    isUploadModalOpen,
+    setIsUploadModalOpen,
+    uploadTravelerPhoto,
+    openWhatsApp,
+    openPhoneCall,
+    toast,
+    showToast,
+    navigateTo,
+    formatPrice,
+    contact: AGENCY_CONTACT,
+    destinations: DESTINATION_PACKAGES,
+    allPackages: DESTINATION_PACKAGES,
+    domesticPackages,
+    internationalPackages,
+    agencyPhone: AGENCY_PHONE,
+    agencyWhatsApp: AGENCY_WHATSAPP
+  }), [
+    currentView,
+    selectedPackage,
+    inquiryModal,
+    memberProfile,
+    isLoggedIn,
+    authLoading,
+    savedWishlist,
+    galleryPhotos,
+    isUploadModalOpen,
+    toast,
+    domesticPackages,
+    internationalPackages,
+    openInquiryModal,
+    closeInquiryModal,
+    openWhatsAppInquiry,
+    setMemberStatusDemo,
+    toggleWishlist,
+    uploadTravelerPhoto,
+    openWhatsApp,
+    openPhoneCall,
+    showToast,
+    navigateTo,
+    formatPrice
+  ]);
 
   return (
-    <WaypointContext.Provider
-      value={{
-        currentView,
-        setCurrentView,
-        selectedPackage,
-        setSelectedPackage,
-        selectedDestination: selectedPackage,
-        setSelectedDestination: setSelectedPackage,
-        inquiryModal,
-        openInquiryModal,
-        closeInquiryModal,
-        openWhatsAppInquiry,
-        memberProfile,
-        setMemberProfile,
-        isLoggedIn,
-        setIsLoggedIn,
-        authLoading,
-        setMemberStatusDemo,
-        savedWishlist,
-        toggleWishlist,
-        galleryPhotos,
-        setGalleryPhotos,
-        isUploadModalOpen,
-        setIsUploadModalOpen,
-        uploadTravelerPhoto,
-        openWhatsApp,
-        openPhoneCall,
-        toast,
-        showToast,
-        navigateTo,
-        formatPrice,
-        contact: AGENCY_CONTACT,
-        destinations: DESTINATION_PACKAGES,
-        allPackages: DESTINATION_PACKAGES,
-        domesticPackages,
-        internationalPackages,
-        agencyPhone: AGENCY_PHONE,
-        agencyWhatsApp: AGENCY_WHATSAPP
-      }}
-    >
+    <WaypointContext.Provider value={providerValue}>
       {children}
     </WaypointContext.Provider>
   );

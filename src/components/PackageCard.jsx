@@ -2,7 +2,7 @@ import React from 'react';
 import { useWaypoint } from '../context/WaypointContext';
 import { MapPin, ArrowRight, Heart, Sparkles } from 'lucide-react';
 
-export const PackageCard = ({ pkg }) => {
+export const PackageCard = React.memo(({ pkg }) => {
   const { navigateTo, savedWishlist, toggleWishlist } = useWaypoint();
   const isSaved = savedWishlist.includes(pkg.id);
 
@@ -80,4 +80,4 @@ export const PackageCard = ({ pkg }) => {
       </div>
     </div>
   );
-};
+});
