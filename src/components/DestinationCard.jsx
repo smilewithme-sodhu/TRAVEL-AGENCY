@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useWaypoint } from '../context/WaypointContext';
 import { Heart, Clock, Star, MapPin, MessageSquare, Utensils, ShieldCheck } from 'lucide-react';
 
-export const DestinationCard = ({ destination }) => {
+export const DestinationCard = React.memo(({ destination }) => {
   const { savedWishlist, toggleWishlist, navigateTo, openInquiryModal, openWhatsAppInquiry } = useWaypoint();
   const [isHovered, setIsHovered] = useState(false);
   const isSaved = savedWishlist.includes(destination.id);
@@ -202,4 +202,4 @@ export const DestinationCard = ({ destination }) => {
 
     </div>
   );
-};
+});

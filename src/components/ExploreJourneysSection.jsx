@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useWaypoint } from '../context/WaypointContext';
 import { PackageCard } from './PackageCard';
 import { ArrowRight, Compass } from 'lucide-react';
@@ -7,12 +7,11 @@ export const ExploreJourneysSection = () => {
   const { allPackages, domesticPackages, internationalPackages, navigateTo } = useWaypoint();
   const [filter, setFilter] = useState('all');
 
-  const featuredList =
-    filter === 'domestic'
-      ? domesticPackages
-      : filter === 'international'
-      ? internationalPackages
-      : allPackages.slice(0, 6); // Curated 6 on homepage for optimal spacing
+  const featuredList = useMemo(() => {
+    if (filter === 'domestic') return domesticPackages;
+    if (filter === 'international') return internationalPackages;
+    return allPackages.slice(0, 6); // Curated 6 on homepage for optimal spacing
+  }, [filter, domesticPackages, internationalPackages, allPackages]);
 
   return (
     <section className="bg-white py-16 sm:py-24 border-b border-slate-100">

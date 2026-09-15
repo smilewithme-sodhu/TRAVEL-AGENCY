@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useWaypoint } from '../context/WaypointContext';
 import { Upload, MapPin, Sparkles, SlidersHorizontal, Camera, Heart } from 'lucide-react';
 
@@ -6,9 +6,11 @@ export const TravelerGalleryPage = () => {
   const { galleryPhotos, setIsUploadModalOpen } = useWaypoint();
   const [filter, setFilter] = useState('all');
 
-  const filteredPhotos = filter === 'all'
-    ? galleryPhotos
-    : galleryPhotos.filter(p => p.category === filter);
+  const filteredPhotos = useMemo(() => {
+    return filter === 'all'
+      ? galleryPhotos
+      : galleryPhotos.filter(p => p.category === filter);
+  }, [filter, galleryPhotos]);
 
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '48px 24px 80px 24px' }}>
