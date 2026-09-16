@@ -1,0 +1,3 @@
+## 2024-05-18 - [Missing Memoization on Derived State]
+**Learning:** Found that arrays derived from component state (`filtered = transactions.filter(...)`) in `RewardsPage.jsx` were not memoized. Although the filtering operation might not seem slow initially, since it is rendered directly and passed to children components, it will recreate references on *every* render (like tab switches), which can cause child re-renders. This is an anti-pattern when rendering complex table views.
+**Action:** Always wrap expensive list-filtering operations derived from component state inside a `useMemo` hook, ensuring proper dependency arrays.
