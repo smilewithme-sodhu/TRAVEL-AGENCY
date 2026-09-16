@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { rewardsApi } from '../../api';
 import { formatINR, formatDate } from '../../utils/formatters';
 import { TableSkeleton } from '../ui/Skeleton';
@@ -209,10 +209,11 @@ export const RewardsPage = () => {
 
   const transactions = summary?.transactions || [];
 
-  const filtered = transactions.filter((t) => {
+  // Bolt: Memoize filtered transactions to prevent unnecessary expensive re-filters on re-renders
+  const filtered = useMemo(() => transactions.filter((t) => {
     if (activeTab === 'ALL') return true;
     return t.type === activeTab;
-  });
+  }), [transactions, activeTab]);
 
   return (
     <div className="space-y-6 animate-fadeIn">
