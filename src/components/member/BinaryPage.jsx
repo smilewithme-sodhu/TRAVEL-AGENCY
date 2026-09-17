@@ -58,18 +58,18 @@ const TreeNode = ({ node, level = 0, parentId = null, side = null, onAddMember, 
           <div className="w-px h-4 sm:h-6 bg-slate-700 -z-10"></div>
           
           {/* Horizontal Connecting Line */}
-          <div className="w-full relative flex justify-center -z-10">
-             <div className="absolute top-0 w-[50%] h-px bg-slate-700"></div>
+          <div className="w-full relative flex justify-center">
+             <div className="absolute top-0 w-[50%] h-px bg-slate-700 -z-10"></div>
              
              {/* Left & Right Child Columns */}
              <div className="flex justify-between w-full">
                 <div className="flex flex-1 justify-center relative">
-                   <div className="absolute top-0 w-px h-4 sm:h-6 bg-slate-700"></div>
+                   <div className="absolute top-0 w-px h-4 sm:h-6 bg-slate-700 -z-10"></div>
                    <div className="mt-4 sm:mt-6">
                      <TreeNode 
                        node={node.leftChild} 
                        level={level + 1} 
-                       parentId={node.memberId} 
+                       parentId={currentMemberId} 
                        side="LEFT" 
                        onAddMember={onAddMember} 
                        onNodeClick={onNodeClick}
@@ -77,12 +77,12 @@ const TreeNode = ({ node, level = 0, parentId = null, side = null, onAddMember, 
                    </div>
                 </div>
                 <div className="flex flex-1 justify-center relative">
-                   <div className="absolute top-0 w-px h-4 sm:h-6 bg-slate-700"></div>
+                   <div className="absolute top-0 w-px h-4 sm:h-6 bg-slate-700 -z-10"></div>
                    <div className="mt-4 sm:mt-6">
                      <TreeNode 
                        node={node.rightChild} 
                        level={level + 1} 
-                       parentId={node.memberId} 
+                       parentId={currentMemberId} 
                        side="RIGHT" 
                        onAddMember={onAddMember} 
                        onNodeClick={onNodeClick}
