@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import { useWanderlust } from '../../context/WanderlustContext';
 import { notificationsApi } from '../../api';
 import {
@@ -24,7 +25,7 @@ import {
   X
 } from 'lucide-react';
 
-export const MemberLayout = ({ children }) => {
+export const MemberLayout = () => {
   const { currentView, navigateTo, memberProfile, setMemberStatusDemo, setIsLoggedIn, showToast } = useWanderlust();
   const [unreadCount, setUnreadCount] = useState(2);
   const [searchQuery, setSearchQuery] = useState('');
@@ -275,7 +276,7 @@ export const MemberLayout = ({ children }) => {
         </aside>
 
         {/* 3. Main Content Container */}
-        <main className="flex-1 min-w-0">{children}</main>
+        <main className="flex-1 min-w-0"><Outlet /></main>
       </div>
 
       {/* 4. Mobile Bottom Navigation Dock */}
