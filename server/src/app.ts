@@ -31,6 +31,8 @@ import { authRouter } from './routes/auth.routes';
 import { adminRouter } from './routes/admin.routes';
 import { networkRouter } from './routes/network.routes';
 import { walletRouter } from './routes/wallet.routes';
+import { memberRouter } from './routes/member.routes';
+import { rewardsRouter } from './routes/rewards.routes';
 app.use('/api/auth', authRouter);
 app.use('/api/quotes', quotesRouter);
 app.use('/api/bookings', bookingsRouter);
@@ -39,6 +41,8 @@ app.use('/api/admin/bookings', adminBookingsRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/network', networkRouter);
 app.use('/api/wallet', walletRouter);
+app.use('/api/member', memberRouter);
+app.use('/api/rewards', rewardsRouter);
 
 // Health check
 app.get('/api/health', (req, res) => {
