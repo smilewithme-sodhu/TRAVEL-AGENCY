@@ -211,12 +211,20 @@ export const BinaryPage = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <span className="text-slate-400 text-sm">Left Volume</span>
-                <span className="text-emerald-400 font-mono font-medium">${Number(selectedNode.leftCarryForward || 0).toLocaleString()}</span>
+                <span className="text-slate-400 text-sm">Direct Referrals</span>
+                <span className="text-white font-mono font-medium">{selectedNode.member?._count?.referralsGiven || 0}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+                <span className="text-slate-400 text-sm">Matched Volume</span>
+                <span className="text-emerald-400 font-mono font-medium">${Number(selectedNode.totalMatchedVolume || 0).toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+                <span className="text-slate-400 text-sm">Left Carry</span>
+                <span className="text-[#C9A455] font-mono font-medium">${Number(selectedNode.leftCarryForward || 0).toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-slate-400 text-sm">Right Volume</span>
-                <span className="text-emerald-400 font-mono font-medium">${Number(selectedNode.rightCarryForward || 0).toLocaleString()}</span>
+                <span className="text-slate-400 text-sm">Right Carry</span>
+                <span className="text-[#C9A455] font-mono font-medium">${Number(selectedNode.rightCarryForward || 0).toLocaleString()}</span>
               </div>
             </div>
           </div>

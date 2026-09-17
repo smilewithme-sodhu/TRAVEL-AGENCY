@@ -7,7 +7,10 @@ const buildIncludeLevel = (depth: number): any => {
   return {
     include: {
       member: {
-        include: { user: { select: { name: true, email: true } } }
+        include: { 
+          user: { select: { name: true, email: true } },
+          _count: { select: { referralsGiven: true } }
+        }
       },
       leftChild: buildIncludeLevel(depth - 1),
       rightChild: buildIncludeLevel(depth - 1)
@@ -34,9 +37,14 @@ export const getNetworkTree = async (req: Request, res: Response): Promise<void>
     const tree = await prisma.binaryNode.findUnique({
       where: { memberId: decoded.memberId },
       include: {
-        member: { include: { user: { select: { name: true, email: true } } } },
-        leftChild: buildIncludeLevel(2),
-        rightChild: buildIncludeLevel(2)
+        member: { 
+          include: { 
+            user: { select: { name: true, email: true } },
+            _count: { select: { referralsGiven: true } }
+          } 
+        },
+        leftChild: buildIncludeLevel(4),
+        rightChild: buildIncludeLevel(4)
       }
     });
 
