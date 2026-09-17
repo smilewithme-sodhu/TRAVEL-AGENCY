@@ -51,3 +51,60 @@ export const getNetworkTree = async (req: Request, res: Response): Promise<void>
     res.status(500).json({ error: 'Failed to fetch network tree' });
   }
 };
+
+export const getNetworkOverview = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      res.status(401).json({ error: 'No token provided' });
+      return;
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: string, memberId: string };
+
+    if (!decoded.memberId) {
+      res.status(400).json({ error: 'User is not a member' });
+      return;
+    }
+
+    // A simplified flat fetch of members underneath this node
+    // Since traversing the entire tree in SQL can be complex, we will fetch the referrals for this demo.
+    const referrals = await prisma.referral.findMany({
+      where: { referrerMemberId: decoded.memberId, referredMemberId: { not: null } },
+      include: {
+        referredMember: {
+          include: { 
+            user: true,
+            binaryNode: true
+          }
+        }
+      }
+    });
+
+    const activeMembers = referrals.filter(r => r.referredMember?.greenStatus === 'GREEN').length;
+    const membersList = referrals.map(r => ({
+      id: r.referredMember?.id,
+      name: r.referredMember?.user?.name || 'Unknown',
+      memberCode: r.referredMember?.referralCode,
+      status: r.referredMember?.greenStatus === 'GREEN' ? 'ACTIVE' : 'REGISTERED',
+      position: r.referredMember?.binaryNode?.side || 'AUTO',
+      joinDate: r.referredMember?.joinedAt,
+      cycle: 0
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        totalMembers: referrals.length,
+        activeMembers,
+        leftCount: membersList.filter(m => m.position === 'LEFT').length,
+        rightCount: membersList.filter(m => m.position === 'RIGHT').length,
+        members: membersList
+      }
+    });
+  } catch (error) {
+    console.error('getNetworkOverview Error:', error);
+    res.status(500).json({ error: 'Failed to fetch network overview' });
+  }
+};
