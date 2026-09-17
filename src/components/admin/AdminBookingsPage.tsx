@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiClient, useAdminMemberSearch, useManualBooking } from '../../api/client';
+import { apiClient, useAdminMemberSearch, useManualBooking, useAssignManualPoints } from '../../api/client';
 import { useWanderlust } from '../../context/WanderlustContext';
 import { formatINR, formatDate } from '../../utils/formatters';
 import { Badge } from '../ui/Badge';
