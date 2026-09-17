@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DESTINATION_PACKAGES } from '../data/packageData';
 import { INITIAL_GALLERY_PHOTOS } from '../data/galleryData';
 import { memberService } from '../services/memberService';
@@ -178,6 +179,8 @@ export const WanderlustProvider = ({ children }) => {
     return true;
   };
 
+  const navigate = useNavigate();
+
   // Navigation Helper
   const navigateTo = (view, packageObj = null) => {
     if (packageObj) {
@@ -185,6 +188,20 @@ export const WanderlustProvider = ({ children }) => {
     }
     setCurrentView(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // React Router translation
+    if (view === 'home') navigate('/');
+    else if (view.startsWith('member-')) {
+      const subpath = view.replace('member-', '');
+      navigate(`/member${subpath === 'dashboard' ? '' : `/${subpath}`}`);
+    }
+    else if (view.startsWith('admin-')) {
+      const subpath = view.replace('admin-', '');
+      navigate(`/admin${subpath === 'dashboard' ? '' : `/${subpath}`}`);
+    }
+    else {
+      navigate(`/${view}`);
+    }
   };
 
   // Demo status switcher

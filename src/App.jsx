@@ -129,11 +129,11 @@ const SuspenseFallback = () => (
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <WanderlustProvider>
-        <ToastContainer />
-        <BrowserRouter>
+      <BrowserRouter>
+        <WanderlustProvider>
+          <ToastContainer />
           <RefTracker />
-            <ViewTracker />
+          <ViewTracker />
           <Suspense fallback={<SuspenseFallback />}>
             <Routes>
               
@@ -162,46 +162,44 @@ export default function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
-              <Route path="/member" element={
-                <ProtectedRoute>
-                  <MemberLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={<MemberDashboard />} />
-                <Route path="trips" element={<TripsPage />} />
-                <Route path="trips/:id" element={<TripItineraryView />} />
-                <Route path="explore" element={<ExplorePage />} />
+              {/* Member Routes: ProtectedRoute guards, MemberLayout provides the shell */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/member" element={<MemberLayout />}>
+                  <Route index element={<MemberDashboard />} />
+                  <Route path="trips" element={<TripsPage />} />
+                  <Route path="trips/:id" element={<TripItineraryView />} />
+                  <Route path="explore" element={<ExplorePage />} />
                   <Route path="packages" element={<PackagesPage />} />
-                <Route path="network" element={<NetworkPage />} />
-                <Route path="binary" element={<BinaryPage />} />
-                <Route path="rewards" element={<RewardsPage />} />
-                <Route path="wallet" element={<WalletPage />} />
-                <Route path="withdraw" element={<WithdrawPage />} />
-                <Route path="referral" element={<ReferralsPage />} />
-                <Route path="profile" element={<ProfilePage />} />
-                <Route path="support" element={<SupportPage />} />
-                <Route path="notifications" element={<NotificationsPage />} />
+                  <Route path="network" element={<NetworkPage />} />
+                  <Route path="binary" element={<BinaryPage />} />
+                  <Route path="rewards" element={<RewardsPage />} />
+                  <Route path="wallet" element={<WalletPage />} />
+                  <Route path="withdraw" element={<WithdrawPage />} />
+                  <Route path="referral" element={<ReferralsPage />} />
+                  <Route path="profile" element={<ProfilePage />} />
+                  <Route path="support" element={<SupportPage />} />
+                  <Route path="notifications" element={<NotificationsPage />} />
+                </Route>
               </Route>
 
-              <Route path="/admin" element={
-                <ProtectedRoute requireAdmin={true}>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }>
-                <Route index element={<AdminDashboard />} />
-                <Route path="bookings" element={<AdminBookingsPage />} />
-                <Route path="packages" element={<AdminPackagesPage />} />
-                <Route path="members" element={<AdminMembersPage />} />
-                <Route path="payouts" element={<AdminPayoutsPage />} />
-                <Route path="audit" element={<AdminAuditPage />} />
+              {/* Admin Routes: ProtectedRoute (requireAdmin) guards, AdminLayout provides the shell */}
+              <Route element={<ProtectedRoute requireAdmin={true} />}>
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="bookings" element={<AdminBookingsPage />} />
+                  <Route path="packages" element={<AdminPackagesPage />} />
+                  <Route path="members" element={<AdminMembersPage />} />
+                  <Route path="payouts" element={<AdminPayoutsPage />} />
+                  <Route path="audit" element={<AdminAuditPage />} />
+                </Route>
               </Route>
 
               <Route path="*" element={<Navigate to="/" replace />} />
 
             </Routes>
           </Suspense>
-        </BrowserRouter>
-      </WanderlustProvider>
+        </WanderlustProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }
