@@ -28,18 +28,18 @@ export const getBookings = async (req: Request, res: Response) => {
   }
 };
 
-export const confirmBookingWithPoints = async (req: Request, res: Response) => {
+export const confirmBookingWithPoints = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
-    const { overrideVolume, overrideDirectReward, adminNotes } = req.body;
-    
-    // Convert to numbers if provided
-    const payload: any = { adminNotes };
-    if (overrideVolume !== undefined) payload.overrideVolume = Number(overrideVolume);
-    if (overrideDirectReward !== undefined) payload.overrideDirectReward = Number(overrideDirectReward);
-    
-    await bookingService.adminConfirmBooking(id, payload);
-    
+    const id = req.params.id as string;
+    const { adminNotes } = req.body;
+
+    await bookingService.transition(
+      id,
+      BookingStatus.BOOKING_CONFIRMED,
+      (req as any).user?.id ?? 'ADMIN',
+      { source: 'admin-manual', adminNotes: adminNotes ?? '' }
+    );
+
     res.json({ success: true, message: 'Booking confirmed' });
   } catch (error: any) {
     console.error('Error confirming booking:', error);
@@ -51,12 +51,13 @@ export const confirmBookingWithPoints = async (req: Request, res: Response) => {
 // POST /api/admin/members/assign-points
 // Assigns manual direct cash reward & binary volume to a member.
 // ---------------------------------------------------------------------------
-export const assignManualPoints = async (req: Request, res: Response) => {
+export const assignManualPoints = async (req: Request, res: Response): Promise<void> => {
   try {
     const { memberId, amountPaid, binaryVolume, notes } = req.body;
 
     if (!memberId) {
-      return res.status(400).json({ error: 'memberId is required.' });
+      res.status(400).json({ error: 'memberId is required.' });
+      return;
     }
 
     const directReward = new Prisma.Decimal(amountPaid || 0);
@@ -68,7 +69,10 @@ export const assignManualPoints = async (req: Request, res: Response) => {
       include: { user: true }
     });
 
-    if (!member) return res.status(404).json({ error: 'Member not found.' });
+    if (!member) {
+      res.status(404).json({ error: 'Member not found.' });
+      return;
+    }
 
     // Ensure wallet exists
     let wallet = await prisma.wallet.findUnique({ where: { memberId } });
@@ -94,14 +98,14 @@ export const assignManualPoints = async (req: Request, res: Response) => {
               THEN amount ELSE 0
             END), 0) AS available
           FROM wallet_transactions
-          WHERE "walletId" = ${wallet.id}::uuid
+          WHERE "walletId" = ${wallet!.id}::uuid
         `;
         const currentBalance = new Prisma.Decimal(balanceResult[0]?.available || 0);
         const newBalance = currentBalance.plus(directReward);
 
         await tx.walletTransaction.create({
           data: {
-            walletId: wallet.id,
+            walletId: wallet!.id,
             transactionType: 'CREDIT_MANUAL_ADJUSTMENT',
             status: 'AVAILABLE',
             amount: directReward,
@@ -118,7 +122,6 @@ export const assignManualPoints = async (req: Request, res: Response) => {
     if (volume.greaterThan(0)) {
       const { BinaryVolumeEngine } = await import('../modules/financial/BinaryVolumeEngine');
       const binaryEngine = new BinaryVolumeEngine(prisma);
-      // We pass null for sourceBookingId since it's optional in schema
       const dummyId = null as any; 
       await binaryEngine.rollUpVolume(dummyId, memberId, volume);
     }
@@ -149,11 +152,12 @@ export const assignManualPoints = async (req: Request, res: Response) => {
 // GET /api/admin/members/search?q=<term>
 // Lightweight member search by name, email, username or referral code.
 // ---------------------------------------------------------------------------
-export const searchMembers = async (req: Request, res: Response) => {
+export const searchMembers = async (req: Request, res: Response): Promise<void> => {
   try {
     const q = String(req.query.q ?? '').trim();
     if (q.length < 2) {
-      return res.json({ success: true, data: [] });
+      res.json({ success: true, data: [] });
+      return;
     }
 
     const members = await prisma.member.findMany({

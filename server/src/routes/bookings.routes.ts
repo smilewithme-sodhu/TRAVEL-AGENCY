@@ -102,7 +102,7 @@ bookingsRouter.post('/checkout', async (req: Request, res: Response, next: NextF
     res.status(201).json({ success: true, data: booking });
   } catch (err: any) {
     if (err instanceof z.ZodError) {
-      res.status(400).json({ success: false, error: err.errors });
+      res.status(400).json({ success: false, error: err.issues });
       return;
     }
     console.error('Checkout error:', err);
@@ -156,8 +156,8 @@ bookingsRouter.post('/', async (req: Request, res: Response, next: NextFunction)
         operationalCost: price.operationalCost,
         taxAmount: price.taxAmount,
         grossContribution: quote.grossContribution,
-        directRewardBudget: (Number(price.directRewardBudget) || 0) * data.numTravellers, 
-        teamRewardBudget: (Number(price.teamRewardBudget) || 0) * data.numTravellers,
+        directRewardBudget: (Number(price.directRewardBudget) || 0) * quote.numTravellers,
+        teamRewardBudget: (Number(price.teamRewardBudget) || 0) * quote.numTravellers,
         binaryVolumeBudget: 0,
         refundReserveBudget: 0,
         netContribution: quote.grossContribution,
