@@ -4,6 +4,7 @@ import { prisma } from '../db';
 import { z } from 'zod';
 import { BookingStateMachineService } from '../modules/booking/BookingStateMachine';
 import { PrismaClient, BookingStatus } from '@prisma/client';
+import { getJwtSecret } from '../utils/jwt';
 
 export const bookingsRouter = Router();
 
@@ -35,7 +36,7 @@ bookingsRouter.post('/checkout', async (req: Request, res: Response, next: NextF
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: string, memberId: string };
+    const decoded = jwt.verify(token, getJwtSecret()) as { userId: string, memberId: string };
     
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });

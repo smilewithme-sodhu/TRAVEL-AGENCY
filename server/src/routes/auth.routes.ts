@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import { prisma } from '../db';
 import { BinaryPlacementEngine } from '../modules/network/BinaryPlacementEngine';
+import { getJwtSecret } from '../utils/jwt';
 
 export const authRouter = express.Router();
 const placementEngine = new BinaryPlacementEngine();
@@ -107,7 +108,7 @@ authRouter.post('/register', async (req, res) => {
 
     const token = jwt.sign(
       { userId: result.user.id, role: result.user.role, memberId: result.member.id },
-      process.env.JWT_SECRET || 'secret',
+      getJwtSecret(),
       { expiresIn: '7d' }
     );
 
@@ -170,7 +171,7 @@ authRouter.post('/login', async (req, res) => {
         role: user.role, 
         memberId: user.member ? user.member.id : null 
       },
-      process.env.JWT_SECRET || 'secret',
+      getJwtSecret(),
       { expiresIn: '7d' }
     );
 
