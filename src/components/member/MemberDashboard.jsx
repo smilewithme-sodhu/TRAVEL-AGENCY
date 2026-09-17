@@ -34,21 +34,25 @@ export const MemberDashboard = () => {
       .finally(() => setIsLoading(false));
   }, [memberProfile?.status]);
 
+  const getShareUrl = () => {
+    return `${window.location.origin}/?ref=${data?.member?.memberCode}`;
+  };
+
   const handleCopyLink = () => {
-    if (!data?.referral?.shareUrl) return;
-    navigator.clipboard.writeText(data.referral.shareUrl);
+    if (!data?.member?.memberCode) return;
+    navigator.clipboard.writeText(getShareUrl());
     setIsCopied(true);
     showToast('Personal referral link copied to clipboard!', 'success');
     setTimeout(() => setIsCopied(false), 2500);
   };
 
   const handleNativeShare = async () => {
-    if (navigator.share && data?.referral?.shareUrl) {
+    if (navigator.share && data?.member?.memberCode) {
       try {
         await navigator.share({
           title: 'Wanderlust Luxury Travel Club',
           text: 'Explore handcrafted luxury journeys with personal WhatsApp concierge consultation.',
-          url: data.referral.shareUrl,
+          url: getShareUrl(),
         });
       } catch {
         handleCopyLink();
@@ -69,9 +73,34 @@ export const MemberDashboard = () => {
     );
   }
 
-  const { member, statusCard, earnings, networkVolume, referral, recentActivities } = data;
-  const isActive = statusCard.isActive;
+  const { member, bookings, overview } = data;
+  const isActive = member?.status === 'GREEN';
 
+  // Adapt backend data to component props
+  const statusCard = {
+    isActive,
+    headline: isActive ? "Wanderlust Green Member" : "Registered Member",
+    subheadline: isActive ? "Your luxury travel portal is fully unlocked." : "Book your first journey to unlock rewards.",
+    actionText: "Explore Packages"
+  };
+
+  const earnings = {
+    walletBalance: member?.walletBalance || 0,
+    totalEarned: 0,
+    pending: overview?.pendingRewards || 0
+  };
+
+  const networkVolume = {
+    personal: overview?.personalVolume || 0,
+    team: overview?.teamVolume || 0,
+    directReferrals: overview?.activeDirectReferrals || 0
+  };
+
+  const referral = {
+    shareUrl: `${window.location.origin}/?ref=${member?.memberCode}`
+  };
+
+  const recentActivities = [];
   return (
     <div className="space-y-6 sm:space-y-8 animate-fadeIn">
       {/* 1. Greeting Header */}
