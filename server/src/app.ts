@@ -3,17 +3,42 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { quotesRouter } from './routes/quotes.routes';
 import { bookingsRouter } from './routes/bookings.routes';
+import { packagesRouter } from './routes/packages.routes';
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = process.env.NODE_ENV === 'production' 
+  ? [process.env.FRONTEND_URL || ''] 
+  : ['http://localhost:3000', 'http://localhost:5173'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || /^https?:\/\/localhost:\d+$/.test(origin) || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 app.use(express.json());
 
 // Routes
+import { adminBookingsRouter } from './routes/bookings.routes';
+import { authRouter } from './routes/auth.routes';
+import { adminRouter } from './routes/admin.routes';
+import { networkRouter } from './routes/network.routes';
+import { walletRouter } from './routes/wallet.routes';
+app.use('/api/auth', authRouter);
 app.use('/api/quotes', quotesRouter);
 app.use('/api/bookings', bookingsRouter);
+app.use('/api/packages', packagesRouter);
+app.use('/api/admin/bookings', adminBookingsRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/network', networkRouter);
+app.use('/api/wallet', walletRouter);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -27,3 +52,6 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 export { app };
+
+
+

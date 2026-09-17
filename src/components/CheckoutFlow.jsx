@@ -19,12 +19,41 @@ export const CheckoutFlow = () => {
   });
 
   const [isCompleted, setIsCompleted] = useState(false);
+  const [quoteId, setQuoteId] = useState(null);
 
-  const handleNextStep = (e) => {
+  const handleNextStep = async (e) => {
     e.preventDefault();
     if (step === 1) {
+      try {
+        const { apiClient } = await import('../api/client');
+        const res = await apiClient.post('/api/quotes', {
+          packageId: dest.id,
+          customerId: '11111111-1111-1111-1111-111111111111', 
+          travelDateFrom: bookingDetails.dates.from,
+          travelDateTo: bookingDetails.dates.to,
+          numTravellers: bookingDetails.travelers
+        });
+        if (res.data && res.data.success) {
+          setQuoteId(res.data.data.id);
+        }
+      } catch (err) {
+        console.warn('Quote API failed, proceeding with mock flow', err);
+      }
       setStep(2);
     } else if (step === 2) {
+      try {
+        if (quoteId) {
+          const { apiClient } = await import('../api/client');
+          const res = await apiClient.post('/api/bookings', {
+            quoteId: quoteId,
+          });
+          if (res.data && res.data.success) {
+            await apiClient.post(`/api/bookings/${res.data.data.id}/payment`);
+          }
+        }
+      } catch (err) {
+        console.warn('Booking API failed, proceeding with mock flow', err);
+      }
       setIsCompleted(true);
       setStep(3);
       showToast('Flight path vector confirmed! Departure sequence initialized.', 'success');

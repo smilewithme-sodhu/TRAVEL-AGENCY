@@ -9,7 +9,8 @@ import {
   FileText,
   ArrowLeft,
   Activity,
-  Compass
+  Compass,
+  CheckCircle2
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -21,6 +22,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   const navItems: { view: AppView; label: string; icon: React.ReactNode }[] = [
     { view: 'admin-dashboard', label: 'Executive Overview', icon: <LayoutDashboard className="w-4 h-4" /> },
+    { view: 'admin-bookings', label: 'Bookings & Approvals', icon: <CheckCircle2 className="w-4 h-4" /> },
     { view: 'admin-packages', label: 'Package Margins', icon: <Package className="w-4 h-4" /> },
     { view: 'admin-members', label: 'Members & Network', icon: <Users className="w-4 h-4" /> },
     { view: 'admin-payouts', label: 'Payout Processing', icon: <DollarSign className="w-4 h-4" /> },

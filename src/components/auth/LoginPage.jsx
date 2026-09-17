@@ -21,9 +21,9 @@ export const LoginPage = () => {
     setIsLoading(true);
     try {
       // Use real backend auth endpoint
-      const { data } = await apiClient.post('/auth/login', { email: identifier, password });
+      const { data } = await apiClient.post('/api/auth/login', { email: identifier, password });
       
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('auth_token', data.token);
       setIsLoggedIn(true);
       
       if (data.user) {

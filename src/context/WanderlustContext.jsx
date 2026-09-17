@@ -2,9 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { DESTINATION_PACKAGES } from '../data/packageData';
 import { INITIAL_GALLERY_PHOTOS } from '../data/galleryData';
 import { memberService } from '../services/memberService';
-import { auth, db } from '../config/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+  import { apiClient } from '../api/client';
 
 const WanderlustContext = createContext();
 
@@ -22,10 +20,27 @@ export const AGENCY_CONTACT = {
 
 export const WanderlustProvider = ({ children }) => {
   const [currentView, setCurrentView] = useState('home');
+  const [packages, setPackages] = useState(DESTINATION_PACKAGES);
   const [selectedPackage, setSelectedPackage] = useState(DESTINATION_PACKAGES[0]);
   const [memberProfile, setMemberProfile] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
+
+  // Fetch Packages from DB
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const response = await apiClient.get('/api/packages');
+        if (response.data && response.data.success && response.data.data.length > 0) {
+          setPackages(response.data.data);
+          setSelectedPackage(response.data.data[0]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch packages from API:", err);
+      }
+    };
+    fetchPackages();
+  }, []);
 
   // Parse Initial URL for Referrals and Routing
   useEffect(() => {
@@ -67,36 +82,23 @@ export const WanderlustProvider = ({ children }) => {
   // Toast System
   const [toast, setToast] = useState({ message: '', type: 'info', visible: false });
 
-  // Real Firebase Auth listener
+  // LocalStorage Auth listener
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setIsLoggedIn(true);
-        try {
-          // Fetch real user profile from Firestore if it exists
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
-            setMemberProfile({ id: user.uid, ...userDoc.data() });
-          } else {
-            // Fallback to basic auth info if no doc yet
-            setMemberProfile({
-              id: user.uid,
-              name: user.displayName || 'Member',
-              email: user.email,
-              status: 'GREEN_ACTIVE'
-            });
-          }
-        } catch (err) {
-          console.error("Error fetching user profile:", err);
-        }
-      } else {
-        setIsLoggedIn(false);
-        setMemberProfile(null);
+    const token = localStorage.getItem('auth_token');
+    const userStr = localStorage.getItem('user');
+    
+    if (token && userStr) {
+      setIsLoggedIn(true);
+      try {
+        setMemberProfile(JSON.parse(userStr));
+      } catch (err) {
+        console.error("Failed to parse user from local storage", err);
       }
-      setAuthLoading(false);
-    });
-
-    return () => unsubscribe();
+    } else {
+      setIsLoggedIn(false);
+      setMemberProfile(null);
+    }
+    setAuthLoading(false);
   }, []);
 
   // Save Gallery to localStorage
@@ -198,8 +200,8 @@ export const WanderlustProvider = ({ children }) => {
   };
 
   // Filter Helpers
-  const domesticPackages = DESTINATION_PACKAGES.filter(p => p.category === 'domestic');
-  const internationalPackages = DESTINATION_PACKAGES.filter(p => p.category === 'international');
+  const domesticPackages = packages.filter(p => p.category === 'domestic');
+  const internationalPackages = packages.filter(p => p.category === 'international');
 
   return (
     <WanderlustContext.Provider
@@ -234,8 +236,8 @@ export const WanderlustProvider = ({ children }) => {
         navigateTo,
         formatPrice,
         contact: AGENCY_CONTACT,
-        destinations: DESTINATION_PACKAGES,
-        allPackages: DESTINATION_PACKAGES,
+        destinations: packages,
+        allPackages: packages,
         domesticPackages,
         internationalPackages,
         agencyPhone: AGENCY_PHONE,

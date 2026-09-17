@@ -68,6 +68,8 @@ export const MemberLayout = ({ children }) => {
   const isMoreActive = moreNavItems.some((item) => item.view === currentView) || isMoreMenuOpen;
 
   const handleLogout = () => {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user');
     setIsLoggedIn(false);
     showToast('You have been securely signed out.', 'info');
     navigateTo('home');

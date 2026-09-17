@@ -220,6 +220,7 @@ model User {
   email           String    @unique @db.Citext
   phone           String    @unique
   passwordHash    String
+  name            String
   role            Role      @default(CUSTOMER)
   isEmailVerified Boolean   @default(false)
   isPhoneVerified Boolean   @default(false)
@@ -409,6 +410,9 @@ model PackagePrice {
   taxAmount         Decimal   @db.Decimal(12, 2)
   sellingPrice      Decimal   @db.Decimal(12, 2)
   grossContribution Decimal   @db.Decimal(12, 2)
+    directRewardBudget Decimal @default(0) @db.Decimal(12, 2)
+    teamRewardBudget   Decimal @default(0) @db.Decimal(12, 2)
+    binaryVolumeBudget Decimal @default(0) @db.Decimal(12, 2)
   isActive          Boolean   @default(true)
   createdBy         String    @db.Uuid // AdminUser.id
   createdAt         DateTime  @default(now())
@@ -721,6 +725,9 @@ model BinaryNode {
   rightChildId String?   @unique @db.Uuid
   depth        Int       @default(0)
   path         String // Materialized path: "/parentUuid/uuid/"
+    leftCarryForward Decimal @default(0) @db.Decimal(12,2)
+    rightCarryForward Decimal @default(0) @db.Decimal(12,2)
+    totalMatchedVolume Decimal @default(0) @db.Decimal(12,2)
   placedAt     DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
@@ -1032,3 +1039,5 @@ model RuleVersion {
   @@index([version])
   @@map("rule_versions")
 }
+
+

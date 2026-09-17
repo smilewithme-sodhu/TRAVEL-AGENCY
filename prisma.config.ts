@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { defineConfig } from "prisma/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
@@ -11,16 +12,16 @@ import pg from "pg";
 export default defineConfig({
   earlyAccess: true,
   schema: "./prisma/schema.prisma",
+  datasource: {
+    url: process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/travel_agency_test",
+  },
   migrate: {
-    datasource: {
-      url: "postgresql://postgres:postgres@localhost:5432/travel_agency_test",
-    },
     async adapter() {
-      const connectionString = process.env.DATABASE_URL;
+      const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
       if (!connectionString) {
         throw new Error(
-          "DATABASE_URL environment variable is not set. " +
-            "Create a .env file at the project root with: DATABASE_URL=postgresql://user:pass@localhost:5432/project1"
+          "DIRECT_URL environment variable is not set. " +
+            "Please configure your Supabase connection strings in .env"
         );
       }
       const pool = new pg.Pool({ connectionString });

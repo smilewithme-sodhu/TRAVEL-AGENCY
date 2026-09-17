@@ -12,7 +12,6 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
 // Modals & Overlays
 import { InquiryModal } from './components/InquiryModal';
-import { UploadPhotoModal } from './components/UploadPhotoModal';
 import { FloatingWhatsAppButton } from './components/FloatingWhatsAppButton';
 import { ToastContainer } from './components/ToastContainer';
 
@@ -41,6 +40,7 @@ const ForgotPasswordPage = React.lazy(() => import('./components/auth/ForgotPass
 const MemberDashboard = React.lazy(() => import('./components/member/MemberDashboard').then(m => ({ default: m.MemberDashboard })));
 const TripsPage = React.lazy(() => import('./components/member/TripsPage').then(m => ({ default: m.TripsPage })));
 const TripItineraryView = React.lazy(() => import('./components/member/TripItineraryView').then(m => ({ default: m.TripItineraryView })));
+const PackagesPage = React.lazy(() => import('./components/booking/PackagesPage').then(m => ({ default: m.PackagesPage })));
 const ExplorePage = React.lazy(() => import('./components/member/ExplorePage').then(m => ({ default: m.ExplorePage })));
 const NetworkPage = React.lazy(() => import('./components/member/NetworkPage').then(m => ({ default: m.NetworkPage })));
 const BinaryPage = React.lazy(() => import('./components/member/BinaryPage').then(m => ({ default: m.BinaryPage })));
@@ -54,6 +54,7 @@ const NotificationsPage = React.lazy(() => import('./components/member/Notificat
 
 // --- Lazy Load Admin Pages ---
 const AdminDashboard = React.lazy(() => import('./components/admin/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
+const AdminBookingsPage = React.lazy(() => import('./components/admin/AdminBookingsPage').then(m => ({ default: m.AdminBookingsPage })));
 const AdminPackagesPage = React.lazy(() => import('./components/admin/AdminPackagesPage').then(m => ({ default: m.AdminPackagesPage })));
 const AdminMembersPage = React.lazy(() => import('./components/admin/AdminMembersPage').then(m => ({ default: m.AdminMembersPage })));
 const AdminPayoutsPage = React.lazy(() => import('./components/admin/AdminPayoutsPage').then(m => ({ default: m.AdminPayoutsPage })));
@@ -63,6 +64,23 @@ const AdminAuditPage = React.lazy(() => import('./components/admin/AdminAuditPag
 const queryClient = new QueryClient();
 
 // 2. RefTracker: intercepts ?ref=
+const ViewTracker = () => {
+  const location = useLocation();
+  const { setCurrentView } = useWanderlust();
+
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === '/') setCurrentView('home');
+    else if (path.startsWith('/member/')) setCurrentView('member-' + path.replace('/member/', ''));
+    else if (path === '/member') setCurrentView('member-dashboard');
+    else if (path.startsWith('/admin/')) setCurrentView('admin-' + path.replace('/admin/', ''));
+    else if (path === '/admin') setCurrentView('admin-dashboard');
+    else setCurrentView(path.replace('/', ''));
+  }, [location, setCurrentView]);
+
+  return null;
+};
+
 const RefTracker = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -94,7 +112,6 @@ const PublicLayout = () => {
       <Footer />
       <FloatingWhatsAppButton />
       <InquiryModal />
-      <UploadPhotoModal />
     </div>
   );
 };
@@ -116,6 +133,7 @@ export default function App() {
         <ToastContainer />
         <BrowserRouter>
           <RefTracker />
+            <ViewTracker />
           <Suspense fallback={<SuspenseFallback />}>
             <Routes>
               
@@ -153,6 +171,7 @@ export default function App() {
                 <Route path="trips" element={<TripsPage />} />
                 <Route path="trips/:id" element={<TripItineraryView />} />
                 <Route path="explore" element={<ExplorePage />} />
+                  <Route path="packages" element={<PackagesPage />} />
                 <Route path="network" element={<NetworkPage />} />
                 <Route path="binary" element={<BinaryPage />} />
                 <Route path="rewards" element={<RewardsPage />} />
@@ -170,6 +189,7 @@ export default function App() {
                 </ProtectedRoute>
               }>
                 <Route index element={<AdminDashboard />} />
+                <Route path="bookings" element={<AdminBookingsPage />} />
                 <Route path="packages" element={<AdminPackagesPage />} />
                 <Route path="members" element={<AdminMembersPage />} />
                 <Route path="payouts" element={<AdminPayoutsPage />} />
@@ -185,3 +205,5 @@ export default function App() {
     </QueryClientProvider>
   );
 }
+
+

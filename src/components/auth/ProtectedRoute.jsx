@@ -4,7 +4,7 @@ import { useWanderlust } from '../../context/WanderlustContext';
 
 export const ProtectedRoute = ({ requireAdmin = false, children }) => {
   const { isLoggedIn, authLoading } = useWanderlust();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('auth_token');
   
   if (authLoading) {
     return (

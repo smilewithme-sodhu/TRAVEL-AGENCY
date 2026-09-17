@@ -1,223 +1,175 @@
-import React, { useState, useEffect } from 'react';
-import { binaryApi } from '../../api';
-import { formatINR } from '../../utils/formatters';
-import { TreeSkeleton } from '../ui/Skeleton';
-import {
-  GitFork,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
-  CheckCircle2,
-  X
-} from 'lucide-react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { apiClient } from '../../api/client';
+import { Network, Users, UserPlus } from 'lucide-react';
 
-export const BinaryPage = () => {
-  const [overview, setOverview] = useState(null);
-  const [zoom, setZoom] = useState(1);
-  const [selectedNode, setSelectedNode] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+const fetchNetworkTree = async () => {
+  const { data } = await apiClient.get('/api/network/tree');
+  return data.data;
+};
 
-  useEffect(() => {
-    setIsLoading(true);
-    binaryApi
-      .getSummary()
-      .then((res) => {
-        if (res.success) setOverview(res.data);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+// Recursive Tree Node Component
+const TreeNode = ({ node, level = 0, parentId = null, side = null, onAddMember }) => {
+  if (!node && level >= 3) return null;
 
-  const handleZoomIn = () => setZoom((z) => Math.min(1.4, z + 0.1));
-  const handleZoomOut = () => setZoom((z) => Math.max(0.65, z - 0.1));
-  const handleResetZoom = () => setZoom(1);
-
-  if (isLoading) return <TreeSkeleton />;
-
-  const root = overview?.rootNode;
-
-  const renderNode = (node, depth = 0) => {
-    if (!node) return null;
-    const isSelected = selectedNode?.id === node.id;
-    const isActive = node.status === 'ACTIVE';
-
+  if (!node) {
     return (
-      <div className="flex flex-col items-center animate-fadeIn">
-        {/* Node Card */}
-        <div
-          onClick={() => setSelectedNode(node)}
-          className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer select-none text-center min-w-[140px] sm:min-w-[180px] ${
-            isSelected
-              ? 'bg-[#0F172A] text-white border-[#C9A455] shadow-xl ring-2 ring-[#C9A455]/40'
-              : isActive
-              ? 'bg-white text-slate-900 border-slate-200/80 shadow-xs hover:shadow-md hover:border-slate-400'
-              : 'bg-slate-50 text-slate-500 border-slate-200 shadow-2xs'
-          }`}
-        >
-          <div className="flex items-center justify-between mb-1 gap-1">
-            <span className="font-mono text-[9px] font-bold text-slate-400">#{node.memberCode}</span>
-            <span
-              className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-full ${
-                isActive
-                  ? isSelected
-                    ? 'bg-emerald-500/20 text-emerald-300'
-                    : 'bg-emerald-50 text-emerald-700'
-                  : 'bg-slate-200 text-slate-600'
-              }`}
-            >
-              {node.status}
-            </span>
-          </div>
-
-          <h4 className="font-sans font-bold text-xs sm:text-sm truncate max-w-[130px] mx-auto">
-            {node.name}
-          </h4>
-
-          <div className="grid grid-cols-2 gap-1 mt-2 pt-2 border-t border-slate-100/30 text-[9px] font-mono">
-            <div className="text-left">
-              <span className="text-slate-400 block text-[8px]">L. VOL</span>
-              <span className="font-bold">{formatINR(node.leftVolume)}</span>
-            </div>
-            <div className="text-right">
-              <span className="text-slate-400 block text-[8px]">R. VOL</span>
-              <span className="font-bold">{formatINR(node.rightVolume)}</span>
-            </div>
-          </div>
+      <div 
+        onClick={() => parentId && side && onAddMember(parentId, side)}
+        className="flex flex-col items-center mx-2 sm:mx-4 cursor-pointer group"
+      >
+        <div className="w-16 h-16 rounded-full border-2 border-dashed border-slate-700 bg-slate-800/50 flex items-center justify-center mb-2 shadow-inner group-hover:border-[#C9A455] group-hover:bg-[#C9A455]/10 transition-all duration-200">
+          <UserPlus size={20} className="text-slate-600 group-hover:text-[#C9A455] transition-colors" />
         </div>
-
-        {/* Tree Branch Connectors */}
-        {(node.leftChild || node.rightChild) && depth < 2 && (
-          <div className="flex flex-col items-center w-full">
-            <div className="w-0.5 h-5 bg-slate-300" />
-            <div className="w-1/2 h-0.5 bg-slate-300 relative" />
-            <div className="flex justify-between w-full gap-4 sm:gap-10 pt-2">
-              <div className="flex-1 flex justify-center">{node.leftChild && renderNode(node.leftChild, depth + 1)}</div>
-              <div className="flex-1 flex justify-center">{node.rightChild && renderNode(node.rightChild, depth + 1)}</div>
-            </div>
-          </div>
-        )}
+        <div className="text-xs text-slate-600 font-medium group-hover:text-[#C9A455] transition-colors">Add Member</div>
       </div>
     );
-  };
+  }
+
+  const isGreen = node.member?.isGreen === true || node.member?.greenStatus === 'ACTIVE';
+  const currentMemberId = node.member?.memberId;
 
   return (
-    <div className="space-y-6 animate-fadeIn w-full max-w-full overflow-hidden">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-100">
-        <div>
-          <h1 className="font-sans font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight">
-            Binary Tree Genealogy
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5 font-medium">
-            Interactive visualization of volumes, carry-forward points, and dual-leg node placement.
-          </p>
+    <div className="flex flex-col items-center relative">
+      {/* Node Avatar Card */}
+      <div className={`relative group flex flex-col items-center z-10 bg-[#1E293B] rounded-xl p-3 border-2 shadow-lg transition-all duration-200 hover:scale-105 cursor-pointer w-32 sm:w-40 mx-2 sm:mx-4 ${isGreen ? 'border-[#C9A455]' : 'border-slate-600'}`}>
+        <div className="absolute -top-3 bg-[#0F172A] px-2 rounded-full border border-slate-700 text-[10px] font-bold text-slate-400 tracking-wider">
+          {currentMemberId || 'UNKNOWN'}
         </div>
-
-        {/* Zoom Controls */}
-        <div className="flex items-center gap-1.5 bg-white p-1.5 rounded-full border border-slate-200 shadow-2xs self-start sm:self-auto">
-          <button
-            onClick={handleZoomOut}
-            className="p-1.5 rounded-full hover:bg-slate-100 text-slate-600 cursor-pointer"
-            title="Zoom Out"
-          >
-            <ZoomOut className="w-4 h-4" />
-          </button>
-          <span className="font-mono text-xs font-bold text-slate-700 px-2">
-            {Math.round(zoom * 100)}%
-          </span>
-          <button
-            onClick={handleZoomIn}
-            className="p-1.5 rounded-full hover:bg-slate-100 text-slate-600 cursor-pointer"
-            title="Zoom In"
-          >
-            <ZoomIn className="w-4 h-4" />
-          </button>
-          <button
-            onClick={handleResetZoom}
-            className="p-1.5 rounded-full hover:bg-slate-100 text-slate-600 cursor-pointer ml-1"
-            title="Reset Zoom"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-          </button>
+        
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-800 flex items-center justify-center mb-2 overflow-hidden border border-slate-700">
+          <Users size={20} className={isGreen ? 'text-[#C9A455]' : 'text-slate-500'} />
+        </div>
+        
+        <div className="text-xs sm:text-sm font-semibold text-white truncate w-full text-center">
+          {node.member?.user?.name || 'Member'}
+        </div>
+        
+        {/* Tooltip on Hover */}
+        <div className="absolute hidden group-hover:flex flex-col top-full mt-2 left-1/2 transform -translate-x-1/2 w-48 bg-slate-900 border border-[#C9A455]/30 rounded-lg p-3 shadow-xl text-xs z-50 pointer-events-none">
+          <div className="flex justify-between border-b border-slate-800 pb-1 mb-1">
+            <span className="text-slate-400">Left Vol:</span>
+            <span className="text-emerald-400 font-mono">${Number(node.leftCarryForward || 0).toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between pb-1 mb-1 border-b border-slate-800">
+            <span className="text-slate-400">Right Vol:</span>
+            <span className="text-emerald-400 font-mono">${Number(node.rightCarryForward || 0).toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-slate-400">Status:</span>
+            <span className={isGreen ? 'text-[#C9A455]' : 'text-slate-500'}>{isGreen ? 'Active' : 'Inactive'}</span>
+          </div>
         </div>
       </div>
 
-      {/* Compact 2x2 Metrics Summary Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-3.5 bg-white rounded-2xl border border-slate-100/90 shadow-2xs">
-          <span className="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Left Leg Volume</span>
-          <div className="font-sans font-extrabold text-base sm:text-lg text-blue-600">{formatINR(overview?.leftVolume)}</div>
-        </div>
-        <div className="p-3.5 bg-white rounded-2xl border border-slate-100/90 shadow-2xs">
-          <span className="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Right Leg Volume</span>
-          <div className="font-sans font-extrabold text-base sm:text-lg text-[#C9A455]">{formatINR(overview?.rightVolume)}</div>
-        </div>
-        <div className="p-3.5 bg-[#0F172A] text-white rounded-2xl shadow-2xs">
-          <span className="text-[9px] font-bold text-slate-300 uppercase block mb-0.5">Matched Volume</span>
-          <div className="font-sans font-extrabold text-base sm:text-lg text-[#C9A455]">{formatINR(overview?.matchedVolume)}</div>
-        </div>
-        <div className="p-3.5 bg-white rounded-2xl border border-slate-100/90 shadow-2xs">
-          <span className="text-[9px] font-bold text-slate-400 uppercase block mb-0.5">Carry Forward</span>
-          <div className="font-sans font-extrabold text-base sm:text-lg text-slate-900">{formatINR(overview?.leftCarryForward)}</div>
-        </div>
-      </div>
-
-      {/* Pannable/Zoomable Tree Canvas Viewport (Strictly Contained) */}
-      <div className="w-full max-w-full bg-slate-50/80 border border-slate-200/80 rounded-3xl p-4 sm:p-10 overflow-x-auto min-h-[420px] flex items-center justify-center relative shadow-inner">
-        <div
-          style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
-          className="transition-transform duration-200 flex justify-center py-4 min-w-[340px]"
-        >
-          {root && renderNode(root)}
-        </div>
-      </div>
-
-      {/* Node Detail Modal */}
-      {selectedNode && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-100 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#0F172A] text-[#C9A455] font-bold text-sm flex items-center justify-center">
-                  {selectedNode.name.charAt(0)}
+      {/* Connection Lines & Children */}
+      {level < 2 && (
+        <div className="w-full relative flex flex-col items-center mt-2">
+          {/* Vertical Line Drop */}
+          <div className="w-px h-6 bg-slate-700 -z-10"></div>
+          
+          {/* Horizontal Connecting Line */}
+          <div className="w-full relative flex justify-center -z-10">
+             <div className="absolute top-0 w-[50%] h-px bg-slate-700"></div>
+             
+             {/* Left & Right Child Columns */}
+             <div className="flex justify-between w-full">
+                <div className="flex flex-1 justify-center relative">
+                   <div className="absolute top-0 w-px h-6 bg-slate-700"></div>
+                   <div className="mt-6">
+                     <TreeNode 
+                       node={node.leftChild} 
+                       level={level + 1} 
+                       parentId={currentMemberId} 
+                       side="LEFT" 
+                       onAddMember={onAddMember} 
+                     />
+                   </div>
                 </div>
-                <div>
-                  <h3 className="font-sans font-bold text-base text-slate-900">{selectedNode.name}</h3>
-                  <div className="font-mono text-[10px] text-slate-500">#{selectedNode.memberCode}</div>
+                <div className="flex flex-1 justify-center relative">
+                   <div className="absolute top-0 w-px h-6 bg-slate-700"></div>
+                   <div className="mt-6">
+                     <TreeNode 
+                       node={node.rightChild} 
+                       level={level + 1} 
+                       parentId={currentMemberId} 
+                       side="RIGHT" 
+                       onAddMember={onAddMember} 
+                     />
+                   </div>
                 </div>
-              </div>
-              <button onClick={() => setSelectedNode(null)} className="p-1 text-slate-400 hover:text-slate-700">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="p-3 bg-slate-50 rounded-2xl">
-                <span className="text-[9px] text-slate-400 font-bold uppercase block">Left Volume</span>
-                <span className="font-bold text-slate-900">{formatINR(selectedNode.leftVolume)}</span>
-              </div>
-              <div className="p-3 bg-slate-50 rounded-2xl">
-                <span className="text-[9px] text-slate-400 font-bold uppercase block">Right Volume</span>
-                <span className="font-bold text-slate-900">{formatINR(selectedNode.rightVolume)}</span>
-              </div>
-              <div className="p-3 bg-slate-50 rounded-2xl">
-                <span className="text-[9px] text-slate-400 font-bold uppercase block">Left Carry</span>
-                <span className="font-bold text-slate-900">{formatINR(selectedNode.leftCarry)}</span>
-              </div>
-              <div className="p-3 bg-slate-50 rounded-2xl">
-                <span className="text-[9px] text-slate-400 font-bold uppercase block">Right Carry</span>
-                <span className="font-bold text-slate-900">{formatINR(selectedNode.rightCarry)}</span>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setSelectedNode(null)}
-              className="w-full py-2.5 rounded-full bg-slate-900 text-white font-bold text-xs hover:bg-slate-800"
-            >
-              Close Node View
-            </button>
+             </div>
           </div>
         </div>
       )}
+    </div>
+  );
+};
+
+export const BinaryPage = () => {
+  const navigate = useNavigate();
+  
+  const { data: tree, isLoading, isError } = useQuery({
+    queryKey: ['network-tree'],
+    queryFn: fetchNetworkTree,
+  });
+
+  const handleAddMember = (sponsorId, leg) => {
+    // Navigate to register page and pre-fill the sponsor ID and leg
+    navigate(`/register?sponsor=${sponsorId}&leg=${leg}`);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#0F172A] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#C9A455] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="p-8">
+        <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-6 text-red-400">
+          Failed to load network tree. Please try again.
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#0F172A] text-slate-300 p-4 sm:p-8">
+      <div className="max-w-6xl mx-auto mb-12">
+        <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+          <Network className="text-[#C9A455]" size={32} />
+          Binary Network
+        </h1>
+        <p className="text-slate-500 mb-8">View your downline organization and business volume.</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A455]/10 rounded-bl-full -mr-8 -mt-8"></div>
+            <h3 className="text-lg font-medium text-slate-400 mb-1">Left Carry Forward</h3>
+            <p className="text-4xl font-mono font-bold text-[#C9A455]">
+              ${Number(tree?.leftCarryForward || 0).toLocaleString(undefined, {minimumFractionDigits: 2})}
+            </p>
+          </div>
+          <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A455]/10 rounded-bl-full -mr-8 -mt-8"></div>
+            <h3 className="text-lg font-medium text-slate-400 mb-1">Right Carry Forward</h3>
+            <p className="text-4xl font-mono font-bold text-[#C9A455]">
+              ${Number(tree?.rightCarryForward || 0).toLocaleString(undefined, {minimumFractionDigits: 2})}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto bg-slate-900/50 border border-slate-800 rounded-3xl p-8 overflow-x-auto">
+         <div className="min-w-[800px] flex justify-center py-12">
+            <TreeNode node={tree} level={0} onAddMember={handleAddMember} />
+         </div>
+      </div>
     </div>
   );
 };

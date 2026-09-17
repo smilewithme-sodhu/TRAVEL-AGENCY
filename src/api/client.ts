@@ -39,7 +39,7 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth_token');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -52,7 +52,7 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('auth_token');
       localStorage.removeItem('user');
       if (!window.location.pathname.startsWith('/login')) {
         window.location.href = '/login';
@@ -61,3 +61,85 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// --- Booking API Hooks ---
+import { useQuery, useMutation } from '@tanstack/react-query';
+
+export const usePackages = () => {
+  return useQuery({
+    queryKey: ['packages'],
+    queryFn: async () => {
+      const { data } = await apiClient.get('/api/bookings/packages');
+      return data.data;
+    }
+  });
+};
+
+export const useCheckout = () => {
+  return useMutation({
+    mutationFn: async (payload: { packageId: string; numTravellers: number; paymentUtr: string }) => {
+      const { data } = await apiClient.post('/api/bookings/checkout', payload);
+      return data;
+    }
+  });
+};
+
+export const useWallet = () => {
+  return useQuery({
+    queryKey: ['wallet'],
+    queryFn: async () => {
+      const res = await apiClient.get('/api/wallet');
+      return res.data.data;
+    }
+  });
+};
+
+export const useWithdraw = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: { amount: number }) => {
+      const res = await apiClient.post('/api/wallet/withdraw', data);
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['wallet'] });
+    }
+  });
+};
+
+// --- Admin Hooks ---
+import { useQueryClient } from '@tanstack/react-query';
+
+export const useAdminMemberSearch = (q: string) => {
+  return useQuery({
+    queryKey: ['admin-member-search', q],
+    queryFn: async () => {
+      if (q.trim().length < 2) return [];
+      const { data } = await apiClient.get('/api/admin/members/search', { params: { q } });
+      return data.data as Array<{ id: string; referralCode: string; user: { name: string; email: string } }>;
+    },
+    enabled: q.trim().length >= 2,
+    staleTime: 10_000,
+  });
+};
+
+export const useAssignManualPoints = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: {
+      memberId: string;
+      amountPaid: number;
+      binaryVolume: number;
+      notes: string;
+    }) => {
+      const { data } = await apiClient.post('/api/admin/members/assign-points', payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-bookings'] });
+      queryClient.invalidateQueries({ queryKey: ['wallet'] });
+      queryClient.invalidateQueries({ queryKey: ['network'] });
+    },
+  });
+};
+

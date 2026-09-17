@@ -352,6 +352,17 @@ export class BookingStateMachineService {
         // ------------------------------------------------------------------
         if (targetStatus === BookingStatus.BOOKING_CONFIRMED) {
           await this.seedPendingRewardLedgerEntries(tx, updated, actorId);
+          
+          if (updated.memberId) {
+            await tx.member.update({
+              where: { id: updated.memberId },
+              data: {
+                greenStatus: "GREEN",
+                greenActivatedAt: now,
+                greenExpiresAt: new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000), 
+              }
+            });
+          }
         }
 
         // ------------------------------------------------------------------
@@ -629,9 +640,21 @@ export class BookingStateMachineService {
     booking: Booking,
     actorId: string
   ): Promise<void> {
-    // Only seed ledger entries if there is a member associated and a non-zero
-    // budget. Bookings made by non-members generate no reward seeds.
     if (!booking.memberId) return;
+
+    // We need a ruleVersionId - fetch the currently active rule version.
+    const activeRule = await tx.ruleVersion.findFirst({
+      where: { isActive: true },
+      select: { id: true },
+    });
+
+    if (!activeRule) {
+      throw new Error(
+        `CRITICAL: No active RuleVersion found in the database. ` +
+          `Cannot seed pending rewards for booking "${booking.id}". ` +
+          `Activate a RuleVersion before confirming bookings.`
+      );
+    }
 
     const seeds: {
       rewardType: RewardType;
@@ -647,14 +670,6 @@ export class BookingStateMachineService {
       });
     }
 
-    if (booking.teamRewardBudget.greaterThan(0)) {
-      seeds.push({
-        rewardType: RewardType.TEAM,
-        amount: booking.teamRewardBudget,
-        transactionType: TransactionType.CREDIT_TEAM_REWARD,
-      });
-    }
-
     if (booking.binaryVolumeBudget.greaterThan(0)) {
       seeds.push({
         rewardType: RewardType.BINARY,
@@ -663,38 +678,27 @@ export class BookingStateMachineService {
       });
     }
 
+    if (booking.teamRewardBudget.greaterThan(0)) {
+      const { TeamBonusEngine } = await import("../financial/TeamBonusEngine");
+      const teamBonusEngine = new TeamBonusEngine();
+      await teamBonusEngine.distributeTeamBonus(tx, booking.id, booking.memberId, booking.teamRewardBudget, activeRule.id);
+    }
+
     if (seeds.length === 0) return;
 
-    // Fetch the member's wallet to get walletId for the ledger seeds.
     const wallet = await tx.wallet.findUnique({
       where: { memberId: booking.memberId },
       select: { id: true },
     });
 
     if (!wallet) {
-      // Wallet must exist before rewards can be seeded. This is a data
-      // integrity error — surface it clearly.
       throw new Error(
         `Wallet not found for memberId "${booking.memberId}" ` +
           `during BOOKING_CONFIRMED reward seeding on booking "${booking.id}". ` +
-          `Ensure Wallet is created at membership activation.`
+          `Member must have an active wallet.`
       );
     }
 
-    // We need a ruleVersionId — fetch the currently active rule version.
-    const activeRule = await tx.ruleVersion.findFirst({
-      where: { isActive: true },
-      select: { id: true },
-    });
-
-    if (!activeRule) {
-      throw new Error(
-        `No active RuleVersion found during reward seeding for booking "${booking.id}". ` +
-          `Activate a RuleVersion before confirming bookings.`
-      );
-    }
-
-    // Create one Reward + one RewardLedger seed per reward type.
     for (const seed of seeds) {
       const idempotencyKey =
         `reward-seed:${booking.id}:${seed.rewardType}:${booking.memberId}`;
