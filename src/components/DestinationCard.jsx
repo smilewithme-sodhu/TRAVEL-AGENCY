@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
 import { Heart, Clock, Star, MapPin, MessageSquare, Utensils, ShieldCheck } from 'lucide-react';
 
-export const DestinationCard = ({ destination }) => {
+// ⚡ Bolt: Wrapped in React.memo to prevent O(n) re-renders when parent state changes.
+// Impact: Eliminates unnecessary re-renders in heavy list views, maintaining smooth UI performance.
+export const DestinationCard = React.memo(({ destination }) => {
   const { savedWishlist, toggleWishlist, navigateTo, openInquiryModal, openWhatsAppInquiry } = useWanderlust();
   const [isHovered, setIsHovered] = useState(false);
   const isSaved = savedWishlist.includes(destination.id);
@@ -202,4 +204,4 @@ export const DestinationCard = ({ destination }) => {
 
     </div>
   );
-};
+});
