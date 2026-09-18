@@ -1,5 +1,6 @@
-﻿import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { Router, Request, Response, NextFunction } from 'express';
+import { getDecodedToken } from '../middleware/auth';
 import { prisma } from '../db';
 import { z } from 'zod';
 import { BookingStateMachineService } from '../modules/booking/BookingStateMachine';
@@ -28,14 +29,12 @@ bookingsRouter.get('/packages', async (req: Request, res: Response, next: NextFu
 
 bookingsRouter.post('/checkout', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
+    const decoded = getDecodedToken(req);
+    
+    if (!decoded) {
       res.status(401).json({ error: 'No token provided' });
       return;
     }
-
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string, memberId: string };
     
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });

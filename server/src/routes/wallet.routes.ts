@@ -1,5 +1,5 @@
 ﻿import { Router, Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { getDecodedToken } from '../middleware/auth';
 import { prisma } from '../db';
 import { z } from 'zod';
 import { TransactionType, TransactionStatus, WithdrawalStatus } from '@prisma/client';
@@ -12,14 +12,8 @@ const withdrawSchema = z.object({
 
 walletRouter.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      res.status(401).json({ error: 'No token provided' });
-      return;
-    }
-
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string, memberId: string };
+    const decoded = getDecodedToken(req);
+    if (!decoded) { res.status(401).json({ error: 'No token provided' }); return; }
     
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });
@@ -80,14 +74,8 @@ walletRouter.get('/', async (req: Request, res: Response, next: NextFunction): P
 
 walletRouter.post('/withdraw', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      res.status(401).json({ error: 'No token provided' });
-      return;
-    }
-
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string, memberId: string };
+    const decoded = getDecodedToken(req);
+    if (!decoded) { res.status(401).json({ error: 'No token provided' }); return; }
     
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });
@@ -160,4 +148,5 @@ walletRouter.post('/withdraw', async (req: Request, res: Response, next: NextFun
     next(err);
   }
 });
+
 
