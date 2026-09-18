@@ -12,7 +12,7 @@ module.exports = {
     "^.+\\.tsx?$": [
       "ts-jest",
       {
-        tsconfig: "./server/tsconfig.json",
+        tsconfig: "<rootDir>/server/tsconfig.json",
         diagnostics: {
           // Surface real type errors as test failures — no silent skips.
           warnOnly: false,
