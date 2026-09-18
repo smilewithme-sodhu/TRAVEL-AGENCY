@@ -65,13 +65,23 @@ export const AdminLayout = () => {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-slate-800 mt-auto">
+        <div className="p-4 border-t border-slate-800 mt-auto flex flex-col gap-2">
           <button
             onClick={() => navigate('/')}
             className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-bold text-slate-400 hover:text-white bg-slate-800/80 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Return to Website</span>
+          </button>
+          <button
+            onClick={() => {
+              localStorage.removeItem('auth_token');
+              localStorage.removeItem('user');
+              navigate('/login');
+            }}
+            className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-xs font-bold text-red-400 hover:text-white bg-red-900/30 hover:bg-red-800 transition-colors"
+          >
+            <span>Sign Out</span>
           </button>
         </div>
       </aside>

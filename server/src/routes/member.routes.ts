@@ -1,18 +1,18 @@
-import { Router, Request, Response } from 'express';
+﻿import { Router, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../db';
 
 export const memberRouter = Router();
 
 // ---------------------------------------------------------------------------
-// Auth middleware — extracts memberId from Bearer JWT
+// Auth middleware â€” extracts memberId from Bearer JWT
 // ---------------------------------------------------------------------------
 const getDecodedToken = (req: Request): { userId: string; memberId: string } | null => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return null;
   try {
     const token = authHeader.split(' ')[1];
-    return jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: string; memberId: string };
+    return jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string; memberId: string };
   } catch {
     return null;
   }

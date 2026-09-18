@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+﻿import { Request, Response } from 'express';
 import { prisma } from '../db';
 import jwt from 'jsonwebtoken';
 
@@ -27,7 +27,7 @@ export const getNetworkTree = async (req: Request, res: Response): Promise<void>
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { memberId: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { memberId: string };
     
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });
@@ -69,7 +69,7 @@ export const getNetworkOverview = async (req: Request, res: Response): Promise<v
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: string, memberId: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string, memberId: string };
 
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });

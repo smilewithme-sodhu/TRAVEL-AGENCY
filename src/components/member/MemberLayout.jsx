@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useWanderlust } from '../../context/WanderlustContext';
 import { notificationsApi } from '../../api';
 import {
@@ -68,12 +68,14 @@ export const MemberLayout = () => {
 
   const isMoreActive = moreNavItems.some((item) => item.view === currentView) || isMoreMenuOpen;
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
     setIsLoggedIn(false);
     showToast('You have been securely signed out.', 'info');
-    navigateTo('home');
+    navigate('/login');
   };
 
   const handleMobileNavClick = (view) => {

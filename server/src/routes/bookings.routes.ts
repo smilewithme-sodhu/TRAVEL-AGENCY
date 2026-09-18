@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+﻿import jwt from 'jsonwebtoken';
 import { Router, Request, Response, NextFunction } from 'express';
 import { prisma } from '../db';
 import { z } from 'zod';
@@ -35,7 +35,7 @@ bookingsRouter.post('/checkout', async (req: Request, res: Response, next: NextF
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: string, memberId: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string, memberId: string };
     
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });

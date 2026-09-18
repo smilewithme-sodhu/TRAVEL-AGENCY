@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+﻿import { Router, Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../db';
 import { z } from 'zod';
@@ -19,7 +19,7 @@ walletRouter.get('/', async (req: Request, res: Response, next: NextFunction): P
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: string, memberId: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string, memberId: string };
     
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });
@@ -87,7 +87,7 @@ walletRouter.post('/withdraw', async (req: Request, res: Response, next: NextFun
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: string, memberId: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string, memberId: string };
     
     if (!decoded.memberId) {
       res.status(400).json({ error: 'User is not a member' });
