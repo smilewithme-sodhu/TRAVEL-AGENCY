@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+﻿import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation, Outlet, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WanderlustProvider, useWanderlust } from './context/WanderlustContext';
@@ -32,7 +32,8 @@ const DestinationDetail = React.lazy(() => import('./components/DestinationDetai
 const CheckoutFlow = React.lazy(() => import('./components/CheckoutFlow').then(m => ({ default: m.CheckoutFlow })));
 
 // --- Lazy Load Auth ---
-const LoginPage = React.lazy(() => import('./components/auth/LoginPage').then(m => ({ default: m.LoginPage })));
+const MemberLogin = React.lazy(() => import('./components/auth/MemberLogin').then(m => ({ default: m.MemberLogin })));
+const AdminLogin = React.lazy(() => import('./components/auth/AdminLogin').then(m => ({ default: m.AdminLogin })));
 const RegisterPage = React.lazy(() => import('./components/auth/RegisterPage').then(m => ({ default: m.RegisterPage })));
 const ForgotPasswordPage = React.lazy(() => import('./components/auth/ForgotPasswordPage').then(m => ({ default: m.ForgotPasswordPage })));
 
@@ -158,7 +159,8 @@ export default function App() {
                 <Route path="/checkout" element={<CheckoutFlow />} />
               </Route>
 
-              <Route path="/login" element={<LoginPage />} />
+              <Route path="/login" element={<MemberLogin />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
@@ -203,5 +205,6 @@ export default function App() {
     </QueryClientProvider>
   );
 }
+
 
 

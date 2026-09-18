@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useWanderlust } from '../../context/WanderlustContext';
 import { Compass, ArrowRight, Lock, User, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { apiClient } from '../../api/client';
 
-export const LoginPage = () => {
+export const MemberLogin = () => {
   const { navigateTo, showToast, setIsLoggedIn, setMemberProfile } = useWanderlust();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -150,3 +150,4 @@ export const LoginPage = () => {
     </div>
   );
 };
+

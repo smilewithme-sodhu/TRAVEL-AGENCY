@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+﻿import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
@@ -131,7 +131,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const login = async (req: Request, res: Response): Promise<void> => {
+export const loginMember = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email: identifier, password } = req.body;
     
@@ -152,7 +152,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       include: { member: true }
     });
 
-    if (!user) {
+    if (!user || user.role === 'ADMIN') {
       res.status(401).json({ error: 'Invalid credentials' });
       return;
     }
@@ -164,11 +164,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     const token = jwt.sign(
-      { 
-        userId: user.id, 
-        role: user.role, 
-        memberId: user.member ? user.member.id : null 
-      },
+      { userId: user.id, role: user.role, memberId: user.member ? user.member.id : null },
       process.env.JWT_SECRET as string,
       { expiresIn: '7d' }
     );
@@ -185,7 +181,55 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       }
     });
   } catch (error: any) {
-    console.error('Login Error:', error);
+    console.error('Member Login Error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const loginAdmin = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+    
+    if (!email || !password) {
+      res.status(400).json({ error: 'Email and password are required' });
+      return;
+    }
+
+    const user = await prisma.user.findFirst({
+      where: { email },
+      include: { member: true }
+    });
+
+    if (!user || user.role !== 'ADMIN') {
+      res.status(403).json({ error: 'Forbidden: Admin access required' });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      res.status(401).json({ error: 'Invalid credentials' });
+      return;
+    }
+
+    const token = jwt.sign(
+      { userId: user.id, role: user.role, memberId: user.member ? user.member.id : null },
+      process.env.JWT_SECRET as string,
+      { expiresIn: '7d' }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      }
+    });
+  } catch (error: any) {
+    console.error('Admin Login Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+

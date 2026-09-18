@@ -26,7 +26,7 @@ walletRouter.get('/', async (req: Request, res: Response, next: NextFunction): P
 
     if (!wallet) {
       wallet = await prisma.wallet.create({
-        data: { memberId: decoded.memberId, currency: 'INR' }
+        data: { memberId: decoded.memberId as string, currency: 'INR' }
       });
     }
 
@@ -123,7 +123,7 @@ walletRouter.post('/withdraw', async (req: Request, res: Response, next: NextFun
     await prisma.$transaction(async (tx) => {
       const withdrawal = await tx.withdrawal.create({
         data: {
-          memberId: decoded.memberId,
+          memberId: decoded.memberId as string,
           walletId: wallet.id,
           requestedAmount: amount,
           status: 'REQUESTED'
@@ -148,5 +148,6 @@ walletRouter.post('/withdraw', async (req: Request, res: Response, next: NextFun
     next(err);
   }
 });
+
 
 

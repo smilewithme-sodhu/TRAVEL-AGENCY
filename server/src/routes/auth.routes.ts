@@ -13,9 +13,10 @@ if (!JWT_SECRET) {
   throw new Error('[STARTUP FATAL] JWT_SECRET environment variable is not set. Refusing to start.');
 }
 
-import { register, login } from '../controllers/auth.controller';
+import { register, loginMember, loginAdmin } from '../controllers/auth.controller';
 
 authRouter.post('/register', register);
-authRouter.post('/login', login);
+authRouter.post('/login/member', loginMember);
+authRouter.post('/login/admin', loginAdmin);
 
 
