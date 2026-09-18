@@ -85,6 +85,8 @@ export const LoginPage = () => {
             <div className="relative flex items-center">
               <User className="w-4 h-4 text-slate-400 absolute left-3.5" />
               <input
+                id="login-identifier"
+                name="identifier"
                 type="text"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
@@ -111,6 +113,8 @@ export const LoginPage = () => {
             <div className="relative flex items-center">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3.5" />
               <input
+                id="login-password"
+                name="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

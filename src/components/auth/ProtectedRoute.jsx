@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useWanderlust } from '../../context/WanderlustContext';
 
-export const ProtectedRoute = ({ requireAdmin = false, children }) => {
+export const ProtectedRoute = ({ requireAdmin = false }) => {
   const { isLoggedIn, authLoading } = useWanderlust();
   const token = localStorage.getItem('auth_token');
   
@@ -15,12 +15,10 @@ export const ProtectedRoute = ({ requireAdmin = false, children }) => {
     );
   }
 
-  // Check token directly to avoid flash of redirect before context syncs
   if (!isLoggedIn && !token) {
     return <Navigate to="/login" replace />;
   }
 
-  // Optional: Check role if we had a clear role property in useWanderlust
   const userStr = localStorage.getItem('user');
   if (requireAdmin && userStr) {
     try {
@@ -33,5 +31,5 @@ export const ProtectedRoute = ({ requireAdmin = false, children }) => {
     }
   }
 
-  return children ? children : <Outlet />;
+  return <Outlet />;
 };

@@ -89,6 +89,8 @@ export const NetworkPage = () => {
         <div className="relative w-full sm:w-72">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5" />
           <input
+            id="network-search"
+            name="search"
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}

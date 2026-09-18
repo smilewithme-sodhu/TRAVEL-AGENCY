@@ -90,11 +90,11 @@ export const assignManualPoints = async (req: Request, res: Response): Promise<v
         const balanceResult = await tx.$queryRaw<{ available: number }[]>`
           SELECT
             COALESCE(SUM(CASE
-              WHEN "transactionType" LIKE 'CREDIT_%' AND status = 'AVAILABLE'
+              WHEN "transactionType"::text LIKE 'CREDIT_%' AND status::text = 'AVAILABLE'
               THEN amount ELSE 0
             END), 0) -
             COALESCE(SUM(CASE
-              WHEN "transactionType" LIKE 'DEBIT_%' AND status IN ('PENDING', 'APPROVED', 'PAID')
+              WHEN "transactionType"::text LIKE 'DEBIT_%' AND status::text IN ('PENDING', 'APPROVED', 'PAID')
               THEN amount ELSE 0
             END), 0) AS available
           FROM wallet_transactions
