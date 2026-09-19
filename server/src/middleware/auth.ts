@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 export interface DecodedToken {
@@ -16,4 +16,18 @@ export const getDecodedToken = (req: Request): DecodedToken | null => {
   } catch {
     return null;
   }
+};
+
+
+export const requireAdmin = (req: Request, res: Response, next: NextFunction): void => {
+  const decoded = getDecodedToken(req);
+  if (!decoded) {
+    res.status(401).json({ error: 'Unauthorized: Missing or invalid token' });
+    return;
+  }
+  if (decoded.role !== 'ADMIN') {
+    res.status(403).json({ error: 'Forbidden: Admin access required' });
+    return;
+  }
+  next();
 };

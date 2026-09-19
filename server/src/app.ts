@@ -27,6 +27,7 @@ app.use(express.json());
 
 // Routes
 import { adminBookingsRouter } from './routes/bookings.routes';
+import { requireAdmin } from './middleware/auth';
 import { authRouter } from './routes/auth.routes';
 import { adminRouter } from './routes/admin.routes';
 import { networkRouter } from './routes/network.routes';
@@ -37,8 +38,8 @@ app.use('/api/auth', authRouter);
 app.use('/api/quotes', quotesRouter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/packages', packagesRouter);
-app.use('/api/admin/bookings', adminBookingsRouter);
-app.use('/api/admin', adminRouter);
+app.use('/api/admin/bookings', requireAdmin, adminBookingsRouter);
+app.use('/api/admin', requireAdmin, adminRouter);
 app.use('/api/network', networkRouter);
 app.use('/api/wallet', walletRouter);
 app.use('/api/member', memberRouter);
