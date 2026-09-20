@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { DESTINATION_PACKAGES } from '../../data/packageData';
 import { WhatsAppConciergeButton } from '../ui/WhatsAppConciergeButton';
 import { Compass, MapPin, Sparkles, Star, Check } from 'lucide-react';
@@ -6,10 +6,14 @@ import { Compass, MapPin, Sparkles, Star, Check } from 'lucide-react';
 export const ExplorePage = () => {
   const [filter, setFilter] = useState('all');
 
-  const filteredPackages =
-    filter === 'all'
-      ? DESTINATION_PACKAGES
-      : DESTINATION_PACKAGES.filter((p) => p.category === filter);
+  // ⚡ Bolt: Memoize destination filtering to avoid recalculation on unrelated re-renders.
+  // Impact: Prevents recreating the array when component state changes, saving CPU cycles.
+  // Measurement: Check React DevTools Profiler for reduced render time.
+  const filteredPackages = useMemo(() => {
+    return filter === 'all'
+        ? DESTINATION_PACKAGES
+        : DESTINATION_PACKAGES.filter((p) => p.category === filter);
+  }, [filter]);
 
   return (
     <div className="space-y-6 animate-fadeIn">
