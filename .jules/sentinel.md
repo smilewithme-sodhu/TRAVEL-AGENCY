@@ -1,0 +1,4 @@
+## 2024-05-24 - Missing Authentication on Admin Endpoints
+**Vulnerability:** The `/api/admin` and `/api/admin/bookings` endpoints were missing authentication and authorization checks, allowing any user (or unauthenticated users) to access sensitive admin functionality like assigning manual points, approving payouts, and managing packages.
+**Learning:** Core application routes were mounted in `server/src/app.ts` without applying any protective middleware. While JWT authentication existed in `server/src/middleware/auth.ts`, it wasn't being enforced on the admin routes.
+**Prevention:** Always apply authentication and role-based authorization middleware (like `requireAdmin`) at the router level in `app.ts` or within the specific route definitions to ensure sensitive endpoints are protected by default.
