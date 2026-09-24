@@ -40,7 +40,8 @@ export const MemberDashboard = () => {
   const hasBooked = (dashboardData.bookings && dashboardData.bookings.length > 0) || dashboardData.member.status === 'ORANGE';
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="bg-[#0F172A] min-h-full rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-800 animate-fadeIn">
+      <div className="max-w-7xl mx-auto space-y-6">
       
       {/* --- INACTIVE (RED ID) FOMO BANNER --- */}
       {!isGreen && (
@@ -181,7 +182,7 @@ export const MemberDashboard = () => {
           )}
         </div>
       </div>
-
+    </div>
     </div>
   );
 };

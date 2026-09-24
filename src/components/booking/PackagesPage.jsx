@@ -36,7 +36,8 @@ export const PackagesPage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-12">
+    <div className="bg-[#0F172A] min-h-full rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-800 animate-fadeIn">
+      <div className="max-w-7xl mx-auto space-y-8 pb-12">
       
       {/* --- FOMO UPGRADE BANNER --- */}
       {memberStatus && !memberStatus.hasBooked && (
@@ -124,6 +125,7 @@ export const PackagesPage = () => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };

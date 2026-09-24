@@ -247,34 +247,7 @@ export const MemberLayout = () => {
             })}
           </nav>
 
-          {/* Sandbox Status Switcher */}
-          <div className="p-3 bg-white rounded-2xl border border-slate-200/80 space-y-2 mt-auto">
-            <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-              Simulate Status:
-            </div>
-            <div className="grid grid-cols-2 gap-1.5">
-              <button
-                onClick={() => setMemberStatusDemo('ACTIVE', 'Confirmed')}
-                className={`py-1 rounded-lg text-[10px] font-bold ${
-                  status === 'ACTIVE' || status === 'GREEN_ACTIVE'
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                Active Member
-              </button>
-              <button
-                onClick={() => setMemberStatusDemo('REGISTERED', 'Hold')}
-                className={`py-1 rounded-lg text-[10px] font-bold ${
-                  status === 'REGISTERED' || status === 'YELLOW'
-                    ? 'bg-amber-600 text-white'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                Registered
-              </button>
-            </div>
-          </div>
+
         </aside>
 
         {/* 3. Main Content Container */}
