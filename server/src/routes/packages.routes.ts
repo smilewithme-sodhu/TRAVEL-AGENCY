@@ -11,13 +11,14 @@ packagesRouter.get('/active', async (req: Request, res: Response): Promise<void>
     let hasBooked = false;
 
     if (decoded?.memberId) {
+      const member = await prisma.member.findUnique({ where: { id: decoded.memberId } });
       const bookingCount = await prisma.booking.count({
         where: {
           memberId: decoded.memberId,
           status: { in: ['BOOKING_CONFIRMED', 'TRAVEL_UPCOMING', 'TRAVELING', 'COMPLETED'] }
         }
       });
-      hasBooked = bookingCount > 0;
+      hasBooked = bookingCount > 0 || member?.greenStatus === 'ORANGE';
     }
 
     const packages = await prisma.package.findMany({

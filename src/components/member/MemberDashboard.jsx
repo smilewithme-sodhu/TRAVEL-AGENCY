@@ -37,7 +37,7 @@ export const MemberDashboard = () => {
   if (!dashboardData) return <div className="text-white">Failed to load profile.</div>;
 
   const isGreen = dashboardData.member.status === 'GREEN' || dashboardData.member.status === 'ORANGE';
-  const hasBooked = dashboardData.bookings && dashboardData.bookings.length > 0;
+  const hasBooked = (dashboardData.bookings && dashboardData.bookings.length > 0) || dashboardData.member.status === 'ORANGE';
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
