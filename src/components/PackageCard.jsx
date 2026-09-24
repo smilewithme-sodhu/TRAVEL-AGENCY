@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
-import { MapPin, ArrowRight, Heart, Sparkles } from 'lucide-react';
+import { MapPin, ArrowRight, Heart, Sparkles, Flame } from 'lucide-react';
 
 export const PackageCard = ({ pkg }) => {
   const { navigateTo, savedWishlist, toggleWishlist } = useWanderlust();
@@ -11,6 +11,9 @@ export const PackageCard = ({ pkg }) => {
   const location = pkg.location || 'Explore Journey';
   const category = pkg.category || 'international';
   const tagline = pkg.tagline || 'Experience an extraordinary bespoke journey tailored just for you.';
+
+  // Highlight popular FOMO destinations
+  const isHighDemand = ['sikkim', 'bali', 'dubai', 'thailand', 'kashmir', 'kerala', 'vietnam'].includes(pkg.id?.toString().toLowerCase());
 
   return (
     <div
@@ -31,7 +34,7 @@ export const PackageCard = ({ pkg }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-black/20" />
 
           {/* Category Tag Badge */}
-          <div className="absolute top-3.5 left-3.5">
+          <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
             <span className={`font-mono text-[10px] uppercase font-extrabold tracking-wider px-3 py-1 rounded-full shadow-xs ${
               category === 'domestic'
                 ? 'bg-[#0284C7] text-white'
@@ -39,6 +42,14 @@ export const PackageCard = ({ pkg }) => {
             }`}>
               {category === 'domestic' ? 'Domestic Escape' : 'International Tour'}
             </span>
+
+            {/* FOMO Demand Tag */}
+            {isHighDemand && (
+              <span className="font-mono text-[9px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#FACC15] text-[#0A3161] shadow-xs flex items-center gap-1">
+                <Flame size={11} className="fill-current text-[#EA580C]" />
+                <span>Fast Filling</span>
+              </span>
+            )}
           </div>
 
           {/* Wishlist Button */}

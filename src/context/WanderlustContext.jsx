@@ -21,31 +21,20 @@ export const AGENCY_CONTACT = {
 
 export const WanderlustProvider = ({ children }) => {
   const [currentView, setCurrentView] = useState('home');
-  // Always initialize with full 22 luxury packages (12 international + 10 domestic)
   const [packages, setPackages] = useState(DESTINATION_PACKAGES);
   const [selectedPackage, setSelectedPackage] = useState(DESTINATION_PACKAGES[0]);
   const [memberProfile, setMemberProfile] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
-  // Fetch Packages from DB and merge without overwriting curated packages
+  // Fetch Packages from DB
   useEffect(() => {
     const fetchPackages = async () => {
       try {
         const response = await apiClient.get('/api/packages');
-        if (response.data && response.data.success && Array.isArray(response.data.data)) {
-          const apiData = response.data.data;
-          if (apiData.length > 0) {
-            // Keep all rich static destination packages, and merge or append custom DB packages
-            const existingIds = new Set(DESTINATION_PACKAGES.map(p => p.id?.toLowerCase()));
-            const customDbPackages = apiData.filter(dbPkg => {
-              const identifier = (dbPkg.slug || dbPkg.id || dbPkg.name || '').toLowerCase();
-              return !existingIds.has(identifier);
-            });
-            if (customDbPackages.length > 0) {
-              setPackages([...DESTINATION_PACKAGES, ...customDbPackages]);
-            }
-          }
+        if (response.data && response.data.success && response.data.data.length > 0) {
+          setPackages(response.data.data);
+          setSelectedPackage(response.data.data[0]);
         }
       } catch (err) {
         console.error("Failed to fetch packages from API:", err);

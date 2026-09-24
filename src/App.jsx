@@ -14,6 +14,7 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { InquiryModal } from './components/InquiryModal';
 import { FloatingWhatsAppButton } from './components/FloatingWhatsAppButton';
 import { ToastContainer } from './components/ToastContainer';
+import { TravelFOMOTicker } from './components/TravelFOMOTicker';
 
 // --- Lazy Load Public Pages ---
 const HeroFlightPath = React.lazy(() => import('./components/HeroFlightPath').then(m => ({ default: m.HeroFlightPath })));
@@ -113,6 +114,7 @@ const PublicLayout = () => {
       </main>
       <Footer />
       <FloatingWhatsAppButton />
+      <TravelFOMOTicker />
       <InquiryModal />
     </div>
   );
