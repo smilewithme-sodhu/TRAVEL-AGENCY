@@ -94,17 +94,13 @@ export const RegisterPage = () => {
         </div>
 
         <div className="relative z-10 space-y-6 max-w-lg">
-          <div className="inline-flex items-center gap-3 select-none">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0284C7] to-[#0A3161] flex items-center justify-center text-white shadow-lg shadow-sky-500/30">
-              <Compass className="w-7 h-7" />
-            </div>
-            <div>
-              <span className="text-2xl font-display font-bold tracking-tight text-white block leading-none">
-                Gumnu JUM
-              </span>
-              <span className="font-mono text-[10px] uppercase tracking-widest text-[#FACC15] font-bold">
-                BY LISA TRAVELS
-              </span>
+          <div className="inline-flex items-center select-none">
+            <div className="bg-white px-4 py-2 rounded-2xl shadow-lg shadow-sky-950/20 inline-flex items-center">
+              <img
+                src="/images/gumnu-jum-logo.png"
+                alt="Gumnu JUM by Lisa Travels"
+                className="h-12 w-auto object-contain"
+              />
             </div>
           </div>
           <div>
@@ -152,18 +148,12 @@ export const RegisterPage = () => {
             Back to Sign In
           </button>
 
-          <div className="md:hidden flex items-center gap-2.5 mb-8">
-            <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#0284C7] to-[#0A3161] flex items-center justify-center text-white shadow-md">
-              <Compass className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-lg font-display font-bold tracking-tight text-[#0A3161] block leading-none">
-                Gumnu JUM
-              </span>
-              <span className="font-mono text-[9px] uppercase tracking-widest text-[#2563EB] font-bold">
-                BY LISA TRAVELS
-              </span>
-            </div>
+          <div className="md:hidden flex items-center mb-8">
+            <img
+              src="/images/gumnu-jum-logo.png"
+              alt="Gumnu JUM by Lisa Travels"
+              className="h-10 w-auto object-contain"
+            />
           </div>
 
           <div className="mb-8">

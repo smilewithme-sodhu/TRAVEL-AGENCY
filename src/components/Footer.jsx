@@ -18,18 +18,14 @@ export const Footer = () => {
           <div className="lg:col-span-5 space-y-4">
             <div
               onClick={() => navigate('/')}
-              className="flex items-center gap-3 cursor-pointer select-none group inline-flex"
+              className="cursor-pointer select-none group inline-block"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0284C7] to-[#0369A1] text-white flex items-center justify-center font-bold shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
-                <Compass size={20} />
-              </div>
-              <div>
-                <span className="font-display font-bold text-xl tracking-tight text-white block">
-                  Gumnu JUM
-                </span>
-                <span className="font-mono text-[9px] uppercase tracking-widest text-[#F97316] font-bold block -mt-1">
-                  BY LISA TRAVELS
-                </span>
+              <div className="bg-white px-3.5 py-1.5 rounded-2xl shadow-sm inline-flex items-center group-hover:scale-105 transition-transform duration-200">
+                <img
+                  src="/images/gumnu-jum-logo.png"
+                  alt="Gumnu JUM by Lisa Travels"
+                  className="h-10 sm:h-11 w-auto object-contain"
+                />
               </div>
             </div>
             <p className="text-xs sm:text-sm text-sky-100/80 leading-relaxed max-w-sm font-medium">

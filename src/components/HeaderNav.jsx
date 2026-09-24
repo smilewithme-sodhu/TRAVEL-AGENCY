@@ -57,19 +57,13 @@ export const HeaderNav = () => {
           {/* 1. Brand Logo */}
           <div
             onClick={() => handleNavClick('/')}
-            className="flex items-center gap-3 cursor-pointer select-none group"
+            className="flex items-center cursor-pointer select-none group"
           >
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0284C7] to-[#0369A1] flex items-center justify-center text-white shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform duration-200">
-              <Compass className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-display font-bold text-lg text-[#0C4A6E] leading-tight tracking-tight">
-                Gumnu JUM
-              </div>
-              <div className="font-mono text-[9px] uppercase tracking-widest text-[#F97316] font-bold">
-                BY LISA TRAVELS
-              </div>
-            </div>
+            <img
+              src="/images/gumnu-jum-logo.png"
+              alt="Gumnu JUM by Lisa Travels"
+              className="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform duration-200"
+            />
           </div>
 
           {/* 2. Desktop Navigation Links */}

@@ -59,19 +59,13 @@ export const MemberLogin = () => {
         <div className="text-center space-y-2">
           <div
             onClick={() => navigate('/')}
-            className="inline-flex items-center gap-2.5 cursor-pointer select-none group"
+            className="inline-flex items-center cursor-pointer select-none group"
           >
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#0284C7] to-[#0A3161] flex items-center justify-center text-white shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
-              <Compass className="w-5 h-5" />
-            </div>
-            <div className="text-left">
-              <div className="font-display font-bold text-xl text-[#0A3161] leading-none tracking-tight">
-                Gumnu JUM
-              </div>
-              <div className="font-mono text-[9px] uppercase tracking-widest text-[#2563EB] font-bold">
-                BY LISA TRAVELS
-              </div>
-            </div>
+            <img
+              src="/images/gumnu-jum-logo.png"
+              alt="Gumnu JUM by Lisa Travels"
+              className="h-12 sm:h-14 w-auto object-contain group-hover:scale-105 transition-transform"
+            />
           </div>
           
           <h2 className="font-sans font-extrabold text-2xl text-[#0A3161] pt-3">

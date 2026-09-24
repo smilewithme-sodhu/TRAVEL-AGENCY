@@ -92,19 +92,13 @@ export const MemberLayout = () => {
         {/* Left Brand */}
         <div
           onClick={() => navigateTo('home')}
-          className="flex items-center gap-3 cursor-pointer select-none group"
+          className="flex items-center cursor-pointer select-none group"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0284C7] to-[#0A3161] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
-            <Compass className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="font-display font-bold text-base text-[#0A3161] leading-tight">
-              Gumnu JUM
-            </div>
-            <div className="font-mono text-[9px] uppercase tracking-widest text-[#2563EB] font-bold">
-              MEMBER PORTAL
-            </div>
-          </div>
+          <img
+            src="/images/gumnu-jum-logo.png"
+            alt="Gumnu JUM by Lisa Travels"
+            className="h-9 sm:h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+          />
         </div>
 
         {/* Center Search (Contextual) */}

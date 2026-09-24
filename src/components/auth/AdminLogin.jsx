@@ -40,14 +40,21 @@ export const AdminLogin = () => {
 
       <div className="max-w-md w-full bg-white border border-blue-100/80 rounded-3xl p-8 sm:p-10 shadow-xl shadow-blue-900/5 relative z-10 animate-fadeIn">
         <div className="flex flex-col items-center mb-8 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0284C7] to-[#0A3161] flex items-center justify-center text-white mb-4 shadow-md shadow-sky-500/20">
-            <ShieldCheck className="w-7 h-7" />
+          <div
+            onClick={() => navigate('/')}
+            className="cursor-pointer mb-4"
+          >
+            <img
+              src="/images/gumnu-jum-logo.png"
+              alt="Gumnu JUM by Lisa Travels"
+              className="h-12 w-auto object-contain"
+            />
           </div>
           <div className="font-mono text-[10px] uppercase tracking-widest text-[#2563EB] font-bold mb-1">
-            GUMNU JUM EXECUTIVE
+            EXECUTIVE CONSOLE
           </div>
           <h2 className="text-2xl font-display font-bold text-[#0A3161]">Admin Portal</h2>
-          <p className="text-slate-500 text-xs mt-1">Restricted management & bookings console.</p>
+          <p className="text-slate-500 text-xs mt-1">Restricted management & bookings control center.</p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
