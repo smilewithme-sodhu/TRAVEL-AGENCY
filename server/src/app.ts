@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { quotesRouter } from './routes/quotes.routes';
 import { bookingsRouter } from './routes/bookings.routes';
 import { packagesRouter } from './routes/packages.routes';
@@ -8,6 +10,22 @@ import { packagesRouter } from './routes/packages.routes';
 dotenv.config();
 
 const app = express();
+
+// ── Render.com sits behind a load balancer ──────────────────────────────
+app.set('trust proxy', 1);
+
+// ── Security Headers ────────────────────────────────────────────────────
+app.use(helmet());
+
+// ── General API Rate Limiter (100 req / 15 min per IP) ─────────────────
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, error: 'Too many requests. Please try again later.' },
+});
+app.use('/api/', apiLimiter);
 
 const allowedOrigins = process.env.NODE_ENV === 'production' 
   ? [process.env.FRONTEND_URL || ''] 
