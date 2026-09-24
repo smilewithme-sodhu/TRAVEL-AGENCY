@@ -4,12 +4,12 @@ import { ShieldCheck } from 'lucide-react';
 
 export const TrustStrip = () => {
   return (
-    <section className="bg-white border-b border-slate-100 py-6 px-4 sm:px-6 lg:px-8">
+    <section className="bg-white border-b border-sky-100/60 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 text-center md:text-left">
         
         <div className="flex items-center gap-2 text-slate-500">
-          <ShieldCheck size={18} className="text-[#C9A455] shrink-0" />
-          <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest font-bold text-slate-700">
+          <ShieldCheck size={18} className="text-[#0284C7] shrink-0" />
+          <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest font-bold text-[#0C4A6E]">
             ACCREDITATION & GLOBAL ALLIANCES
           </span>
         </div>
@@ -20,7 +20,7 @@ export const TrustStrip = () => {
               <span className="text-xs sm:text-sm font-bold text-slate-800">
                 {partner.name}
               </span>
-              <span className="font-mono text-[9px] sm:text-[10px] text-slate-400 font-semibold uppercase">
+              <span className="font-mono text-[9px] sm:text-[10px] text-[#0284C7] font-semibold uppercase">
                 {partner.code}
               </span>
             </div>
