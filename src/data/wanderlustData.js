@@ -13,7 +13,7 @@ export const CURRENCIES = {
   USD: { symbol: '$', rate: 1.0, code: 'USD' },
   EUR: { symbol: '€', rate: 0.92, code: 'EUR' },
   GBP: { symbol: '£', rate: 0.79, code: 'GBP' },
-  INR: { symbol: '₹', rate: 83.2, code: 'INR' },
+  INR: { symbol: 'TP ', rate: 83.2, code: 'INR' },
 };
 
 export const HOW_IT_WORKS_STEPS = [

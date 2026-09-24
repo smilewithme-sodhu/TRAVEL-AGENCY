@@ -1,4 +1,7 @@
-﻿import { Prisma } from '@prisma/client';
+﻿import { BinaryVolumeEngine } from '../modules/financial/BinaryVolumeEngine';
+import { TeamBonusEngine } from '../modules/financial/TeamBonusEngine';
+import crypto from 'crypto';
+import { Prisma } from '@prisma/client';
 import { Request, Response } from 'express';
 import { prisma } from '../db';
 
@@ -282,5 +285,251 @@ export const getPackages = async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error('Error fetching packages:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
+export const injectWhatsAppBooking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { memberId, amountPaid, binaryPoints, teamBonusPoints, directBonusPoints } = req.body;
+
+    if (!memberId) {
+      res.status(400).json({ error: 'Member ID is required.' });
+      return;
+    }
+
+    const member = await prisma.member.findUnique({
+      where: { id: memberId },
+      include: { user: true }
+    });
+
+    if (!member) {
+      res.status(404).json({ error: 'Member not found.' });
+      return;
+    }
+
+    const bookingRef = `WA-${new Date().getFullYear()}-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
+    
+    // We need ANY valid package to satisfy constraints. For manual WhatsApp injections, it's just a proxy.
+    const fallbackPackage = await prisma.packagePrice.findFirst({ include: { package: true } });
+    if (!fallbackPackage) {
+      res.status(500).json({ error: 'No packages found in DB to attach this booking to. Please create at least one package in the admin panel first.' });
+      return;
+    }
+
+    const bookingResult = await prisma.$transaction(async (tx) => {
+      const booking = await tx.booking.create({
+        data: {
+          bookingRef,
+          customerId: member.userId,
+          memberId: member.id,
+          packageId: fallbackPackage.packageId,
+          packagePriceId: fallbackPackage.id,
+          travelDateFrom: new Date(),
+          travelDateTo: new Date(),
+          numTravellers: 1,
+          sellingPrice: amountPaid || 0,
+          supplierCost: 0,
+          operationalCost: 0,
+          paymentCost: 0,
+          taxAmount: 0,
+          grossContribution: amountPaid || 0,
+          directRewardBudget: directBonusPoints || 0,
+          teamRewardBudget: teamBonusPoints || 0,
+          binaryVolumeBudget: binaryPoints || 0,
+          refundReserveBudget: 0,
+          netContribution: amountPaid || 0,
+          status: 'BOOKING_CONFIRMED'
+        }
+      });
+
+              // Member has bought a package, upgrade them to ORANGE (Travel Agent)
+        await tx.member.update({
+          where: { id: member.id },
+          data: { greenStatus: 'ORANGE' }
+        });
+
+        if (Number(directBonusPoints) > 0) {
+        let sponsorMemberId: string | null = null;
+        const referral = await tx.referral.findFirst({
+          where: { referredMemberId: member.id, isValid: true }
+        });
+        if (referral) {
+          sponsorMemberId = referral.referrerMemberId;
+        }
+
+                  // Enforce Blueprint Rule: Sponsor must be GREEN or ORANGE to receive direct bonus
+          const sponsorMember = sponsorMemberId ? await tx.member.findUnique({ where: { id: sponsorMemberId } }) : null;
+          if (sponsorMemberId && sponsorMember && (sponsorMember.greenStatus === 'GREEN' || sponsorMember.greenStatus === 'ORANGE')) {
+            let sponsorWallet = await tx.wallet.findUnique({ where: { memberId: sponsorMemberId } });
+          if (!sponsorWallet) {
+             sponsorWallet = await tx.wallet.create({ data: { memberId: sponsorMemberId, currency: 'INR' } });
+          }
+          await tx.walletTransaction.create({
+            data: {
+              walletId: sponsorWallet.id,
+              transactionType: 'CREDIT_DIRECT_REWARD',
+              amount: Number(directBonusPoints),
+              status: 'AVAILABLE',
+              notes: `WhatsApp Booking Direct Bonus: ${bookingRef}`,
+              balanceAfter: 0,
+              idempotencyKey: `INJECT-DIRECT-${booking.id}`
+            }
+          });
+        }
+      }
+
+      if (Number(teamBonusPoints) > 0) {
+        const teamEngine = new TeamBonusEngine();
+        await teamEngine.distributeTeamBonus(
+          tx as Prisma.TransactionClient,
+          booking.id,
+          member.id,
+          new Prisma.Decimal(teamBonusPoints),
+          'whatsapp-injection'
+        );
+      }
+
+      return booking;
+    });
+
+    if (Number(binaryPoints) > 0) {
+      const binaryEngine = new BinaryVolumeEngine(prisma as any);
+      await binaryEngine.rollUpVolume(
+        bookingResult.id,
+        member.id,
+        new Prisma.Decimal(binaryPoints)
+      );
+    }
+
+    res.status(200).json({ success: true, bookingId: bookingResult.id, bookingRef });
+  } catch (error: any) {
+    console.error('WhatsApp Booking Injection Error:', error);
+    res.status(500).json({ error: error.message || 'Failed to inject booking.' });
+  }
+};
+
+
+
+export const activateMemberToGreen = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { memberId } = req.body;
+      const member = await prisma.member.findUnique({ where: { id: memberId } });
+      if (!member) { res.status(404).json({ error: 'Member not found.' }); return; }
+      await prisma.member.update({ where: { id: member.id }, data: { greenStatus: 'GREEN' } });
+      res.json({ success: true, message: 'Member successfully upgraded to GREEN (Direct Bonus Qualified).' });
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
+  export const activateMemberToOrange = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { memberId } = req.body;
+      const member = await prisma.member.findUnique({ where: { id: memberId } });
+      if (!member) { res.status(404).json({ error: 'Member not found.' }); return; }
+      await prisma.member.update({ where: { id: member.id }, data: { greenStatus: 'ORANGE' } });
+      res.json({ success: true, message: 'Member successfully upgraded to ORANGE (Travel Agent, Binary/Team Qualified).' });
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
+
+
+export const distributeGlobalBonus = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { totalEarnings } = req.body;
+    if (!totalEarnings || isNaN(totalEarnings)) {
+      res.status(400).json({ error: 'Valid totalEarnings is required.' });
+      return;
+    }
+
+    const poolAmount = Number(totalEarnings) * 0.10;
+
+    const eligibleMembers = await prisma.member.findMany({
+      where: { greenStatus: 'ORANGE' },
+      include: { wallet: true }
+    });
+
+    if (eligibleMembers.length === 0) {
+      res.status(400).json({ error: 'No ORANGE members eligible for the bonus.' });
+      return;
+    }
+
+    const sharePerMember = poolAmount / eligibleMembers.length;
+
+    await prisma.$transaction(async (tx) => {
+      for (const member of eligibleMembers) {
+        let walletId = member.wallet?.id;
+        if (!walletId) {
+          const newWallet = await tx.wallet.create({ data: { memberId: member.id, currency: 'INR' } });
+          walletId = newWallet.id;
+        }
+
+        await tx.walletTransaction.create({
+          data: {
+            walletId,
+            transactionType: 'CREDIT_MANUAL_ADJUSTMENT',
+            amount: sharePerMember,
+            status: 'AVAILABLE',
+            notes: `Global Revenue Pool Share (10% of ${totalEarnings} evenly split among ${eligibleMembers.length} agents)`,
+            balanceAfter: 0,
+            idempotencyKey: `GLOBAL-${Date.now()}-${member.id}`
+          }
+        });
+      }
+    });
+
+    res.json({
+      success: true,
+      message: `Successfully distributed ${sharePerMember.toFixed(2)} to ${eligibleMembers.length} ORANGE members.`
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to distribute global bonus' });
+  }
+};
+
+
+export const getAdminMembers = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const members = await prisma.member.findMany({
+      include: { user: true, wallet: { include: { transactions: true } }, _count: { select: { referralsGiven: true } } }
+    });
+    const mapped = members.map(m => {
+      let balance = 0;
+      if (m.wallet && m.wallet.transactions) {
+        balance = m.wallet.transactions.reduce((sum, tx) => {
+          if (tx.transactionType.startsWith('CREDIT_')) return sum + Number(tx.amount || 0);
+          if (tx.transactionType.startsWith('DEBIT_')) return sum - Number(tx.amount || 0);
+          return sum;
+        }, 0);
+      }
+      return {
+        id: m.id,
+        name: m.user?.name || 'Unknown',
+        code: m.memberId || m.referralCode,
+        status: m.greenStatus,
+        directSales: m._count?.referralsGiven || 0,
+        balance: balance,
+        joined: m.joinedAt.toISOString().split('T')[0]
+      };
+    });
+    res.json({ success: true, data: mapped });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch members' });
+  }
+};
+
+export const getAdminDashboardMetrics = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const totalPackages = await prisma.package.count();
+    
+      const activeMembers = await prisma.member.count({ where: { greenStatus: { in: ['GREEN', 'ORANGE'] } } });
+
+    const pendingWithdrawals = await prisma.withdrawal.aggregate({ _sum: { requestedAmount: true }, where: { status: 'REQUESTED' } });
+      const globalBonusTransactions = await prisma.walletTransaction.aggregate({ _sum: { amount: true }, where: { transactionType: 'CREDIT_MANUAL_ADJUSTMENT' } });
+      res.json({ success: true, data: { totalPackages, activeMembers, pendingPayouts: Number(pendingWithdrawals._sum.requestedAmount || 0), totalGlobalBonus: Number(globalBonusTransactions._sum.amount || 0) } });
+  } catch (error) {
+    console.error("ADMIN METRICS ERROR:", error); res.status(500).json({ error: "Failed", details: (error as Error).message });
   }
 };

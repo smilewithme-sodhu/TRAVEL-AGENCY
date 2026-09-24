@@ -143,7 +143,7 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
-                Direct Reward (₹)
+                Direct Reward (TP )
               </label>
               <input
                 type="number"
@@ -423,7 +423,7 @@ export const AdminBookingsPage: React.FC = () => {
 
                 <div className="space-y-1.5">
                   <label className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
-                    Direct Reward Budget (₹)
+                    Direct Reward Budget (TP )
                   </label>
                   <input
                     type="number"

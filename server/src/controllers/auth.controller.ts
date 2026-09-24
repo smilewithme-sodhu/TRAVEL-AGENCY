@@ -152,10 +152,14 @@ export const loginMember = async (req: Request, res: Response): Promise<void> =>
       include: { member: true }
     });
 
-    if (!user || user.role === 'ADMIN') {
-      res.status(401).json({ error: 'Invalid credentials' });
-      return;
-    }
+    if (!user) {
+        res.status(401).json({ error: 'Invalid credentials' });
+        return;
+      }
+      if (user.role === 'ADMIN') {
+        res.status(403).json({ error: 'Admin accounts must use the Admin Portal (/admin/login) to log in.' });
+        return;
+      }
 
     const isMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isMatch) {
@@ -232,4 +236,5 @@ export const loginAdmin = async (req: Request, res: Response): Promise<void> => 
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 

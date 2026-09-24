@@ -1,7 +1,7 @@
 // =============================================================================
-// PROJECT 1 — MASTER DATABASE SCHEMA
+// PROJECT 1 â€” MASTER DATABASE SCHEMA
 // Luxury Travel Commerce + Membership + Binary Referral + Immutable Ledger
-// Version 1.0 — 11 September 2026
+// Version 1.0 â€” 11 September 2026
 //
 // GOVERNANCE RULES (ENFORCED AT SCHEMA LEVEL):
 //   1. Zero Balance Mutations   : No balance scalar on Member. All balances
@@ -60,6 +60,7 @@ enum MembershipStatus {
 /// Green = member has a qualifying personal travel booking in the current cycle.
 enum MemberGreenStatus {
   GREEN
+  ORANGE
   INACTIVE
   SUSPENDED
 }
@@ -212,7 +213,7 @@ enum AuditAction {
 }
 
 // =============================================================================
-// MODEL 1 — User
+// MODEL 1 â€” User
 // Core auth identity. One row per human being.
 // =============================================================================
 model User {
@@ -244,7 +245,7 @@ model User {
 }
 
 // =============================================================================
-// MODEL 2 — Member
+// MODEL 2 â€” Member
 // Membership identity. 1:1 with User. Source of truth for referral identity.
 // FINANCIAL INVARIANT: No balance scalar here. All balances computed from
 // WalletTransaction aggregation.
@@ -284,7 +285,7 @@ model Member {
 }
 
 // =============================================================================
-// MODEL 3 — Membership
+// MODEL 3 â€” Membership
 // Records the membership payment event. Not a balance column.
 // =============================================================================
 model Membership {
@@ -309,7 +310,7 @@ model Membership {
 }
 
 // =============================================================================
-// MODEL 4 — Referral
+// MODEL 4 â€” Referral
 // Immutable attribution record. Created once per referred booking/customer.
 // =============================================================================
 model Referral {
@@ -339,7 +340,7 @@ model Referral {
 }
 
 // =============================================================================
-// MODEL 5 — Destination
+// MODEL 5 â€” Destination
 // Travel content entity.
 // =============================================================================
 model Destination {
@@ -363,7 +364,7 @@ model Destination {
 }
 
 // =============================================================================
-// MODEL 6 — Package
+// MODEL 6 â€” Package
 // Catalogue entry. Pricing is versioned in PackagePrice.
 // =============================================================================
 model Package {
@@ -395,7 +396,7 @@ model Package {
 }
 
 // =============================================================================
-// MODEL 7 — PackagePrice
+// MODEL 7 â€” PackagePrice
 // Versioned pricing record. Admin creates a new row to change price.
 // Previous rows are preserved for historical audit.
 // =============================================================================
@@ -427,7 +428,7 @@ model PackagePrice {
 }
 
 // =============================================================================
-// MODEL 8 — Traveller
+// MODEL 8 â€” Traveller
 // Individual guest profile associated with a booking.
 // =============================================================================
 model Traveller {
@@ -451,7 +452,7 @@ model Traveller {
 }
 
 // =============================================================================
-// MODEL 9 — Quote
+// MODEL 9 â€” Quote
 // Quote lifecycle. Admin-created response to a customer quote request.
 // =============================================================================
 model Quote {
@@ -484,7 +485,7 @@ model Quote {
 }
 
 // =============================================================================
-// MODEL 10 — Booking
+// MODEL 10 â€” Booking
 // Central state machine. Transitions drive all reward and volume events.
 // =============================================================================
 model Booking {
@@ -549,7 +550,7 @@ model Booking {
 }
 
 // =============================================================================
-// MODEL 11 — Payment
+// MODEL 11 â€” Payment
 // Gateway transaction record. Idempotent by gatewayOrderId.
 // =============================================================================
 model Payment {
@@ -583,7 +584,7 @@ model Payment {
 }
 
 // =============================================================================
-// MODEL 12 — Refund
+// MODEL 12 â€” Refund
 // Refund record linked to originating payment. Triggers reward reversal.
 // =============================================================================
 model Refund {
@@ -614,7 +615,7 @@ model Refund {
 }
 
 // =============================================================================
-// MODEL 13 — Commission
+// MODEL 13 â€” Commission
 // Financial safety snapshot per booking. Source of truth for margin accounting.
 // =============================================================================
 model Commission {
@@ -642,7 +643,7 @@ model Commission {
 }
 
 // =============================================================================
-// MODEL 14 — Reward
+// MODEL 14 â€” Reward
 // One reward event per (member, booking, rewardType, level).
 // INVARIANT: sourceBookingId MUST NOT be null. No booking = no reward.
 // =============================================================================
@@ -684,9 +685,9 @@ model Reward {
 }
 
 // =============================================================================
-// MODEL 15 — RewardLedger
+// MODEL 15 â€” RewardLedger
 // Append-only double-entry log of reward state transitions.
-// Reversals create new DEBIT rows — never delete or mutate rows.
+// Reversals create new DEBIT rows â€” never delete or mutate rows.
 // =============================================================================
 model RewardLedger {
   id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -713,7 +714,7 @@ model RewardLedger {
 }
 
 // =============================================================================
-// MODEL 16 — BinaryNode
+// MODEL 16 â€” BinaryNode
 // One node per member in the binary placement tree.
 // =============================================================================
 model BinaryNode {
@@ -748,7 +749,7 @@ model BinaryNode {
 }
 
 // =============================================================================
-// MODEL 17 — BinaryVolumeEvent
+// MODEL 17 â€” BinaryVolumeEvent
 // Individual volume event per booking per node per side.
 // INVARIANT: Every row must have sourceBookingId.
 // =============================================================================
@@ -780,7 +781,7 @@ model BinaryVolumeEvent {
 }
 
 // =============================================================================
-// MODEL 18 — Wallet
+// MODEL 18 â€” Wallet
 // Per-member ledger header. Holds NO balance scalar.
 // Available balance = SUM(CREDIT transactions) - SUM(DEBIT transactions)
 //   WHERE status IN (AVAILABLE, PAID) for credits
@@ -801,7 +802,7 @@ model Wallet {
 }
 
 // =============================================================================
-// MODEL 19 — WalletTransaction
+// MODEL 19 â€” WalletTransaction
 // Append-only immutable ledger row. NEVER UPDATE OR DELETE.
 // Reversals = new DEBIT_REVERSAL row. SELECT ... FOR UPDATE wraps withdrawals.
 // =============================================================================
@@ -830,7 +831,7 @@ model WalletTransaction {
 }
 
 // =============================================================================
-// MODEL 20 — Withdrawal
+// MODEL 20 â€” Withdrawal
 // Payout request lifecycle. Balance locked via SELECT ... FOR UPDATE.
 // =============================================================================
 model Withdrawal {
@@ -870,7 +871,7 @@ model Withdrawal {
 
 
 // =============================================================================
-// MODEL 22 — BankAccount
+// MODEL 22 â€” BankAccount
 // Member's verified bank account for payouts.
 // =============================================================================
 model BankAccount {
@@ -898,7 +899,7 @@ model BankAccount {
 }
 
 // =============================================================================
-// MODEL 23 — Notification
+// MODEL 23 â€” Notification
 // Multi-channel notification record.
 // =============================================================================
 model Notification {
@@ -924,7 +925,7 @@ model Notification {
 }
 
 // =============================================================================
-// MODEL 24 — SupportTicket
+// MODEL 24 â€” SupportTicket
 // Concierge and post-sale support pipeline.
 // =============================================================================
 model SupportTicket {
@@ -952,7 +953,7 @@ model SupportTicket {
 }
 
 // =============================================================================
-// MODEL 25 — AdminUser
+// MODEL 25 â€” AdminUser
 // Back-office operator. Separate identity layer from customer/member.
 // =============================================================================
 model AdminUser {
@@ -973,7 +974,7 @@ model AdminUser {
 }
 
 // =============================================================================
-// MODEL 26 — AuditLog
+// MODEL 26 â€” AuditLog
 // Immutable append-only event history. Never updated or deleted.
 // =============================================================================
 model AuditLog {
@@ -1003,7 +1004,7 @@ model AuditLog {
 }
 
 // =============================================================================
-// MODEL 27 — RuleVersion
+// MODEL 27 â€” RuleVersion
 // Versioned reward rules engine. Every calculation records this version so
 // finance can reproduce historical calculations exactly.
 // =============================================================================
@@ -1015,7 +1016,7 @@ model RuleVersion {
   // Direct reward
   directRewardRate             Decimal   @db.Decimal(8, 6) // e.g. 0.050000 = 5%
   directRewardCap              Decimal   @db.Decimal(12, 2)
-  // Team reward — JSON array: [{level: 1, rate: 0.02, cap: 500}, ...]
+  // Team reward â€” JSON array: [{level: 1, rate: 0.02, cap: 500}, ...]
   teamRewardLevels             Json
   // Binary matching
   binaryMatchRate              Decimal   @db.Decimal(8, 6)
@@ -1039,5 +1040,6 @@ model RuleVersion {
   @@index([version])
   @@map("rule_versions")
 }
+
 
 

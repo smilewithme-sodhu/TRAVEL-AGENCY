@@ -122,19 +122,19 @@ export function PackageFormModal({ isOpen, onClose, initialData }) {
             <h3 className="text-lg font-medium text-amber-500 mb-4 border-b border-neutral-800 pb-2">Financial Architecture</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm mb-1 text-neutral-400">Selling Price (₹)</label>
+                <label className="block text-sm mb-1 text-neutral-400">Selling Price (TP )</label>
                 <input required type="number" min="0" step="0.01" name="sellingPrice" value={formData.sellingPrice} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white font-mono focus:border-amber-500 focus:outline-none" />
               </div>
               <div>
-                <label className="block text-sm mb-1 text-neutral-400">Direct Reward Budget (₹)</label>
+                <label className="block text-sm mb-1 text-neutral-400">Direct Reward Budget (TP )</label>
                 <input required type="number" min="0" step="0.01" name="directRewardBudget" value={formData.directRewardBudget} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white font-mono focus:border-amber-500 focus:outline-none" />
               </div>
               <div>
-                <label className="block text-sm mb-1 text-neutral-400">Team Reward Budget (₹)</label>
+                <label className="block text-sm mb-1 text-neutral-400">Team Reward Budget (TP )</label>
                 <input required type="number" min="0" step="0.01" name="teamRewardBudget" value={formData.teamRewardBudget} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white font-mono focus:border-amber-500 focus:outline-none" />
               </div>
               <div>
-                <label className="block text-sm mb-1 text-neutral-400">Binary Volume Budget (PV / ₹)</label>
+                <label className="block text-sm mb-1 text-neutral-400">Binary Volume Budget (PV / TP )</label>
                 <input required type="number" min="0" step="0.01" name="binaryVolumeBudget" value={formData.binaryVolumeBudget} onChange={handleChange} className="w-full bg-neutral-800 border border-neutral-700 rounded p-2 text-white font-mono focus:border-amber-500 focus:outline-none" />
               </div>
             </div>

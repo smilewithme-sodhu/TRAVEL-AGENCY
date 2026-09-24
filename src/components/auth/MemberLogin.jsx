@@ -21,7 +21,7 @@ export const MemberLogin = () => {
     setIsLoading(true);
     try {
       // Use real backend auth endpoint
-      const { data } = await apiClient.post('/api/auth/login', { email: identifier, password });
+      const { data } = await apiClient.post('/api/auth/login/member', { email: identifier, password });
       
       localStorage.setItem('auth_token', data.token);
       setIsLoggedIn(true);
@@ -43,7 +43,7 @@ export const MemberLogin = () => {
       }
     } catch (err) {
       console.error(err);
-      showToast('Authentication failed. Please check your credentials.', 'error');
+      showToast(err.response?.data?.error || 'Authentication failed. Please check your credentials.', 'error');
     } finally {
       setIsLoading(false);
     }
@@ -150,4 +150,6 @@ export const MemberLogin = () => {
     </div>
   );
 };
+
+
 

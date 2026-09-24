@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { apiClient } from '../../api/client';
@@ -46,9 +46,19 @@ const TreeNode = ({ node, level = 0, parentId = null, side = null, onAddMember, 
           <Users size={16} className={isGreen ? 'text-[#C9A455]' : 'text-slate-500'} />
         </div>
         
-        <div className="text-[10px] sm:text-xs font-semibold text-white truncate w-full text-center">
-          {node.member?.user?.name || 'Member'}
-        </div>
+        <div className="text-[10px] sm:text-xs font-semibold text-white truncate w-full text-center mt-1">
+            {node.member?.user?.name || 'Member'}
+          </div>
+          <div className="flex justify-between w-full px-1 mt-1.5 border-t border-slate-700/50 pt-1 text-[8px] sm:text-[9px] font-mono">
+            <div className="flex flex-col items-center text-slate-400">
+              <span>L</span>
+              <span className="text-emerald-400 font-bold">{Number(node.leftCarryForward || 0).toLocaleString()}</span>
+            </div>
+            <div className="flex flex-col items-center text-slate-400">
+              <span>R</span>
+              <span className="text-emerald-400 font-bold">{Number(node.rightCarryForward || 0).toLocaleString()}</span>
+            </div>
+          </div>
       </div>
 
       {/* Connection Lines & Children */}
@@ -233,3 +243,4 @@ export const BinaryPage = () => {
     </div>
   );
 };
+

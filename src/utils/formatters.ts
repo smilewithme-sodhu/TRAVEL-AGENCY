@@ -1,10 +1,10 @@
 /**
  * Centralized Indian Rupee Currency Formatter
- * Complies with specification: Indian number grouping (lakhs/crores) e.g. ₹2,500, ₹18,000, ₹1,25,000
+ * Complies with specification: Indian number grouping (lakhs/crores) e.g. TP 2,500, TP 18,000, TP 1,25,000
  */
 export const formatINR = (amount: number | null | undefined): string => {
   if (amount === null || amount === undefined || isNaN(amount)) {
-    return '₹0';
+    return 'TP 0';
   }
 
   const isNegative = amount < 0;
@@ -16,17 +16,17 @@ export const formatINR = (amount: number | null | undefined): string => {
     minimumFractionDigits: 0,
   }).format(absAmount);
 
-  return `${isNegative ? '-' : ''}₹${formatted}`;
+  return `${isNegative ? '-' : ''}TP ${formatted}`;
 };
 
 /**
  * Standard & Relative Date Formatter
  */
 export const formatDate = (dateString: string | Date | null | undefined): string => {
-  if (!dateString) return '—';
+  if (!dateString) return '--';
 
   const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
-  if (isNaN(date.getTime())) return '—';
+  if (isNaN(date.getTime())) return '--';
 
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();

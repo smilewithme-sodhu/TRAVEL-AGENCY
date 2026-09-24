@@ -5,7 +5,7 @@ export const AdminAuditPage: React.FC = () => {
   const logs = [
     { id: 'LOG-104', event: 'Binary Match Payout Executed', detail: 'Processed 14 pairs for Cycle #2026-06', time: '12 Feb 2026, 06:00 PM', admin: 'SYSTEM_CRON' },
     { id: 'LOG-103', event: 'Member Active Status Verified', detail: 'Rahul Sharma (#TRV-8821) trip confirmed: Goa Coastal Odyssey', time: '10 Feb 2026, 04:30 PM', admin: 'Concierge Team' },
-    { id: 'LOG-102', event: 'Package Price Margin Adjusted', detail: 'Dubai Luxury Marvels supplier base cost updated to ₹64,000', time: '08 Feb 2026, 11:15 AM', admin: 'Product Team' }
+    { id: 'LOG-102', event: 'Package Price Margin Adjusted', detail: 'Dubai Luxury Marvels supplier base cost updated to TP 64,000', time: '08 Feb 2026, 11:15 AM', admin: 'Product Team' }
   ];
 
   return (

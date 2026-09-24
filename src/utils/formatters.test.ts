@@ -3,18 +3,18 @@ import { formatINR, formatDate } from './formatters';
 describe('formatters', () => {
   describe('formatINR', () => {
     it('formats positive numbers correctly', () => {
-      expect(formatINR(2500)).toBe('₹2,500');
-      expect(formatINR(125000)).toBe('₹1,25,000');
+      expect(formatINR(2500)).toBe('TP 2,500');
+      expect(formatINR(125000)).toBe('TP 1,25,000');
     });
 
     it('formats negative numbers correctly', () => {
-      expect(formatINR(-2500)).toBe('-₹2,500');
+      expect(formatINR(-2500)).toBe('-TP 2,500');
     });
 
     it('handles null, undefined, and NaN', () => {
-      expect(formatINR(null)).toBe('₹0');
-      expect(formatINR(undefined)).toBe('₹0');
-      expect(formatINR(NaN)).toBe('₹0');
+      expect(formatINR(null)).toBe('TP 0');
+      expect(formatINR(undefined)).toBe('TP 0');
+      expect(formatINR(NaN)).toBe('TP 0');
     });
   });
 

@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+﻿import { Router, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../db';
 
@@ -62,6 +62,57 @@ memberRouter.get('/dashboard', async (req: Request, res: Response): Promise<void
       (r: any) => r.referredMember?.greenStatus === 'GREEN'
     ).length;
 
+        // 1. Calculate Personal Volume (sum of volume from their own bookings)
+    const personalVolume = member.bookings.reduce((sum: number, b: any) => sum + Number(b.binaryVolumeBudget || 0), 0);
+
+    // 2. Calculate Team Volume (sum of binary volume rolled up to them)
+    let teamVolume = 0;
+    if (member.binaryNode?.id) {
+      const volEvents = await prisma.binaryVolumeEvent.aggregate({
+        _sum: { eligibleAmount: true },
+        where: { binaryNodeId: member.binaryNode.id }
+      });
+      teamVolume = Number(volEvents._sum.eligibleAmount || 0);
+    }
+
+    // 3. Calculate Pending Rewards
+    const pendingRewardsAgg = await prisma.reward.aggregate({
+      _sum: { finalAmount: true },
+      where: { memberId: member.id, status: 'PENDING' }
+    });
+    const pendingRewards = Number(pendingRewardsAgg._sum.finalAmount || 0);
+
+        // Calculate Earned Rewards Breakdown
+    const earnedRewards = await prisma.reward.findMany({
+      where: {
+        memberId: member.id,
+        status: { in: ['APPROVED', 'AVAILABLE', 'PAID'] }
+      },
+      select: { rewardType: true, finalAmount: true }
+    });
+    
+    let directBonus = 0;
+      let teamBonus = 0;
+      let binaryMatch = 0;
+      
+      earnedRewards.forEach(r => {
+        const amt = Number(r.finalAmount || 0);
+        if (r.rewardType === 'DIRECT') directBonus += amt;
+        if (r.rewardType === 'TEAM') teamBonus += amt;
+        if (r.rewardType === 'BINARY') binaryMatch += amt;
+      });
+
+      const globalBonusTransactions = await prisma.walletTransaction.aggregate({
+        _sum: { amount: true },
+        where: {
+          walletId: member.wallet?.id,
+          transactionType: 'CREDIT_MANUAL_ADJUSTMENT',
+          status: 'AVAILABLE'
+        }
+      });
+      const globalBonus = Number(globalBonusTransactions._sum.amount || 0);
+      const totalEarned = directBonus + teamBonus + binaryMatch + globalBonus;
+
     const dashboardData = {
       member: {
         id: member.id,
@@ -83,11 +134,21 @@ memberRouter.get('/dashboard', async (req: Request, res: Response): Promise<void
         activeUntil: b.travelDateTo?.toISOString() ?? '',
       })),
       overview: {
-        personalVolume: 0,
-        teamVolume: 0,
+        personalVolume,
+        teamVolume,
         activeDirectReferrals,
         upcomingTrips: member.bookings.filter((b: any) => b.status === 'TRAVEL_UPCOMING').length,
-        pendingRewards: 0,
+        pendingRewards,
+          globalBonus,
+          directBonus,
+          teamBonus,
+          binaryMatch,
+          totalEarned,
+          leftVolume: Number(member.binaryNode?.leftCarryForward || 0) + Number(member.binaryNode?.totalMatchedVolume || 0),
+          rightVolume: Number(member.binaryNode?.rightCarryForward || 0) + Number(member.binaryNode?.totalMatchedVolume || 0),
+          matchedVolume: Number(member.binaryNode?.totalMatchedVolume || 0),
+          leftCarryForward: Number(member.binaryNode?.leftCarryForward || 0),
+          rightCarryForward: Number(member.binaryNode?.rightCarryForward || 0),
       },
     };
 
@@ -173,3 +234,6 @@ memberRouter.put('/profile', async (req: Request, res: Response): Promise<void> 
     res.status(500).json({ success: false, error: error.message || 'Server error' });
   }
 });
+
+
+

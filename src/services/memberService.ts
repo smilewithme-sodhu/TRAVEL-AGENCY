@@ -93,7 +93,7 @@ const MOCK_MILESTONES: RewardMilestone[] = [
     targetCount: 3,
     currentCount: 3,
     rewardType: 'LUXURY_VOUCHER',
-    rewardValue: '₹5,000 Luxury Boutique Stay Voucher',
+    rewardValue: 'TP 5,000 Luxury Boutique Stay Voucher',
     completed: true
   },
   {

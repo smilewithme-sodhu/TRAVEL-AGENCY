@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useWanderlust } from '../../context/WanderlustContext';
 
@@ -20,16 +20,23 @@ export const ProtectedRoute = ({ requireAdmin = false }) => {
   }
 
   const userStr = localStorage.getItem('user');
-  if (requireAdmin && userStr) {
-    try {
-      const user = JSON.parse(userStr);
-      if (user.role !== 'ADMIN') {
-        return <Navigate to="/member" replace />;
+  if (requireAdmin) {
+    let isAdmin = false;
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        if (user.role === 'ADMIN') {
+          isAdmin = true;
+        }
+      } catch {
+        // Ignore
       }
-    } catch {
-      // Ignore
+    }
+    if (!isAdmin) {
+      return <Navigate to="/member" replace />;
     }
   }
 
   return <Outlet />;
 };
+

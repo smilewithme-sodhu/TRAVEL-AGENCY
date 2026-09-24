@@ -1,4 +1,4 @@
-import { Prisma, TransactionType, RewardType, RewardStatus, TransactionStatus, MemberGreenStatus } from '@prisma/client';
+﻿import { Prisma, TransactionType, RewardType, RewardStatus, TransactionStatus, MemberGreenStatus } from '@prisma/client';
 import { randomUUID } from 'crypto';
 
 export class TeamBonusEngine {
@@ -61,7 +61,7 @@ export class TeamBonusEngine {
     // 2. Dynamic Compression: Filter only "ACTIVE" / "ACTIVE_GRACE" / etc.
     // The prompt mentions "Green" (Active/qualified). Based on MemberGreenStatus enum.
     const activeSponsors = lineage.filter(
-      (node) => node.greenStatus === MemberGreenStatus.GREEN
+      (node) => node.greenStatus === MemberGreenStatus.ORANGE
     );
 
     // 3. Define Payout Matrix for 4 levels
@@ -117,3 +117,4 @@ export class TeamBonusEngine {
     }
   }
 }
+

@@ -18,8 +18,8 @@ export const AdminLayout = () => {
 
   const navItems = [
     { view: 'admin-dashboard', label: 'Overview', icon: <ShieldCheck className="w-4 h-4" /> },
-    { view: 'admin-bookings', label: 'Manage Bookings', icon: <Compass className="w-4 h-4" /> },
     { view: 'admin-packages', label: 'Manage Packages', icon: <Package className="w-4 h-4" /> },
+    { view: 'admin-bookings', label: 'Manage Bookings', icon: <Compass className="w-4 h-4" /> },
     { view: 'admin-members', label: 'Manage Members', icon: <Users className="w-4 h-4" /> },
     { view: 'admin-payouts', label: 'Payout Approvals', icon: <CreditCard className="w-4 h-4" /> },
     { view: 'admin-audit', label: 'Audit Logs', icon: <History className="w-4 h-4" /> }

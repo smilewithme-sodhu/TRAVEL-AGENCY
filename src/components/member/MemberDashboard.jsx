@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useWanderlust } from '../../context/WanderlustContext';
 import { memberApi } from '../../api';
 import { formatINR, formatDate } from '../../utils/formatters';
@@ -84,17 +84,26 @@ export const MemberDashboard = () => {
     actionText: "Explore Packages"
   };
 
-  const earnings = {
-    walletBalance: member?.walletBalance || 0,
-    totalEarned: 0,
-    pending: overview?.pendingRewards || 0
+    const earnings = {
+    available: data?.member?.walletBalance || 0,
+    total: data?.overview?.totalEarned || 0,
+    direct: data?.overview?.directBonus || 0,
+    team: data?.overview?.teamBonus || 0,
+    binary: data?.overview?.binaryMatch || 0,
+    pending: data?.overview?.pendingRewards || 0,
+      global: data?.overview?.globalBonus || 0
   };
 
   const networkVolume = {
     personal: overview?.personalVolume || 0,
     team: overview?.teamVolume || 0,
-    directReferrals: overview?.activeDirectReferrals || 0
-  };
+    directReferrals: overview?.activeDirectReferrals || 0,
+      leftVolume: overview?.leftVolume || 0,
+      rightVolume: overview?.rightVolume || 0,
+      matchedVolume: overview?.matchedVolume || 0,
+      leftCarryForward: overview?.leftCarryForward || 0,
+      rightCarryForward: overview?.rightCarryForward || 0,
+    };
 
   const referral = {
     shareUrl: `${window.location.origin}/?ref=${member?.memberCode}`
@@ -147,3 +156,5 @@ export const MemberDashboard = () => {
     </div>
   );
 };
+
+

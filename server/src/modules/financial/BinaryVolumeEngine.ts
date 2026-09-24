@@ -1,4 +1,4 @@
-// =============================================================================
+﻿// =============================================================================
 // BinaryVolumeEngine.ts
 //
 // Core algorithmic engine for rolling up travel volume and processing
@@ -64,8 +64,9 @@ export class BinaryVolumeEngine {
         visitedNodes.add(currentParentId);
 
         // Fetch parent to determine which leg we came from
-        const parentNode: any = await tx.binaryNode.findUnique({
-          where: { id: currentParentId }
+                const parentNode: any = await tx.binaryNode.findUnique({
+          where: { id: currentParentId },
+          include: { member: true }
         });
 
         if (!parentNode) {
@@ -84,19 +85,30 @@ export class BinaryVolumeEngine {
           throw new Error(`CRITICAL: Tree topology mismatch. Node ${currentChildId} claims parent ${currentParentId}, but parent does not claim it as child.`);
         }
 
-        // Append Volume Event (Immutable Ledger)
-        await tx.binaryVolumeEvent.create({
-          data: {
-            binaryNodeId: parentNode.id,
-            sourceBookingId, // The booking that generated this volume
-            memberId: parentNode.memberId,
-            treeSide,
-            eligibleAmount: eligibleVolume,
-            matchedAmount: 0,
-            carryForward: 0,
-            isReversed: false,
-          }
-        });
+                // Rule: Only those on the uplines who are ORANGE (have bought a package) get binary volume benefits
+        if (parentNode.member?.greenStatus === 'ORANGE') {
+          // Update the cached carry-forward on the node for quick UI rendering
+          await tx.binaryNode.update({
+            where: { id: parentNode.id },
+            data: treeSide === TreeSide.LEFT 
+              ? { leftCarryForward: { increment: eligibleVolume } }
+              : { rightCarryForward: { increment: eligibleVolume } }
+          });
+
+          // Append Volume Event (Immutable Ledger)
+          await tx.binaryVolumeEvent.create({
+            data: {
+              binaryNodeId: parentNode.id,
+              sourceBookingId,
+              memberId: parentNode.memberId,
+              treeSide,
+              eligibleAmount: eligibleVolume,
+              matchedAmount: 0,
+              carryForward: 0,
+              isReversed: false,
+            }
+          });
+        }
 
         // Move up
         currentChildId = parentNode.id;
@@ -240,3 +252,4 @@ export class BinaryVolumeEngine {
     };
   }
 }
+

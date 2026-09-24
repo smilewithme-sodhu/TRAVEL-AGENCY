@@ -104,10 +104,10 @@ export const WithdrawPage = () => {
           <form onSubmit={handleFormSubmit} className="space-y-4">
             <div className="space-y-1.5">
               <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 block">
-                Withdrawal Amount (₹)
+                Withdrawal Amount (TP )
               </label>
               <div className="relative flex items-center">
-                <span className="absolute left-4 font-bold text-slate-400">₹</span>
+                <span className="absolute left-4 font-bold text-slate-400">TP </span>
                 <input
                   type="number"
                   value={amount}
