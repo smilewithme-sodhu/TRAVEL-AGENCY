@@ -9,7 +9,9 @@ import {
   ChevronUp,
   MessageSquare,
   Heart,
-  Award
+  Award,
+  Cpu,
+  Code
 } from 'lucide-react';
 import { useWanderlust } from '../context/WanderlustContext';
 
@@ -29,13 +31,13 @@ export const LeadershipTrustSection = () => {
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-[#0A3161] font-mono text-xs font-bold uppercase tracking-wider">
             <Sparkles size={14} className="text-[#2563EB]" />
-            <span>The Heart & Hands Behind Lisa Travels</span>
+            <span>The Heart, Hands & Tech Behind Lisa Travels</span>
           </div>
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl text-[#0A3161] tracking-tight">
-            Our Story & Leadership
+            Our Story, Leadership & Technology
           </h2>
           <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-            Built on genuine passion, deep local roots in Sikkim, professional hospitality expertise, and relentless dedication to every single guest.
+            Built on genuine passion, deep local roots in Sikkim, professional hospitality expertise, and enterprise-grade technology infrastructure.
           </p>
         </div>
 
@@ -308,6 +310,28 @@ export const LeadershipTrustSection = () => {
               </button>
             </div>
 
+          </div>
+        </div>
+
+        {/* 3. TECHNOLOGY PARTNER BLOCK - TENVERSE */}
+        <div className="bg-[#0A3161] rounded-3xl shadow-[0_8px_30px_rgb(10,49,97,0.15)] overflow-hidden flex flex-col md:flex-row relative">
+          {/* Background Tech Pattern (Optional Subtle Grid) */}
+          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+          
+          <div className="md:w-1/4 bg-[#07244a] p-8 flex flex-col justify-center items-center text-center border-b md:border-b-0 md:border-r border-blue-900/50 z-10">
+            <Cpu className="text-[#FACC15] w-12 h-12 mb-4" />
+            <h4 className="text-xl font-bold text-white mb-1">Tenverse Technology</h4>
+            <p className="text-blue-300 text-xs uppercase tracking-wider font-semibold">Official Software Partner</p>
+          </div>
+          
+          <div className="md:w-3/4 p-8 md:p-10 flex flex-col justify-center z-10">
+            <div className="flex items-center gap-2 mb-4">
+              <Code className="text-[#FACC15]" size={20} />
+              <span className="text-[#FACC15] font-bold uppercase tracking-wider text-sm">Powering The Platform</span>
+            </div>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+              "We specialize in building robust, scalable, and secure digital platforms. Tenverse Technology is proud to be the official software architecture partner for Gumnu JUM. From the complex binary referral engines to the military-grade financial ledgers, we ensure that while the Gumnu JUM team focuses on creating unforgettable travel experiences, the technology powering your business runs flawlessly."
+            </p>
           </div>
         </div>
 
