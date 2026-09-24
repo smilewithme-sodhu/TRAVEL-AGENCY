@@ -1,6 +1,7 @@
 import React from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
 import { ShieldCheck, MessageSquare, Users } from 'lucide-react';
+import { LeadershipTrustSection } from './LeadershipTrustSection';
 
 export const AboutWanderlustPage = () => {
   const { openWhatsApp } = useWanderlust();
@@ -9,7 +10,7 @@ export const AboutWanderlustPage = () => {
     <div className="bg-white min-h-screen pb-20">
       
       {/* Hero Header */}
-      <section className="relative py-24 px-6 bg-[#082F49] text-white text-center mb-16">
+      <section className="relative py-24 px-6 bg-[#082F49] text-white text-center mb-12">
         <div className="max-w-3xl mx-auto space-y-3">
           <div className="font-mono text-xs uppercase tracking-widest text-[#38BDF8] font-bold">
             ABOUT GUMNU JUM BY LISA TRAVELS
@@ -23,18 +24,8 @@ export const AboutWanderlustPage = () => {
         </div>
       </section>
 
-      {/* Story & Philosophy */}
-      <section className="max-w-4xl mx-auto px-6 pb-16 text-center space-y-6">
-        <h2 className="font-display font-bold text-3xl text-[#0C4A6E]">
-          Our Travel Philosophy
-        </h2>
-        <p className="text-base text-slate-600 leading-relaxed">
-          At Gumnu JUM by Lisa Travels, we reject one-size-fits-all generic tour packages. Instead, we listen to your dream vision, understand your budget and preferences, and craft extraordinary journeys designed just for you.
-        </p>
-        <p className="text-base text-slate-600 leading-relaxed">
-          From curated domestic getaways to seamless international adventures with 24/7 personal WhatsApp support, our mission is to deliver zero-stress, 100% memorable vacations.
-        </p>
-      </section>
+      {/* Founder & Leadership Section */}
+      <LeadershipTrustSection />
 
       {/* Pillars */}
       <section className="bg-[#F8FAFC] py-16 px-6 mb-16 border-y border-sky-100">
@@ -42,7 +33,7 @@ export const AboutWanderlustPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-3xl border border-sky-100/80 shadow-sm">
               <Users size={32} className="text-[#0284C7] mb-4" />
-              <h3 className="font-display font-bold text-xl text-[#0C4A6E] mb-2">15,000+ Happy Travelers</h3>
+              <h3 className="font-display font-bold text-xl text-[#0C4A6E] mb-2">500+ Happy Travelers</h3>
               <p className="text-sm text-slate-500 leading-relaxed">Trusted by families, honeymooners, and travel enthusiasts across India and worldwide.</p>
             </div>
 

@@ -1,4 +1,4 @@
-﻿import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation, Outlet, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WanderlustProvider, useWanderlust } from './context/WanderlustContext';
@@ -19,6 +19,7 @@ import { ToastContainer } from './components/ToastContainer';
 const HeroFlightPath = React.lazy(() => import('./components/HeroFlightPath').then(m => ({ default: m.HeroFlightPath })));
 const TrustStrip = React.lazy(() => import('./components/TrustStrip').then(m => ({ default: m.TrustStrip })));
 const ExploreJourneysSection = React.lazy(() => import('./components/ExploreJourneysSection').then(m => ({ default: m.ExploreJourneysSection })));
+const LeadershipTrustSection = React.lazy(() => import('./components/LeadershipTrustSection').then(m => ({ default: m.LeadershipTrustSection })));
 const TravelerGalleryCarousel = React.lazy(() => import('./components/TravelerGalleryCarousel').then(m => ({ default: m.TravelerGalleryCarousel })));
 const HowItWorks = React.lazy(() => import('./components/HowItWorks').then(m => ({ default: m.HowItWorks })));
 const TestimonialsSection = React.lazy(() => import('./components/TestimonialsSection').then(m => ({ default: m.TestimonialsSection })));
@@ -144,6 +145,7 @@ export default function App() {
                     <HeroFlightPath />
                     <TrustStrip />
                     <ExploreJourneysSection />
+                    <LeadershipTrustSection />
                     <TravelerGalleryCarousel />
                     <HowItWorks />
                     <TestimonialsSection />
@@ -205,6 +207,3 @@ export default function App() {
     </QueryClientProvider>
   );
 }
-
-
-
