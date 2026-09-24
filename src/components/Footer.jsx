@@ -59,10 +59,11 @@ export const Footer = () => {
           {/* Col 3: Company (2 cols on lg) */}
           <div className="lg:col-span-2 space-y-3">
             <div className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#38BDF8]">
-              COMPANY
+              COMPANY & LEGAL
             </div>
             <div className="flex flex-col space-y-2 text-xs font-medium text-slate-300">
               <button onClick={() => navigate('/about')} className="text-left hover:text-white transition-colors cursor-pointer">About Gumnu JUM</button>
+              <button onClick={() => navigate('/terms')} className="text-left hover:text-white transition-colors cursor-pointer">Terms & Conditions</button>
               <button onClick={() => navigate('/contact')} className="text-left hover:text-white transition-colors cursor-pointer">Contact Experts</button>
               <button onClick={() => navigate('/member')} className="text-left text-[#F97316] hover:underline cursor-pointer font-bold">Member Portal</button>
             </div>
@@ -112,7 +113,12 @@ export const Footer = () => {
 
         {/* Copyright Bar */}
         <div className="pt-4 border-t border-[#0C4A6E] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-sky-200/60 text-center sm:text-left font-medium">
-          <div>© 2026 Gumnu JUM by Lisa Travels. All rights reserved.</div>
+          <div>
+            © 2026 Gumnu JUM by Lisa Travels. All rights reserved. •{' '}
+            <button onClick={() => navigate('/terms')} className="text-sky-300 hover:text-white underline cursor-pointer">
+              Terms & Conditions
+            </button>
+          </div>
           <div className="font-mono text-[11px] text-sky-300/80">Explore • Experience • Create Memories</div>
         </div>
 

@@ -32,6 +32,7 @@ const TravelerGalleryPage = React.lazy(() => import('./components/TravelerGaller
 const AboutWanderlustPage = React.lazy(() => import('./components/AboutWanderlustPage').then(m => ({ default: m.AboutWanderlustPage })));
 const DestinationDetail = React.lazy(() => import('./components/DestinationDetail').then(m => ({ default: m.DestinationDetail })));
 const CheckoutFlow = React.lazy(() => import('./components/CheckoutFlow').then(m => ({ default: m.CheckoutFlow })));
+const TermsOfServicePage = React.lazy(() => import('./components/TermsOfServicePage').then(m => ({ default: m.TermsOfServicePage })));
 
 // --- Lazy Load Auth ---
 const MemberLogin = React.lazy(() => import('./components/auth/MemberLogin').then(m => ({ default: m.MemberLogin })));
@@ -173,6 +174,9 @@ export default function App() {
                 <Route path="/about" element={<AboutWanderlustPage />} />
                 <Route path="/contact" element={<ContactSection />} />
                 <Route path="/checkout" element={<CheckoutFlow />} />
+                <Route path="/terms" element={<TermsOfServicePage />} />
+                <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                <Route path="/terms-and-conditions" element={<TermsOfServicePage />} />
               </Route>
 
               <Route path="/login" element={<MemberLogin />} />

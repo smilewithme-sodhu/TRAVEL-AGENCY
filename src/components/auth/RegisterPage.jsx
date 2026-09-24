@@ -303,7 +303,17 @@ export const RegisterPage = () => {
                 )}
               </div>
               <span className="text-xs text-slate-600 leading-snug group-hover:text-[#0A3161] transition-colors select-none">
-                I agree to the Gumnu JUM Member Terms. I understand that reward eligibility is activated through genuine qualifying travel bookings.
+                I agree to the{' '}
+                <a
+                  href="/terms"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-blue-600 underline font-semibold hover:text-[#0A3161]"
+                >
+                  Terms & Conditions
+                </a>{' '}
+                and understand that reward eligibility is activated through genuine qualifying travel bookings.
               </span>
             </label>
 
