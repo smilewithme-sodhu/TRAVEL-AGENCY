@@ -1,5 +1,6 @@
 import React from 'react';
 import { MessageSquare } from 'lucide-react';
+import { AGENCY_WHATSAPP } from '../../context/WanderlustContext';
 
 export const WhatsAppConciergeButton = ({
   destinationName,
@@ -11,10 +12,11 @@ export const WhatsAppConciergeButton = ({
   const message =
     customMessage ||
     (destinationName
-      ? `Hi Gumnu JUM, I am a registered member interested in travelling to ${destinationName}. I would like to explore the current travel options.`
-      : `Hi Gumnu JUM Concierge, I am a member and would like to plan my upcoming travel.`);
+      ? `Hi Gumnu JUM by Lisa Travels, I am interested in travelling to ${destinationName}. I would like to explore the current travel options.`
+      : `Hi Gumnu JUM Concierge, I would like to plan my upcoming travel.`);
 
-  const url = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+  const phoneDigits = AGENCY_WHATSAPP || '918972161329';
+  const url = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
 
   const sizeClasses = {
     sm: 'px-4 py-2 text-xs',

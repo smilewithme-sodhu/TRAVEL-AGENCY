@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
-import { Compass, MessageSquare, Phone, Mail, MapPin } from 'lucide-react';
+import { Compass, MessageSquare, Phone, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Footer = () => {
@@ -79,22 +79,39 @@ export const Footer = () => {
                 className="flex items-center gap-2.5 cursor-pointer hover:text-white transition-colors"
               >
                 <Phone size={15} className="text-[#38BDF8]" />
-                <span className="font-mono">{agencyPhone}</span>
+                <span className="font-mono font-bold text-white">{agencyPhone}</span>
               </div>
               <div
                 onClick={() => openWhatsApp()}
                 className="flex items-center gap-2.5 cursor-pointer hover:text-white transition-colors"
               >
                 <MessageSquare size={15} className="text-[#25D366]" />
-                <span>WhatsApp: +91 98765 43210</span>
+                <span>WhatsApp: {agencyPhone}</span>
+              </div>
+              <div className="text-[11px] text-sky-200/70 pt-1 font-medium">
+                Gangtok, Sikkim, India
               </div>
             </div>
           </div>
 
         </div>
 
+        {/* Official Govt Registration Accreditation Strip */}
+        <div className="p-4 rounded-2xl bg-[#032135] border border-[#0C4A6E] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-sky-200/90">
+          <div className="flex items-center gap-2 text-center sm:text-left">
+            <ShieldCheck size={18} className="text-[#FACC15] shrink-0" />
+            <div>
+              <span className="font-bold text-white">Govt. Registered Travel Agency:</span>{' '}
+              <span className="font-mono font-semibold text-[#38BDF8]">1597/DoT&CAv/E/23/TA</span>
+            </div>
+          </div>
+          <div className="font-mono text-[11px] text-slate-300 text-center sm:text-right">
+            Tourist Trade Rules 2008 (Serial No. 1597) • Dept of Tourism & Civil Aviation, Govt. of Sikkim
+          </div>
+        </div>
+
         {/* Copyright Bar */}
-        <div className="pt-8 border-t border-[#0C4A6E] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-sky-200/60 text-center sm:text-left font-medium">
+        <div className="pt-4 border-t border-[#0C4A6E] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-sky-200/60 text-center sm:text-left font-medium">
           <div>© 2026 Gumnu JUM by Lisa Travels. All rights reserved.</div>
           <div className="font-mono text-[11px] text-sky-300/80">Explore • Experience • Create Memories</div>
         </div>

@@ -8,7 +8,8 @@ import {
   ChevronDown,
   ChevronUp,
   MessageSquare,
-  Heart
+  Heart,
+  Award
 } from 'lucide-react';
 import { useWanderlust } from '../context/WanderlustContext';
 
@@ -199,7 +200,17 @@ export const LeadershipTrustSection = () => {
                 </div>
               </div>
 
-              {/* Sign-off Box (Shown in full when expanded, compact otherwise) */}
+              {/* Official Govt License Strip */}
+              <div className="flex items-center gap-2.5 bg-emerald-50/80 p-3 rounded-xl border border-emerald-200/80 text-emerald-950 text-xs font-semibold">
+                <Award size={18} className="text-emerald-600 shrink-0" />
+                <div className="flex-1">
+                  <span className="font-bold text-[#0A3161]">Govt. Reg. No:</span>{' '}
+                  <span className="font-mono font-bold text-emerald-800">1597/DoT&CAv/E/23/TA</span>{' '}
+                  <span className="text-[11px] text-slate-600">(Tourist Trade Rules 2008, Sl. No. 1597)</span>
+                </div>
+              </div>
+
+              {/* Sign-off Box */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-50 p-3.5 sm:p-4 rounded-2xl border border-slate-200/60">
                 <div className="space-y-0.5">
                   <p className="font-display font-bold text-[#0A3161] text-sm sm:text-base flex items-center gap-1.5">

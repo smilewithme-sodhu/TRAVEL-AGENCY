@@ -38,11 +38,11 @@ export const HOW_IT_WORKS_STEPS = [
 ];
 
 export const TRUST_PARTNERS = [
-  { name: 'IATA Accredited', code: 'IATA #96-24810' },
-  { name: 'ATOL Protected', code: 'ATOL #10894' },
-  { name: 'National Geographic Travel Partner', code: 'EXPD-2026' },
-  { name: 'Condé Nast Traveler Gold List', code: 'CNT-99' },
-  { name: 'Star Alliance Flight Network', code: 'SA-GLOBAL' },
+  { name: 'Govt. Registered Agency', code: '1597/DoT&CAv/E/23/TA' },
+  { name: 'Tourist Trade Rules 2008', code: 'Serial No. 1597' },
+  { name: 'Dept of Tourism & Civil Aviation', code: 'Govt. of Sikkim' },
+  { name: '100% Verified Escapes', code: 'Lisa Travels' },
+  { name: '24/7 Concierge Network', code: '+91 89721 61329' },
 ];
 
 export const DESTINATIONS = [

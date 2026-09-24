@@ -7,16 +7,21 @@ import { apiClient } from '../api/client';
 
 const WanderlustContext = createContext();
 
-export const AGENCY_PHONE = '+91 98765 43210';
-export const AGENCY_WHATSAPP = '919876543210';
+export const AGENCY_PHONE = '+91 89721 61329';
+export const AGENCY_WHATSAPP = '918972161329';
+export const AGENCY_REGISTRATION = '1597/DoT&CAv/E/23/TA';
+export const AGENCY_TRADE_RULES = 'Tourist Trade Rules 2008 (Serial No. 1597)';
 
 export const AGENCY_CONTACT = {
   phone: AGENCY_PHONE,
   whatsappNumber: AGENCY_WHATSAPP,
-  email: 'concierge@wanderlust.travel',
-  address: '102 Horizon Plaza, Connaught Place, New Delhi, India',
+  registrationNumber: AGENCY_REGISTRATION,
+  tradeRules: AGENCY_TRADE_RULES,
+  authority: 'Dept of Tourism & Civil Aviation (DoT & CAv), Govt. of Sikkim',
+  email: 'concierge@lisatravels.in',
+  address: 'Gangtok, Sikkim, India',
   googleRating: '4.95',
-  googleReviewCount: '1,450+'
+  googleReviewCount: '500+'
 };
 
 export const WanderlustProvider = ({ children }) => {
@@ -278,7 +283,9 @@ export const WanderlustProvider = ({ children }) => {
         domesticPackages,
         internationalPackages,
         agencyPhone: AGENCY_PHONE,
-        agencyWhatsApp: AGENCY_WHATSAPP
+        agencyWhatsApp: AGENCY_WHATSAPP,
+        agencyRegistration: AGENCY_REGISTRATION,
+        agencyTradeRules: AGENCY_TRADE_RULES
       }}
     >
       {children}
