@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
 import { Compass, MessageSquare, Menu, X, Phone, User, ShieldCheck } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const HeaderNav = () => {
   const {
@@ -15,6 +15,7 @@ export const HeaderNav = () => {
   const [scrolled, setScrolled] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +31,7 @@ export const HeaderNav = () => {
 
   const handleNavClick = (path) => {
     navigate(path);
+    window.scrollTo({ top: 0, behavior: 'instant' });
     setMobileMenuOpen(false);
   };
 
@@ -73,7 +75,7 @@ export const HeaderNav = () => {
           {/* 2. Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-7 text-xs font-bold">
             {navLinks.map((link) => {
-              const isActive = window.location.pathname === link.path || (link.path === '/' && window.location.pathname === '');
+              const isActive = location.pathname === link.path || (link.path === '/' && location.pathname === '');
               return (
                 <button
                   key={link.id}
@@ -149,7 +151,7 @@ export const HeaderNav = () => {
               </span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-1 text-slate-400 hover:text-slate-800"
+                className="p-1 text-slate-400 hover:text-slate-800 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -160,8 +162,8 @@ export const HeaderNav = () => {
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.path)}
-                  className={`w-full text-left px-4 py-3 rounded-2xl text-xs font-bold transition-all ${
-                    window.location.pathname === link.path
+                  className={`w-full text-left px-4 py-3 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
+                    location.pathname === link.path
                       ? 'bg-[#0284C7] text-white'
                       : 'text-slate-800 hover:bg-slate-50'
                   }`}
@@ -174,7 +176,7 @@ export const HeaderNav = () => {
             <div className="pt-3 border-t border-slate-100 space-y-2">
               <button
                 onClick={() => handleNavClick('/member')}
-                className="w-full py-3 px-4 rounded-2xl bg-[#0C4A6E] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs"
+                className="w-full py-3 px-4 rounded-2xl bg-[#0C4A6E] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
                 <User className="w-4 h-4 text-sky-300" />
                 <span>Member Portal</span>
@@ -185,7 +187,7 @@ export const HeaderNav = () => {
                   openWhatsApp(null, "Hello Gumnu JUM by Lisa Travels, I would like to plan my custom holiday journey.");
                   setMobileMenuOpen(false);
                 }}
-                className="w-full py-3 px-4 rounded-2xl bg-[#25D366] text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-xs"
+                className="w-full py-3 px-4 rounded-2xl bg-[#25D366] text-slate-950 font-extrabold text-xs flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
                 <MessageSquare className="w-4 h-4 fill-current" />
                 <span>Talk to Concierge on WhatsApp</span>

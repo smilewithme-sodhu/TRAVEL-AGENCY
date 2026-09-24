@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useWanderlust } from '../context/WanderlustContext';
 import { DESTINATION_PACKAGES } from '../data/packageData';
@@ -8,11 +8,22 @@ export const DestinationDetail = () => {
   const { id } = useParams();
   const { selectedDestination, selectedPackage, allPackages, navigateTo, toggleWishlist, savedWishlist, openWhatsApp, openPhoneCall, agencyPhone } = useWanderlust();
   
+  // Instant scroll to top when landing on a destination page
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [id]);
+
   // Find destination from context or URL param fallback
   const packagesList = (allPackages && allPackages.length > 0) ? allPackages : DESTINATION_PACKAGES;
-  const dest = (selectedDestination && selectedDestination.id === id)
-    ? selectedDestination
-    : (packagesList.find(p => p.id === id) || selectedDestination || selectedPackage || packagesList[0] || {});
+  const dest = (id ? packagesList.find(p => 
+      p.id?.toString().toLowerCase() === id.toString().toLowerCase() ||
+      (p.title && p.title.toLowerCase().replace(/\s+/g, '-')) === id.toLowerCase() ||
+      (p.name && p.name.toLowerCase().replace(/\s+/g, '-')) === id.toLowerCase()
+    ) : null)
+    || (selectedDestination && selectedDestination.id ? selectedDestination : null)
+    || selectedPackage
+    || packagesList[0]
+    || {};
 
   const isSaved = savedWishlist?.includes(dest.id) || false;
 

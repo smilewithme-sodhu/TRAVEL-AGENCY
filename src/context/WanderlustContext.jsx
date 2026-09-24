@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { DESTINATION_PACKAGES } from '../data/packageData';
 import { INITIAL_GALLERY_PHOTOS } from '../data/galleryData';
 import { memberService } from '../services/memberService';
-  import { apiClient } from '../api/client';
+import { apiClient } from '../api/client';
 
 const WanderlustContext = createContext();
 
@@ -58,6 +58,7 @@ export const WanderlustProvider = ({ children }) => {
       setCurrentView('register');
     }
   }, []);
+
   // Inquiry Modal State
   const [inquiryModal, setInquiryModal] = useState({
     isOpen: false,
@@ -139,7 +140,7 @@ export const WanderlustProvider = ({ children }) => {
   const openWhatsApp = (packageObj = null, customNote = '') => {
     const pkg = packageObj || selectedPackage;
     const destinationName = pkg ? (pkg.name || pkg.title) : 'a dream holiday destination';
-    const message = customNote || `Hello Wanderlust Travel Agency, I would like to know more about ${destinationName}.`;
+    const message = customNote || `Hello Gumnu JUM by Lisa Travels, I would like to know more about ${destinationName}.`;
     const encodedText = encodeURIComponent(message);
     const url = `https://wa.me/${AGENCY_WHATSAPP}?text=${encodedText}`;
     window.open(url, '_blank');
@@ -175,7 +176,7 @@ export const WanderlustProvider = ({ children }) => {
       tripTitle: photoData.tripTitle || 'Dream Holiday Experience',
       location: photoData.location || 'Exotic Destination',
       category: photoData.category || 'domestic',
-      caption: photoData.caption || 'Unforgettable moments with Wanderlust.',
+      caption: photoData.caption || 'Unforgettable moments with Gumnu JUM.',
       verifiedTrip: true,
       likes: 1
     };
@@ -192,20 +193,32 @@ export const WanderlustProvider = ({ children }) => {
     if (packageObj) {
       setSelectedPackage(packageObj);
     }
-    setCurrentView(view);
+    setCurrentView(view || 'home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // React Router translation
-    if (view === 'home') navigate('/');
-    else if (view.startsWith('member-')) {
+    if (!view || view === 'home') {
+      navigate('/');
+    } else if (view === 'detail') {
+      const targetId = packageObj?.id || (typeof packageObj === 'string' ? packageObj : selectedPackage?.id);
+      if (targetId) {
+        navigate(`/detail/${targetId}`);
+      } else {
+        navigate('/destinations');
+      }
+    } else if (view === 'dashboard') {
+      navigate('/member');
+    } else if (view === 'destinations' || view === 'packages' || view === 'domestic' || view === 'international') {
+      navigate('/destinations');
+    } else if (view.startsWith('member-')) {
       const subpath = view.replace('member-', '');
       navigate(`/member${subpath === 'dashboard' ? '' : `/${subpath}`}`);
-    }
-    else if (view.startsWith('admin-')) {
+    } else if (view.startsWith('admin-')) {
       const subpath = view.replace('admin-', '');
       navigate(`/admin${subpath === 'dashboard' ? '' : `/${subpath}`}`);
-    }
-    else {
+    } else if (view.startsWith('/')) {
+      navigate(view);
+    } else {
       navigate(`/${view}`);
     }
   };
@@ -219,12 +232,13 @@ export const WanderlustProvider = ({ children }) => {
 
   const formatPrice = (amount) => {
     if (!amount) return 'Custom Quote';
-    return `$${Number(amount).toLocaleString()}`;
+    return `₹${Number(amount).toLocaleString()}`;
   };
 
   // Filter Helpers
-  const domesticPackages = packages.filter(p => p.category === 'domestic');
-  const internationalPackages = packages.filter(p => p.category === 'international');
+  const packagesList = (packages && packages.length > 0) ? packages : DESTINATION_PACKAGES;
+  const domesticPackages = packagesList.filter(p => p.category === 'domestic');
+  const internationalPackages = packagesList.filter(p => p.category === 'international');
 
   return (
     <WanderlustContext.Provider
@@ -259,8 +273,8 @@ export const WanderlustProvider = ({ children }) => {
         navigateTo,
         formatPrice,
         contact: AGENCY_CONTACT,
-        destinations: packages,
-        allPackages: packages,
+        destinations: packagesList,
+        allPackages: packagesList,
         domesticPackages,
         internationalPackages,
         agencyPhone: AGENCY_PHONE,

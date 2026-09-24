@@ -1,22 +1,45 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useWanderlust } from '../context/WanderlustContext';
+import { DESTINATION_PACKAGES } from '../data/packageData';
 import { PackageCard } from './PackageCard';
 import { Search, MapPin, SlidersHorizontal, Compass } from 'lucide-react';
 
 export const DestinationsCatalogPage = () => {
-  const { allPackages, openWhatsApp } = useWanderlust();
+  const { allPackages } = useWanderlust();
+  const location = useLocation();
+
+  // Determine initial tab based on path or query
+  const getInitialTab = () => {
+    const path = location.pathname.toLowerCase();
+    const searchParams = new URLSearchParams(location.search);
+    const cat = searchParams.get('category')?.toUpperCase();
+    if (cat === 'DOMESTIC' || path.includes('domestic')) return 'DOMESTIC';
+    if (cat === 'INTERNATIONAL' || path.includes('international')) return 'INTERNATIONAL';
+    return 'ALL';
+  };
   
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('ALL'); // 'ALL', 'DOMESTIC', 'INTERNATIONAL'
+  const [activeTab, setActiveTab] = useState(getInitialTab);
 
-  const packagesList = allPackages || [];
+  // Scroll to top on mount or route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [location.pathname]);
+
+  // Sync tab with route if path changes
+  useEffect(() => {
+    setActiveTab(getInitialTab());
+  }, [location.pathname, location.search]);
+
+  const packagesList = (allPackages && allPackages.length > 0) ? allPackages : DESTINATION_PACKAGES;
 
   const filteredPackages = useMemo(() => {
     return packagesList.filter(pkg => {
       const name = pkg.name || pkg.title || '';
-      const location = pkg.location || '';
+      const loc = pkg.location || '';
       const matchesSearch = name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            location.toLowerCase().includes(searchQuery.toLowerCase());
+                            loc.toLowerCase().includes(searchQuery.toLowerCase());
       const category = (pkg.category || '').toUpperCase();
       const matchesTab = activeTab === 'ALL' || category === activeTab;
       return matchesSearch && matchesTab;
@@ -87,7 +110,7 @@ export const DestinationsCatalogPage = () => {
         {filteredPackages.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredPackages.map((pkg) => (
-              <PackageCard key={pkg.id} pkg={pkg} />
+              <PackageCard key={pkg.id || pkg._id} pkg={pkg} />
             ))}
           </div>
         ) : (
@@ -98,6 +121,7 @@ export const DestinationsCatalogPage = () => {
           </div>
         )}
       </div>
+
     </div>
   );
 };

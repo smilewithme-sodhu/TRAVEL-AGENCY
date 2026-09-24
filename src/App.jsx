@@ -153,11 +153,23 @@ export default function App() {
                     <ContactSection />
                   </>
                 } />
+                
+                {/* Destinations Routes */}
                 <Route path="/destinations" element={<DestinationsCatalogPage />} />
+                <Route path="/packages" element={<DestinationsCatalogPage />} />
+                <Route path="/domestic" element={<DestinationsCatalogPage />} />
+                <Route path="/international" element={<DestinationsCatalogPage />} />
+                
+                {/* Detail Routes */}
+                <Route path="/detail/:id" element={<DestinationDetail />} />
+                <Route path="/detail" element={<DestinationDetail />} />
+                <Route path="/destination/:id" element={<DestinationDetail />} />
+                <Route path="/destinations/:id" element={<DestinationDetail />} />
+
+                {/* Other Public Pages */}
                 <Route path="/gallery" element={<TravelerGalleryPage />} />
                 <Route path="/about" element={<AboutWanderlustPage />} />
                 <Route path="/contact" element={<ContactSection />} />
-                <Route path="/detail/:id" element={<DestinationDetail />} />
                 <Route path="/checkout" element={<CheckoutFlow />} />
               </Route>
 
