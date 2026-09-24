@@ -1,22 +1,30 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useWanderlust } from '../context/WanderlustContext';
-import { Clock, Star, ArrowLeft, Check, MapPin, MessageSquare, Phone, ShieldCheck, Heart, Sparkles, Compass } from 'lucide-react';
+import { DESTINATION_PACKAGES } from '../data/packageData';
+import { ArrowLeft, Check, MapPin, MessageSquare, Phone, ShieldCheck, Heart, Sparkles, Compass } from 'lucide-react';
 
 export const DestinationDetail = () => {
-  const { selectedDestination, selectedPackage, navigateTo, toggleWishlist, savedWishlist, openWhatsApp, openPhoneCall, agencyPhone } = useWanderlust();
+  const { id } = useParams();
+  const { selectedDestination, selectedPackage, allPackages, navigateTo, toggleWishlist, savedWishlist, openWhatsApp, openPhoneCall, agencyPhone } = useWanderlust();
   
-  const dest = selectedDestination || selectedPackage || {};
+  // Find destination from context or URL param fallback
+  const packagesList = (allPackages && allPackages.length > 0) ? allPackages : DESTINATION_PACKAGES;
+  const dest = (selectedDestination && selectedDestination.id === id)
+    ? selectedDestination
+    : (packagesList.find(p => p.id === id) || selectedDestination || selectedPackage || packagesList[0] || {});
+
   const isSaved = savedWishlist?.includes(dest.id) || false;
 
   // Normalized package properties
-  const title = dest.name || dest.title || 'Luxury Destination';
+  const title = dest.name || dest.title || 'Exotic Destination';
   const heroImage = dest.heroImage || dest.image || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=80';
-  const location = dest.location || dest.stateOrCountry || 'Exotic Retreat';
+  const location = dest.location || dest.stateOrCountry || 'Travel Paradise';
   const category = dest.category || 'international';
   const tagline = dest.tagline || 'Experience an extraordinary bespoke journey tailored just for you.';
-  const description = dest.description || 'Discover breathtaking landscapes, rich cultural heritage, and world-class luxury stays curated by Gumnu JUM Travel consultants.';
+  const description = dest.description || 'Discover breathtaking landscapes, rich cultural heritage, and world-class stays curated by Gumnu JUM by Lisa Travels.';
   const whyVisit = dest.whyVisit || [
-    { icon: '✨', title: 'Curated Experiences', desc: 'Private guided excursions and verified luxury stays.' },
+    { icon: '✨', title: 'Curated Experiences', desc: 'Private excursions and handpicked boutique stays.' },
     { icon: '🏔', title: 'Scenic Landscapes', desc: 'Breathtaking natural wonders and iconic viewpoints.' },
     { icon: '🏛', title: 'Rich Culture & Heritage', desc: 'Immersive local traditions and historic landmarks.' },
     { icon: '🌟', title: 'Unforgettable Memories', desc: 'Bespoke moments crafted for couples, families, and groups.' }
@@ -29,113 +37,99 @@ export const DestinationDetail = () => {
   const galleryImages = dest.galleryImages || [heroImage];
 
   return (
-    <div style={{ paddingBottom: '80px', backgroundColor: '#F8F6F0' }}>
+    <div className="bg-[#F8FAFC] pb-24 min-h-screen">
       
       {/* Full Bleed Hero Photo Header */}
-      <div style={{ position: 'relative', width: '100%', height: '480px', overflow: 'hidden' }}>
+      <div className="relative w-full h-[450px] lg:h-[500px] overflow-hidden bg-slate-900">
         <img
           src={heroImage}
           alt={title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          className="w-full h-full object-cover"
         />
         
-        {/* Dark Gradient Overlay */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0.92) 100%)' }} />
+        {/* Deep Ocean Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#082F49] via-[#082F49]/60 to-transparent" />
 
         {/* Top Back Navigation Bar */}
-        <div style={{ position: 'absolute', top: '24px', left: '24px', zIndex: 10, display: 'flex', gap: '12px' }}>
+        <div className="absolute top-6 left-6 z-10 flex gap-3">
           <button
-            className="btn-secondary"
-            onClick={() => navigateTo('home')}
-            style={{ backgroundColor: 'rgba(15, 23, 42, 0.85)', color: '#FFFFFF', borderColor: 'rgba(255, 255, 255, 0.2)' }}
+            onClick={() => navigateTo('destinations')}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-white border border-white/30 text-xs font-bold transition-all cursor-pointer shadow-md"
           >
             <ArrowLeft size={16} />
-            <span>Return to Journeys</span>
+            <span>All Destinations</span>
           </button>
         </div>
 
         {/* Hero Headline Overlay */}
-        <div style={{ position: 'absolute', bottom: '32px', left: '24px', right: '24px', maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+        <div className="absolute bottom-8 left-6 right-6 max-w-7xl mx-auto">
+          <div className="flex items-center gap-3 mb-3">
             <span
-              className="font-mono-data text-12"
-              style={{
-                backgroundColor: category === 'domestic' ? '#0F172A' : '#C9A455',
-                color: category === 'domestic' ? '#C9A455' : '#0F172A',
-                padding: '4px 12px',
-                borderRadius: '9999px',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em'
-              }}
+              className={`font-mono text-xs uppercase px-3 py-1 rounded-full font-bold tracking-wider shadow-sm ${
+                category === 'domestic'
+                  ? 'bg-[#0284C7] text-white'
+                  : 'bg-[#F97316] text-white'
+              }`}
             >
               {category === 'domestic' ? 'Domestic Escape (India)' : 'International Adventure'}
             </span>
-            <span className="font-mono-data text-14" style={{ color: '#E2E8F0', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <MapPin size={14} style={{ color: '#C9A455' }} />
+            <span className="text-sky-200 font-semibold text-xs flex items-center gap-1.5">
+              <MapPin size={14} className="text-[#38BDF8]" />
               {location}
             </span>
           </div>
 
-          <h1 className="font-display display-44" style={{ color: '#FFFFFF', textShadow: '0 4px 12px rgba(0,0,0,0.5)', marginBottom: '8px' }}>
+          <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl text-white tracking-tight drop-shadow-md mb-2">
             {title}
           </h1>
 
-          <p className="text-16" style={{ color: '#E2E8F0', maxWidth: '680px', lineHeight: 1.5 }}>
+          <p className="text-sky-100/90 text-sm sm:text-base max-w-2xl leading-relaxed font-medium">
             {tagline}
           </p>
         </div>
       </div>
 
       {/* Main Content Layout */}
-      <div style={{ maxWidth: '1400px', margin: '48px auto 0 auto', padding: '0 24px', display: 'grid', gridTemplateColumns: '2fr 1.2fr', gap: '48px' }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         
-        {/* Left Storytelling Column */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+        {/* Left Column (8 cols on lg) */}
+        <div className="lg:col-span-7 xl:col-span-8 space-y-10">
           
           {/* About The Destination */}
-          <div style={{ backgroundColor: '#FFFFFF', padding: '36px', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
-            <div className="font-mono-data text-12" style={{ color: '#C9A455', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
+          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-sky-100/80 shadow-sm space-y-4">
+            <div className="font-mono text-xs uppercase tracking-widest text-[#0284C7] font-bold">
               DESTINATION NARRATIVE
             </div>
-            <h2 className="font-display display-34" style={{ color: '#0F172A', marginBottom: '16px' }}>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl text-[#0C4A6E]">
               About {title}
             </h2>
-            <p className="text-16" style={{ color: '#475569', lineHeight: 1.8 }}>
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               {description}
             </p>
           </div>
 
           {/* Why Travel Here Cards */}
-          <div>
-            <div className="font-mono-data text-12" style={{ color: '#C9A455', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
+          <div className="space-y-4">
+            <div className="font-mono text-xs uppercase tracking-widest text-[#0284C7] font-bold">
               KEY HIGHLIGHTS & ATTRACTIONS
             </div>
-            <h3 className="font-display display-34" style={{ color: '#0F172A', marginBottom: '24px' }}>
+            <h3 className="font-display font-bold text-2xl text-[#0C4A6E]">
               Why Travel to {title}?
             </h3>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {whyVisit.map((item, idx) => (
                 <div
                   key={idx}
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    padding: '24px',
-                    borderRadius: '14px',
-                    border: '1px solid rgba(0,0,0,0.06)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '8px'
-                  }}
+                  className="bg-white p-5 rounded-2xl border border-sky-100/80 shadow-xs space-y-2 hover:border-sky-200 transition-colors"
                 >
-                  <div style={{ fontSize: '1.75rem', marginBottom: '4px' }}>
+                  <div className="text-2xl mb-1">
                     {item.icon || '✨'}
                   </div>
-                  <h4 className="font-display text-18" style={{ fontWeight: 700, color: '#0F172A' }}>
+                  <h4 className="font-display font-bold text-base text-[#0C4A6E]">
                     {item.title}
                   </h4>
-                  <p className="text-14" style={{ color: '#64748B', lineHeight: 1.6 }}>
+                  <p className="text-xs text-slate-500 leading-relaxed">
                     {item.desc || item.description}
                   </p>
                 </div>
@@ -145,25 +139,25 @@ export const DestinationDetail = () => {
 
           {/* Destination Highlights */}
           {highlights.length > 0 && (
-            <div style={{ backgroundColor: '#FFFFFF', padding: '36px', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.06)' }}>
-              <div className="font-mono-data text-12" style={{ color: '#C9A455', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-sky-100/80 shadow-sm space-y-6">
+              <div className="font-mono text-xs uppercase tracking-widest text-[#0284C7] font-bold">
                 CURATED EXPERIENCES
               </div>
-              <h3 className="font-display text-24" style={{ color: '#0F172A', marginBottom: '20px' }}>
-                Featured Tourist Highlights
+              <h3 className="font-display font-bold text-2xl text-[#0C4A6E]">
+                Featured Highlights
               </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="space-y-4">
                 {highlights.map((h, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#F8F6F0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A455', shrink: 0, marginTop: '2px' }}>
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="w-6 h-6 rounded-full bg-sky-50 text-[#0284C7] flex items-center justify-center shrink-0 mt-0.5 font-bold">
                       <Check size={14} strokeWidth={2.5} />
                     </div>
                     <div>
-                      <h5 className="font-display text-16" style={{ fontWeight: 700, color: '#0F172A' }}>
+                      <h5 className="font-display font-bold text-base text-[#0C4A6E]">
                         {h.title || h.name || h}
                       </h5>
                       {h.desc && (
-                        <p className="text-14" style={{ color: '#64748B', marginTop: '2px', lineHeight: 1.5 }}>
+                        <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
                           {h.desc}
                         </p>
                       )}
@@ -176,17 +170,17 @@ export const DestinationDetail = () => {
 
           {/* Cinematic Photo Gallery */}
           {galleryImages.length > 1 && (
-            <div>
-              <div className="font-mono-data text-12" style={{ color: '#C9A455', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '8px' }}>
+            <div className="space-y-4">
+              <div className="font-mono text-xs uppercase tracking-widest text-[#0284C7] font-bold">
                 CINEMATIC GALLERY
               </div>
-              <h3 className="font-display text-24" style={{ color: '#0F172A', marginBottom: '20px' }}>
+              <h3 className="font-display font-bold text-2xl text-[#0C4A6E]">
                 Glimpses of {title}
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {galleryImages.map((imgUrl, idx) => (
-                  <div key={idx} style={{ height: '180px', borderRadius: '12px', overflow: 'hidden', backgroundColor: '#0F172A' }}>
-                    <img src={imgUrl} alt={`${title} photo ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div key={idx} className="h-36 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 shadow-xs">
+                    <img src={imgUrl} alt={`${title} photo ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
                   </div>
                 ))}
               </div>
@@ -195,100 +189,61 @@ export const DestinationDetail = () => {
 
         </div>
 
-        {/* Right Sticky Booking & Consultation Panel */}
-        <div>
-          <div
-            style={{
-              position: 'sticky',
-              top: '96px',
-              backgroundColor: '#0F172A',
-              color: '#FFFFFF',
-              padding: '36px',
-              borderRadius: '20px',
-              boxShadow: '0 20px 48px rgba(15, 23, 42, 0.2)',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Compass size={20} style={{ color: '#C9A455' }} />
-                <span className="font-mono-data text-12" style={{ color: '#C9A455', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  WANDERLUST CONCIERGE
+        {/* Right Column Sticky Booking Card (5 cols on lg) */}
+        <div className="lg:col-span-5 xl:col-span-4">
+          <div className="sticky top-24 bg-[#082F49] text-white p-6 sm:p-8 rounded-3xl border border-[#0C4A6E] shadow-xl shadow-blue-950/20 space-y-6">
+            <div className="flex items-center justify-between pb-3 border-b border-sky-800/60">
+              <div className="flex items-center gap-2">
+                <Compass size={18} className="text-[#38BDF8]" />
+                <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-[#38BDF8]">
+                  GUMNU JUM CONCIERGE
                 </span>
               </div>
               <button
                 onClick={() => toggleWishlist(dest.id)}
-                style={{ background: 'none', border: 'none', color: isSaved ? '#EF4444' : '#94A3B8', cursor: 'pointer' }}
+                className="cursor-pointer text-slate-400 hover:text-white transition-colors"
                 title="Save to wishlist"
               >
-                <Heart size={22} fill={isSaved ? '#EF4444' : 'none'} />
+                <Heart size={20} fill={isSaved ? '#EF4444' : 'none'} className={isSaved ? 'text-red-500' : ''} />
               </button>
             </div>
 
-            <h3 className="font-display text-24" style={{ fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>
+            <h3 className="font-display font-bold text-2xl text-white">
               Plan Your Trip to {title}
             </h3>
 
-            <p className="text-14" style={{ color: '#94A3B8', lineHeight: 1.6, marginBottom: '28px' }}>
-              We do not use rigid fixed itineraries or automated carts. Every trip is hand-tailored by our luxury travel consultants on WhatsApp based on your preferences, dates, and group size.
+            <p className="text-xs text-sky-100/80 leading-relaxed">
+              Every vacation is hand-tailored by our travel consultants on WhatsApp based on your preferred dates, budget, and group size.
             </p>
 
             {/* Direct WhatsApp Action */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div className="space-y-3 pt-2">
               <button
-                onClick={() => openWhatsApp(dest, `Hello Gumnu JUM by Lisa Travels, I would like to plan a bespoke holiday to ${title}. Please share available dates, luxury stay options, and pricing quote.`)}
-                style={{
-                  backgroundColor: '#25D366',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: '9999px',
-                  padding: '16px 24px',
-                  fontSize: '0.95rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px',
-                  boxShadow: '0 8px 24px rgba(37, 211, 102, 0.35)',
-                  transition: 'transform 0.2s ease'
-                }}
+                onClick={() => openWhatsApp(dest, `Hello Gumnu JUM by Lisa Travels, I would like to plan a vacation to ${title}. Please share available dates, hotel stays, and a custom quote.`)}
+                className="w-full py-4 px-6 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2.5 transition-all shadow-md hover:shadow-lg cursor-pointer"
               >
-                <MessageSquare size={18} />
-                <span>Plan My Trip on WhatsApp</span>
+                <MessageSquare size={18} className="fill-current" />
+                <span>Plan on WhatsApp</span>
               </button>
 
               <button
                 onClick={openPhoneCall}
-                style={{
-                  backgroundColor: 'rgba(255,255,255,0.08)',
-                  color: '#FFFFFF',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  borderRadius: '9999px',
-                  padding: '14px 24px',
-                  fontSize: '0.9rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px'
-                }}
+                className="w-full py-3 px-6 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
-                <Phone size={16} style={{ color: '#C9A455' }} />
-                <span>Call Hotline: {agencyPhone}</span>
+                <Phone size={15} className="text-[#38BDF8]" />
+                <span>Call Concierge: {agencyPhone}</span>
               </button>
             </div>
 
             {/* Trust Points */}
-            <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', color: '#CBD5E1' }}>
-                <ShieldCheck size={16} style={{ color: '#C9A455' }} />
-                <span>Verified 5-Star Boutique Hotels & Villas</span>
+            <div className="pt-4 border-t border-sky-800/60 space-y-2.5 text-xs text-sky-100/90">
+              <div className="flex items-center gap-2">
+                <ShieldCheck size={16} className="text-[#F97316] shrink-0" />
+                <span>Handpicked Value & Boutique Stays</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', color: '#CBD5E1' }}>
-                <Sparkles size={16} style={{ color: '#C9A455' }} />
-                <span>24/7 Dedicated On-Trip WhatsApp Support</span>
+              <div className="flex items-center gap-2">
+                <Sparkles size={16} className="text-[#38BDF8] shrink-0" />
+                <span>24/7 Dedicated Support On Trip</span>
               </div>
             </div>
 
