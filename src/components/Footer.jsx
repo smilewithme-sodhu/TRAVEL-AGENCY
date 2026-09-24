@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
-import { Compass, MessageSquare, Phone, ShieldCheck } from 'lucide-react';
+import { MessageSquare, Phone, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Footer = () => {
@@ -93,17 +93,33 @@ export const Footer = () => {
 
         </div>
 
-        {/* Official Govt Registration Accreditation Strip */}
-        <div className="p-4 rounded-2xl bg-[#032135] border border-[#0C4A6E] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-sky-200/90">
-          <div className="flex items-center gap-2 text-center sm:text-left">
-            <ShieldCheck size={18} className="text-[#FACC15] shrink-0" />
-            <div>
-              <span className="font-bold text-white">Govt. Registered Travel Agency:</span>{' '}
-              <span className="font-mono font-semibold text-[#38BDF8]">1597/DoT&CAv/E/23/TA</span>
+        {/* Official Govt & MSME Accreditation Strip */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-[#032135] border border-[#0C4A6E] space-y-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-sky-200/90 pb-3 border-b border-[#0C4A6E]/60">
+            <div className="flex items-center gap-2 text-center sm:text-left">
+              <ShieldCheck size={18} className="text-[#FACC15] shrink-0" />
+              <div>
+                <span className="font-bold text-white">Govt. of India Recognized:</span>{' '}
+                <span className="text-slate-300">MSME Udyam Registration:</span>{' '}
+                <span className="font-mono font-semibold text-[#38BDF8]">UDYAM-SK-01-0011040</span>
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-900/50 border border-blue-400/30 text-[10px] font-mono font-bold text-sky-300">
+              <span>National MSME Verified</span>
             </div>
           </div>
-          <div className="font-mono text-[11px] text-slate-300 text-center sm:text-right">
-            Tourist Trade Rules 2008 (Serial No. 1597) • Dept of Tourism & Civil Aviation, Govt. of Sikkim
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-sky-200/90">
+            <div className="flex items-center gap-2 text-center sm:text-left">
+              <ShieldCheck size={18} className="text-[#38BDF8] shrink-0" />
+              <div>
+                <span className="font-bold text-white">Govt. Registered Travel Agency:</span>{' '}
+                <span className="font-mono font-semibold text-[#38BDF8]">1597/DoT&CAv/E/23/TA</span>
+              </div>
+            </div>
+            <div className="font-mono text-[11px] text-slate-300 text-center sm:text-right">
+              Tourist Trade Rules 2008 (Serial No. 1597) • Dept of Tourism & Civil Aviation, Govt. of Sikkim
+            </div>
           </div>
         </div>
 

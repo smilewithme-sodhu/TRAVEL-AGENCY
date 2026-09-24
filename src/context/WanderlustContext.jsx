@@ -11,14 +11,16 @@ export const AGENCY_PHONE = '+91 89721 61329';
 export const AGENCY_WHATSAPP = '918972161329';
 export const AGENCY_REGISTRATION = '1597/DoT&CAv/E/23/TA';
 export const AGENCY_TRADE_RULES = 'Tourist Trade Rules 2008 (Serial No. 1597)';
+export const AGENCY_UDYAM = 'UDYAM-SK-01-0011040';
 
 export const AGENCY_CONTACT = {
   phone: AGENCY_PHONE,
   whatsappNumber: AGENCY_WHATSAPP,
   registrationNumber: AGENCY_REGISTRATION,
   tradeRules: AGENCY_TRADE_RULES,
+  udyamRegistration: AGENCY_UDYAM,
   authority: 'Dept of Tourism & Civil Aviation (DoT & CAv), Govt. of Sikkim',
-  email: 'concierge@lisatravels.in',
+  email: 'lisasonam470@gmail.com',
   address: 'Gangtok, Sikkim, India',
   googleRating: '4.95',
   googleReviewCount: '500+'
