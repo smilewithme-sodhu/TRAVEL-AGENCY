@@ -1,160 +1,187 @@
-﻿import React, { useState, useEffect } from 'react';
-import { useWanderlust } from '../../context/WanderlustContext';
-import { memberApi } from '../../api';
-import { formatINR, formatDate } from '../../utils/formatters';
-import { DashboardSkeleton } from '../ui/Skeleton';
-import { ErrorState } from '../ui/ErrorState';
-import { GreetingHeader } from './dashboard/GreetingHeader';
-import { TravelStatusCard } from './dashboard/TravelStatusCard';
-import { EarningsOverview } from './dashboard/EarningsOverview';
-import { QuickActions } from './dashboard/QuickActions';
-import { NetworkVolumeSnapshot } from './dashboard/NetworkVolumeSnapshot';
-import { RecentActivityFeed } from './dashboard/RecentActivityFeed';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Lock, Zap, Wallet, Plane, TrendingUp, Users, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { apiClient } from '../../api/client';
 
 export const MemberDashboard = () => {
-  const { navigateTo, showToast, memberProfile } = useWanderlust();
-  const [data, setData] = useState(null);
+  const navigate = useNavigate();
+  const [dashboardData, setDashboardData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
-  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    memberApi
-      .getDashboard(memberProfile?.status)
-      .then((res) => {
-        if (res.success) {
-          setData(res.data);
-          setErrorMsg('');
-        } else {
-          setErrorMsg(res.error || 'Unknown error');
-        }
-      })
-      .catch((err) => setErrorMsg(err.message))
-      .finally(() => setIsLoading(false));
-  }, [memberProfile?.status]);
-
-  const getShareUrl = () => {
-    return `${window.location.origin}/?ref=${data?.member?.memberCode}`;
-  };
-
-  const handleCopyLink = () => {
-    if (!data?.member?.memberCode) return;
-    navigator.clipboard.writeText(getShareUrl());
-    setIsCopied(true);
-    showToast('Personal referral link copied to clipboard!', 'success');
-    setTimeout(() => setIsCopied(false), 2500);
-  };
-
-  const handleNativeShare = async () => {
-    if (navigator.share && data?.member?.memberCode) {
+    // Fetch live data from your backend. NO HARDCODING.
+    const fetchDashboard = async () => {
       try {
-        await navigator.share({
-          title: 'Wanderlust Luxury Travel Club',
-          text: 'Explore handcrafted luxury journeys with personal WhatsApp concierge consultation.',
-          url: getShareUrl(),
-        });
-      } catch {
-        handleCopyLink();
+        const response = await apiClient.get('/api/member/dashboard');
+        if (response.data.success) {
+          setDashboardData(response.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch dashboard data");
+      } finally {
+        setIsLoading(false);
       }
-    } else {
-      handleCopyLink();
-    }
-  };
+    };
+    fetchDashboard();
+  }, []);
 
-  if (isLoading) return <DashboardSkeleton />;
-  if (!data) {
+  if (isLoading) {
     return (
-      <div className="p-8 text-center bg-red-50 rounded-2xl border border-red-200">
-        <h2 className="text-red-700 font-bold mb-2">Error Loading Dashboard</h2>
-        <p className="text-red-600 text-sm">{errorMsg}</p>
-        <button onClick={() => navigateTo('home')} className="mt-4 px-4 py-2 bg-red-600 text-white rounded-xl text-xs font-bold">Back to Home</button>
+      <div className="flex h-full items-center justify-center">
+        <div className="w-8 h-8 border-4 border-slate-700 border-t-[#C9A455] rounded-full animate-spin"></div>
       </div>
     );
   }
 
-  const { member, bookings, overview } = data;
-  const isActive = member?.status === 'GREEN';
+  // Fallback if API fails
+  if (!dashboardData) return <div className="text-white">Failed to load profile.</div>;
 
-  // Adapt backend data to component props
-  const statusCard = {
-    isActive,
-    headline: isActive ? "Wanderlust Green Member" : "Registered Member",
-    subheadline: isActive ? "Your luxury travel portal is fully unlocked." : "Book your first journey to unlock rewards.",
-    actionText: "Explore Packages"
-  };
+  const isGreen = dashboardData.member.status === 'GREEN' || dashboardData.member.status === 'ORANGE';
+  const hasBooked = dashboardData.bookings && dashboardData.bookings.length > 0;
 
-    const earnings = {
-    available: data?.member?.walletBalance || 0,
-    total: data?.overview?.totalEarned || 0,
-    direct: data?.overview?.directBonus || 0,
-    team: data?.overview?.teamBonus || 0,
-    binary: data?.overview?.binaryMatch || 0,
-    pending: data?.overview?.pendingRewards || 0,
-      global: data?.overview?.globalBonus || 0
-  };
-
-  const networkVolume = {
-    personal: overview?.personalVolume || 0,
-    team: overview?.teamVolume || 0,
-    directReferrals: overview?.activeDirectReferrals || 0,
-      leftVolume: overview?.leftVolume || 0,
-      rightVolume: overview?.rightVolume || 0,
-      matchedVolume: overview?.matchedVolume || 0,
-      leftCarryForward: overview?.leftCarryForward || 0,
-      rightCarryForward: overview?.rightCarryForward || 0,
-    };
-
-  const referral = {
-    shareUrl: `${window.location.origin}/?ref=${member?.memberCode}`
-  };
-
-  const recentActivities = [];
   return (
-    <div className="space-y-6 sm:space-y-8 animate-fadeIn">
-      {/* 1. Greeting Header */}
-      <GreetingHeader
-        member={member}
-        isActive={isActive}
-        handleNativeShare={handleNativeShare}
-      />
+    <div className="max-w-7xl mx-auto space-y-6">
+      
+      {/* --- INACTIVE (RED ID) FOMO BANNER --- */}
+      {!isGreen && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4 opacity-10">
+            <Lock size={120} />
+          </div>
+          <div className="relative z-10 flex flex-col md:flex-row gap-6 items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                <AlertTriangle className="text-red-500" />
+                Your Account is Inactive (RED ID)
+              </h2>
+              <p className="text-slate-300 mt-2 max-w-2xl">
+                You are currently missing out on <strong className="text-white">Binary Spillover</strong> and <strong className="text-white">Team Bonuses</strong>. Your position in the tree is locked, but points from your upline will bypass you until you activate.
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-3 w-full md:w-auto">
+              <button 
+                onClick={() => window.open('https://wa.me/YOUR_ADMIN_NUMBER', '_blank')}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)]"
+              >
+                Activate Now (₹500)
+              </button>
+              <span className="text-xs text-slate-400">Pay via WhatsApp & send UTR</span>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* 2. Primary Travel Status Card */}
-      <TravelStatusCard
-        statusCard={statusCard}
-        member={member}
-        isActive={isActive}
-        navigateTo={navigateTo}
-      />
+      {/* --- ACTIVE (GREEN ID) SUCCESS BANNER --- */}
+      {isGreen && !hasBooked && (
+        <div className="bg-[#C9A455]/10 border border-[#C9A455]/30 rounded-xl p-6">
+          <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-[#C9A455] flex items-center gap-2">
+                <ShieldCheck /> Active Member (GREEN ID)
+              </h2>
+              <p className="text-slate-300 mt-2">
+                Your position in the binary tree is secured! However, to unlock the <strong className="text-white">5-Level Team Bonus</strong>, you must book your first travel package.
+              </p>
+            </div>
+            <button 
+              onClick={() => navigate('/member/packages')}
+              className="bg-[#C9A455] hover:bg-[#b38e44] text-slate-900 font-bold py-3 px-8 rounded-lg transition-all"
+            >
+              Book a Package
+            </button>
+          </div>
+        </div>
+      )}
 
-      {/* 3. Master Financial Earnings Overview */}
-      <EarningsOverview
-        earnings={earnings}
-        navigateTo={navigateTo}
-        formatINR={formatINR}
-      />
+      {/* --- FINANCIAL STATS (BLURRED IF INACTIVE) --- */}
+      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ${!isGreen ? 'opacity-50 blur-[2px] pointer-events-none' : ''}`}>
+        
+        {/* Wallet Balance */}
+        <div className="bg-[#1E293B] p-6 rounded-xl border border-slate-800">
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-3 bg-indigo-500/10 rounded-lg text-indigo-400">
+              <Wallet size={24} />
+            </div>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Available Balance</p>
+          <h3 className="text-3xl font-bold text-white mt-1">₹{dashboardData.member.walletBalance}</h3>
+        </div>
 
-      {/* 4. Quick Actions Grid */}
-      <QuickActions
-        navigateTo={navigateTo}
-      />
+        {/* Direct Referrals */}
+        <div className="bg-[#1E293B] p-6 rounded-xl border border-slate-800">
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-3 bg-[#C9A455]/10 rounded-lg text-[#C9A455]">
+              <Users size={24} />
+            </div>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Direct Referrals</p>
+          <h3 className="text-3xl font-bold text-white mt-1">{dashboardData.overview.activeDirectReferrals}</h3>
+        </div>
 
-      {/* 5. Network Volume Snapshot */}
-      <NetworkVolumeSnapshot
-        networkVolume={networkVolume}
-        navigateTo={navigateTo}
-        formatINR={formatINR}
-      />
+        {/* Left BV */}
+        <div className="bg-[#1E293B] p-6 rounded-xl border border-slate-800 relative overflow-hidden">
+          <div className="absolute right-0 top-0 h-full w-1 bg-blue-500"></div>
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-3 bg-blue-500/10 rounded-lg text-blue-400">
+              <TrendingUp size={24} />
+            </div>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Left Leg Volume (BV)</p>
+          <h3 className="text-3xl font-bold text-white mt-1">{dashboardData.overview.leftVolume}</h3>
+        </div>
 
-      {/* 6. Recent Activity Feed */}
-      <RecentActivityFeed
-        recentActivities={recentActivities}
-        navigateTo={navigateTo}
-        formatDate={formatDate}
-        formatINR={formatINR}
-      />
+        {/* Right BV */}
+        <div className="bg-[#1E293B] p-6 rounded-xl border border-slate-800 relative overflow-hidden">
+          <div className="absolute right-0 top-0 h-full w-1 bg-emerald-500"></div>
+          <div className="flex justify-between items-start mb-4">
+            <div className="p-3 bg-emerald-500/10 rounded-lg text-emerald-400">
+              <Zap size={24} />
+            </div>
+          </div>
+          <p className="text-slate-400 text-sm font-medium">Right Leg Volume (BV)</p>
+          <h3 className="text-3xl font-bold text-white mt-1">{dashboardData.overview.rightVolume}</h3>
+        </div>
+      </div>
+
+      {/* --- RECENT ACTIVITY / NEXT STEPS --- */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-[#1E293B] border border-slate-800 rounded-xl p-6">
+          <h3 className="text-lg font-bold text-white mb-4">Your Next Milestones</h3>
+          <ul className="space-y-4">
+            <li className="flex items-center gap-3 text-slate-300">
+              <div className={`p-1 rounded-full ${isGreen ? 'bg-green-500/20 text-green-400' : 'bg-slate-700 text-slate-500'}`}>✓</div>
+              <span className={isGreen ? 'text-white' : ''}>Pay ₹500 Activation Fee</span>
+            </li>
+            <li className="flex items-center gap-3 text-slate-300">
+              <div className={`p-1 rounded-full ${hasBooked ? 'bg-green-500/20 text-green-400' : 'bg-slate-700 text-slate-500'}`}>✓</div>
+              <span className={hasBooked ? 'text-white' : ''}>Book your first Travel Package</span>
+            </li>
+            <li className="flex items-center gap-3 text-slate-300">
+              <div className="p-1 rounded-full bg-slate-700 text-slate-500">✓</div>
+              <span>Refer 2 Active Members (1 Left, 1 Right)</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div className="bg-[#1E293B] border border-slate-800 rounded-xl p-6 flex flex-col justify-center items-center text-center">
+          <Plane size={48} className="text-[#C9A455] mb-4 opacity-50" />
+          <h3 className="text-xl font-bold text-white mb-2">Upcoming Trips</h3>
+          {hasBooked ? (
+            <p className="text-slate-400">You are all set for your next adventure. Check your Trips page for itinerary details.</p>
+          ) : (
+            <>
+              <p className="text-slate-400 mb-4">You haven't booked any packages yet. Your Team Bonus is currently locked.</p>
+              <button 
+                onClick={() => navigate('/member/packages')}
+                className="text-[#C9A455] hover:text-white transition-colors text-sm font-semibold uppercase tracking-wider"
+              >
+                Browse Packages →
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
     </div>
   );
 };
-
-
