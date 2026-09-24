@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient, useAdminMemberSearch, useManualBooking, useAssignManualPoints } from '../../api/client';
 import { useWanderlust } from '../../context/WanderlustContext';
@@ -247,10 +247,13 @@ export const AdminBookingsPage: React.FC = () => {
     }
   });
 
-  const filteredBookings = bookings.filter((b: any) => 
-    b.bookingRef?.toLowerCase().includes(search.toLowerCase()) || 
-    b.member?.user?.name?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredBookings = useMemo(() => {
+    const searchLower = search.toLowerCase();
+    return bookings.filter((b: any) =>
+      b.bookingRef?.toLowerCase().includes(searchLower) ||
+      b.member?.user?.name?.toLowerCase().includes(searchLower)
+    );
+  }, [bookings, search]);
 
   const openApprovalModal = (booking: any) => {
     setSelectedBooking(booking);
