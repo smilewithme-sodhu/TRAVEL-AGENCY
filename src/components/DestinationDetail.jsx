@@ -14,7 +14,7 @@ export const DestinationDetail = () => {
   const location = dest.location || dest.stateOrCountry || 'Exotic Retreat';
   const category = dest.category || 'international';
   const tagline = dest.tagline || 'Experience an extraordinary bespoke journey tailored just for you.';
-  const description = dest.description || 'Discover breathtaking landscapes, rich cultural heritage, and world-class luxury stays curated by Wanderlust Travel consultants.';
+  const description = dest.description || 'Discover breathtaking landscapes, rich cultural heritage, and world-class luxury stays curated by Gumnu JUM Travel consultants.';
   const whyVisit = dest.whyVisit || [
     { icon: '✨', title: 'Curated Experiences', desc: 'Private guided excursions and verified luxury stays.' },
     { icon: '🏔', title: 'Scenic Landscapes', desc: 'Breathtaking natural wonders and iconic viewpoints.' },
@@ -236,7 +236,7 @@ export const DestinationDetail = () => {
             {/* Direct WhatsApp Action */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <button
-                onClick={() => openWhatsApp(dest, `Hello Wanderlust Travel Agency, I would like to plan a bespoke holiday to ${title}. Please share available dates, luxury stay options, and pricing quote.`)}
+                onClick={() => openWhatsApp(dest, `Hello Gumnu JUM by Lisa Travels, I would like to plan a bespoke holiday to ${title}. Please share available dates, luxury stay options, and pricing quote.`)}
                 style={{
                   backgroundColor: '#25D366',
                   color: '#FFFFFF',

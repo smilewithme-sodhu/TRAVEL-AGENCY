@@ -79,7 +79,7 @@ export const SupportPage = () => {
 
         <WhatsAppConciergeButton
           size="lg"
-          customMessage="Hi Wanderlust Travel Concierge, I need priority member support regarding my travel arrangements."
+          customMessage="Hi Gumnu JUM Travel Concierge, I need priority member support regarding my travel arrangements."
           className="shrink-0"
         />
       </div>

@@ -223,7 +223,7 @@ export const TESTIMONIALS = [
     role: 'Architectural Director',
     trip: 'Tokyo & Mount Fuji Traverse',
     rating: 5,
-    comment: 'Wanderlust completely changed how I think about travel. The Flight Path itinerary rail kept every leg crystal clear, and the private bullet train transfers were seamless.',
+    comment: 'Gumnu JUM completely changed how I think about travel. The Flight Path itinerary rail kept every leg crystal clear, and the private bullet train transfers were seamless.',
     date: 'OCT 2025'
   },
   {

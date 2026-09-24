@@ -16,7 +16,7 @@ export const TestimonialsSection = () => {
             Stories From Our Travelers
           </h2>
           <p className="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
-            Real experiences from travelers who designed their private journeys with Wanderlust.
+            Real experiences from travelers who designed their private journeys with Gumnu JUM.
           </p>
         </div>
 

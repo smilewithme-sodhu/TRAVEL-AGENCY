@@ -19,7 +19,7 @@ export const FestivalDealBanner = () => {
         </div>
 
         <button
-          onClick={() => openWhatsApp(null, "Hi Wanderlust! I would like to claim the early booking special offer.")}
+          onClick={() => openWhatsApp(null, "Hi Gumnu JUM! I would like to claim the early booking special offer.")}
           className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#C9A455] text-[#0F172A] font-extrabold text-[11px] hover:bg-[#b89547] transition-all cursor-pointer shrink-0 shadow-2xs"
         >
           <MessageSquare size={12} className="fill-current" />

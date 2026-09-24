@@ -11,8 +11,8 @@ export const WhatsAppConciergeButton = ({
   const message =
     customMessage ||
     (destinationName
-      ? `Hi Wanderlust, I am a registered member interested in travelling to ${destinationName}. I would like to explore the current travel options.`
-      : `Hi Wanderlust Concierge, I am a member and would like to plan my upcoming travel.`);
+      ? `Hi Gumnu JUM, I am a registered member interested in travelling to ${destinationName}. I would like to explore the current travel options.`
+      : `Hi Gumnu JUM Concierge, I am a member and would like to plan my upcoming travel.`);
 
   const url = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
 

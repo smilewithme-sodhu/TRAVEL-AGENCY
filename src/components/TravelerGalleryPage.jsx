@@ -23,7 +23,7 @@ export const TravelerGalleryPage = () => {
             Real Memories & Photos
           </h1>
           <p className="text-16" style={{ color: 'var(--text-muted)', marginTop: '8px', maxWidth: '600px' }}>
-            Browse photos captured by travelers on their domestic and international vacations with Wanderlust Travels.
+            Browse photos captured by travelers on their domestic and international vacations with Gumnu JUM Travels.
           </p>
         </div>
 

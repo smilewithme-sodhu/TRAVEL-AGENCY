@@ -49,7 +49,7 @@ export const TripsPage = () => {
           </p>
         </div>
 
-        <WhatsAppConciergeButton size="sm" customMessage="Hi Wanderlust Concierge, I would like to plan a new holiday journey." />
+        <WhatsAppConciergeButton size="sm" customMessage="Hi Gumnu JUM Concierge, I would like to plan a new holiday journey." />
       </div>
 
       {/* Tabs */}

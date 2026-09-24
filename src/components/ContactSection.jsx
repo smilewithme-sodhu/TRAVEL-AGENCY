@@ -41,7 +41,7 @@ export const ContactSection = () => {
             </div>
 
             <button
-              onClick={() => openWhatsApp(null, "Hello Wanderlust Travel Agency, I would like to inquire about vacation planning.")}
+              onClick={() => openWhatsApp(null, "Hello Gumnu JUM by Lisa Travels, I would like to inquire about vacation planning.")}
               className="w-full py-3.5 px-6 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold text-xs transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer"
             >
               <MessageSquare size={16} className="fill-current" />

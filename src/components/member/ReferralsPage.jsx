@@ -31,7 +31,7 @@ export const ReferralsPage = () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Wanderlust Luxury Travel Club',
+          title: 'Gumnu JUM by Lisa Travels Club',
           text: `Explore handcrafted luxury journeys with personal WhatsApp concierge consultation. (Invited by ${memberProfile?.name || 'Member'})`,
           url: shareUrl,
         });
@@ -131,7 +131,7 @@ export const ReferralsPage = () => {
               </button>
 
               <a
-                href={`https://wa.me/?text=${encodeURIComponent(`Plan your dream luxury vacation with Wanderlust Travel Agency: ${shareUrl}`)}`}
+                href={`https://wa.me/?text=${encodeURIComponent(`Plan your dream luxury vacation with Gumnu JUM by Lisa Travels: ${shareUrl}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-slate-950 font-extrabold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"

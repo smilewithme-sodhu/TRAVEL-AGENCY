@@ -7,7 +7,7 @@ export const FloatingWhatsAppButton = () => {
 
   return (
     <div
-      onClick={() => openWhatsAppInquiry(null, "Hi Wanderlust Travels! I am looking for a customized travel package.")}
+      onClick={() => openWhatsAppInquiry(null, "Hi Gumnu JUM Travels! I am looking for a customized travel package.")}
       title="Chat with Travel Expert on WhatsApp"
       style={{
         position: 'fixed',

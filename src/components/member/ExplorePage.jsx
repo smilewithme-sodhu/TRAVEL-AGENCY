@@ -24,7 +24,7 @@ export const ExplorePage = () => {
           </p>
         </div>
 
-        <WhatsAppConciergeButton customMessage="Hi Wanderlust, I am looking to customize a special holiday package." />
+        <WhatsAppConciergeButton customMessage="Hi Gumnu JUM, I am looking to customize a special holiday package." />
       </div>
 
       {/* Filter Tabs */}
@@ -110,7 +110,7 @@ export const ExplorePage = () => {
                 size="md"
                 className="w-full"
                 destinationName={pkg.name}
-                customMessage={`Hi Wanderlust, I am a member interested in travelling to ${pkg.name}. I would like to know about available dates and custom luxury stay options.`}
+                customMessage={`Hi Gumnu JUM, I am a member interested in travelling to ${pkg.name}. I would like to know about available dates and custom luxury stay options.`}
               />
             </div>
           </div>
