@@ -67,11 +67,17 @@ export const WanderlustProvider = ({ children }) => {
   // Saved Wishlist
   const [savedWishlist, setSavedWishlist] = useState(['sikkim', 'bali', 'dubai']);
 
-  // Gallery Photos
+  // Gallery Photos (Always load all 66 real photos from dataset)
   const [galleryPhotos, setGalleryPhotos] = useState(() => {
     try {
-      const saved = localStorage.getItem('wanderlust_gallery_photos');
-      return saved ? JSON.parse(saved) : INITIAL_GALLERY_PHOTOS;
+      const saved = localStorage.getItem('gumnujum_gallery_photos');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length >= INITIAL_GALLERY_PHOTOS.length) {
+          return parsed;
+        }
+      }
+      return INITIAL_GALLERY_PHOTOS;
     } catch {
       return INITIAL_GALLERY_PHOTOS;
     }
