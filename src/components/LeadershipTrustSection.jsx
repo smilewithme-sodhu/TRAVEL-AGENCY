@@ -315,11 +315,21 @@ export const LeadershipTrustSection = () => {
 
         {/* 3. TECHNOLOGY PARTNER BLOCK - TENVERSE */}
         <div className="bg-[#0A3161] rounded-3xl shadow-[0_8px_30px_rgb(10,49,97,0.15)] overflow-hidden flex flex-col md:flex-row relative">
-          {/* Background Tech Pattern (Optional Subtle Grid) */}
+          {/* Background Tech Pattern (Subtle Grid) */}
           <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
           
           <div className="md:w-1/4 bg-[#07244a] p-8 flex flex-col justify-center items-center text-center border-b md:border-b-0 md:border-r border-blue-900/50 z-10">
-            <Cpu className="text-[#FACC15] w-12 h-12 mb-4" />
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden bg-slate-950/80 border border-blue-400/30 p-2 shadow-lg mb-3 flex items-center justify-center">
+              <img 
+                src="/images/tenverse-logo.jpg" 
+                alt="Tenverse Technology Logo" 
+                className="w-full h-full object-contain filter drop-shadow-md hover:scale-105 transition-transform"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            </div>
             <h4 className="text-xl font-bold text-white mb-1">Tenverse Technology</h4>
             <p className="text-blue-300 text-xs uppercase tracking-wider font-semibold">Official Software Partner</p>
           </div>
