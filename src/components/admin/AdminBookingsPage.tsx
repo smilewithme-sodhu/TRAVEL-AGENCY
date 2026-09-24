@@ -17,8 +17,9 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [memberQ, setMemberQ] = useState('');
   const [selectedMember, setSelectedMember] = useState<any>(null);
   
-  const [amountPaid, setAmountPaid] = useState('');
-  const [binaryVolume, setBinaryVolume] = useState('');
+  const [directRewardTP, setDirectRewardTP] = useState('');
+  const [binaryVolumeBV, setBinaryVolumeBV] = useState('');
+  const [teamBonusTP, setTeamBonusTP] = useState('');
   const [notes, setNotes] = useState('');
   
   const dropRef = useRef<HTMLDivElement>(null);
@@ -42,23 +43,25 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     e.preventDefault();
     if (!selectedMember) return showToast('Please select a member.', 'error');
     
-    const amountPaidNum = Number(amountPaid) || 0;
-    const binaryVolumeNum = Number(binaryVolume) || 0;
+    const directRewardNum  = Number(directRewardTP)  || 0;
+    const binaryVolumeNum  = Number(binaryVolumeBV)  || 0;
+    const teamBonusNum     = Number(teamBonusTP)      || 0;
     
-    if (amountPaidNum <= 0 && binaryVolumeNum <= 0) {
-      return showToast('Please enter an amount or binary volume greater than 0.', 'error');
+    if (directRewardNum <= 0 && binaryVolumeNum <= 0 && teamBonusNum <= 0) {
+      return showToast('Please enter at least one value greater than 0.', 'error');
     }
 
     assignPoints.mutate(
       { 
-        memberId: selectedMember.id, 
-        amountPaid: amountPaidNum, 
-        binaryVolume: binaryVolumeNum, 
-        notes: notes || 'Admin Manual Assignment' 
+        memberId:      selectedMember.id, 
+        directRewardTP: directRewardNum, 
+        binaryVolumeBV: binaryVolumeNum,
+        teamBonusTP:   teamBonusNum,
+        notes:         notes || 'Admin Manual Assignment' 
       },
       {
         onSuccess: (res) => {
-          showToast(res.message || 'Points assigned successfully!', 'success');
+          showToast(res.message || 'Points distributed securely!', 'success');
           onClose();
         },
         onError: (err: any) => {
@@ -79,7 +82,7 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </div>
             <div>
               <h2 className="text-white font-bold text-base">Assign Manual Points</h2>
-              <p className="text-slate-400 text-xs">Directly assign Cash Rewards & Binary Volume</p>
+              <p className="text-slate-400 text-xs">Distribute Direct, Team &amp; Binary bonuses</p>
             </div>
           </div>
           <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">
@@ -140,32 +143,48 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
-                Direct Reward (TP )
+                Direct Reward (TP)
               </label>
               <input
                 type="number"
                 min={0}
-                value={amountPaid}
-                onChange={(e) => setAmountPaid(e.target.value)}
+                value={directRewardTP}
+                onChange={(e) => setDirectRewardTP(e.target.value)}
                 placeholder="0"
                 className="w-full py-2.5 px-3 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
               />
+              <p className="text-slate-500 text-[10px] mt-1">→ Sponsor's wallet</p>
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
-                Binary Volume (BV)
+                Binary Vol (BV)
               </label>
               <input
                 type="number"
                 min={0}
-                value={binaryVolume}
-                onChange={(e) => setBinaryVolume(e.target.value)}
+                value={binaryVolumeBV}
+                onChange={(e) => setBinaryVolumeBV(e.target.value)}
                 placeholder="0"
                 className="w-full py-2.5 px-3 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
               />
+              <p className="text-slate-500 text-[10px] mt-1">→ Rolls up tree</p>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+                Team Bonus (TP)
+              </label>
+              <input
+                type="number"
+                min={0}
+                value={teamBonusTP}
+                onChange={(e) => setTeamBonusTP(e.target.value)}
+                placeholder="0"
+                className="w-full py-2.5 px-3 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+              />
+              <p className="text-slate-500 text-[10px] mt-1">÷5 to 5 qualified uplines</p>
             </div>
           </div>
           

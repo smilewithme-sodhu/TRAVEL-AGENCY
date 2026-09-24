@@ -128,8 +128,9 @@ export const useAssignManualPoints = () => {
   return useMutation({
     mutationFn: async (payload: {
       memberId: string;
-      amountPaid: number;
-      binaryVolume: number;
+      directRewardTP: number;
+      binaryVolumeBV: number;
+      teamBonusTP: number;
       notes: string;
     }) => {
       const { data } = await apiClient.post('/api/admin/members/assign-points', payload);
@@ -139,6 +140,7 @@ export const useAssignManualPoints = () => {
       queryClient.invalidateQueries({ queryKey: ['admin-bookings'] });
       queryClient.invalidateQueries({ queryKey: ['wallet'] });
       queryClient.invalidateQueries({ queryKey: ['network'] });
+      queryClient.invalidateQueries({ queryKey: ['admin-members'] });
     },
   });
 };

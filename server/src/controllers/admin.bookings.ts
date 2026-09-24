@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { prisma } from '../db';
 import { BookingStateMachineService } from '../modules/booking/BookingStateMachine';
 import { randomUUID } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 
 const bookingService = new BookingStateMachineService(prisma);
 
@@ -49,101 +50,153 @@ export const confirmBookingWithPoints = async (req: Request, res: Response): Pro
 
 // ---------------------------------------------------------------------------
 // POST /api/admin/members/assign-points
-// Assigns manual direct cash reward & binary volume to a member.
+//
+// Three distinct financial flows, each in its own atomic transaction:
+//   1. DIRECT REWARD  (TP) → credited to the immediate sponsor's wallet
+//   2. BINARY VOLUME  (BV) → rolled up the binary tree via BinaryVolumeEngine
+//   3. TEAM BONUS     (TP) → distributed to the next 5 *qualified* uplines.
+//      Qualification = at least 1 confirmed booking.
+//      Unqualified uplines are SKIPPED (compressed upward).
+//      Traversal continues until exactly 5 qualified uplines are paid
+//      (or the tree is exhausted). Each qualified recipient gets teamBonusTP / 5.
 // ---------------------------------------------------------------------------
 export const assignManualPoints = async (req: Request, res: Response): Promise<void> => {
+  const { memberId, directRewardTP, binaryVolumeBV, teamBonusTP, notes } = req.body;
+
+  if (!memberId) {
+    res.status(400).json({ error: 'memberId is required.' });
+    return;
+  }
+
+  const safeNotes = notes || 'Admin Manual Assignment';
+
   try {
-    const { memberId, amountPaid, binaryVolume, notes } = req.body;
-
-    if (!memberId) {
-      res.status(400).json({ error: 'memberId is required.' });
-      return;
-    }
-
-    const directReward = new Prisma.Decimal(amountPaid || 0);
-    const volume = new Prisma.Decimal(binaryVolume || 0);
-    const safeNotes = notes || 'Admin Manual Assignment';
-
-    const member = await prisma.member.findUnique({
-      where: { id: memberId },
-      include: { user: true }
-    });
-
-    if (!member) {
-      res.status(404).json({ error: 'Member not found.' });
-      return;
-    }
-
-    // Ensure wallet exists
-    let wallet = await prisma.wallet.findUnique({ where: { memberId } });
-    if (!wallet) {
-      wallet = await prisma.wallet.create({
-        data: { memberId, currency: 'INR' }
-      });
-    }
-
-    const now = new Date();
-
-    // 1. Give money directly to wallet
-    if (directReward.greaterThan(0)) {
+    // ── STEP 1: DIRECT REWARD → Sponsor's wallet ──────────────────────────
+    if (Number(directRewardTP) > 0) {
       await prisma.$transaction(async (tx) => {
-        const balanceResult = await tx.$queryRaw<{ available: number }[]>`
-          SELECT
-            COALESCE(SUM(CASE
-              WHEN "transactionType"::text LIKE 'CREDIT_%' AND status::text = 'AVAILABLE'
-              THEN amount ELSE 0
-            END), 0) -
-            COALESCE(SUM(CASE
-              WHEN "transactionType"::text LIKE 'DEBIT_%' AND status::text IN ('PENDING', 'APPROVED', 'PAID')
-              THEN amount ELSE 0
-            END), 0) AS available
-          FROM wallet_transactions
-          WHERE "walletId" = ${wallet!.id}::uuid
-        `;
-        const currentBalance = new Prisma.Decimal(balanceResult[0]?.available || 0);
-        const newBalance = currentBalance.plus(directReward);
-
-        await tx.walletTransaction.create({
-          data: {
-            walletId: wallet!.id,
-            transactionType: 'CREDIT_MANUAL_ADJUSTMENT',
-            status: 'AVAILABLE',
-            amount: directReward,
-            balanceAfter: newBalance,
-            notes: safeNotes,
-            idempotencyKey: `MANUAL-${Date.now()}-${randomUUID().slice(0,6)}`,
-            createdAt: now
-          }
+        const directReferral = await tx.referral.findFirst({
+          where: { referredMemberId: memberId, isValid: true },
+          include: { referrerMember: { include: { wallet: true } } }
         });
+        const sponsor = directReferral?.referrerMember;
+
+        if (sponsor?.wallet) {
+          const balResult = await tx.$queryRaw<{ available: number }[]>`
+            SELECT
+              COALESCE(SUM(CASE WHEN "transactionType"::text LIKE 'CREDIT_%' AND status::text = 'AVAILABLE' THEN amount ELSE 0 END), 0) -
+              COALESCE(SUM(CASE WHEN "transactionType"::text LIKE 'DEBIT_%'  AND status::text IN ('PENDING','APPROVED','PAID') THEN amount ELSE 0 END), 0)
+            AS available
+            FROM wallet_transactions WHERE "walletId" = ${sponsor.wallet.id}::uuid
+          `;
+          const currentBalance = new Prisma.Decimal(balResult[0]?.available ?? 0);
+          const rewardAmount   = new Prisma.Decimal(directRewardTP);
+
+          await tx.walletTransaction.create({
+            data: {
+              walletId:        sponsor.wallet.id,
+              transactionType: 'CREDIT_DIRECT_REWARD',
+              status:          'AVAILABLE',
+              amount:          rewardAmount,
+              balanceAfter:    currentBalance.plus(rewardAmount),
+              notes:           `Manual Direct Bonus: ${safeNotes}`,
+              idempotencyKey:  `DR-${Date.now()}-${uuidv4().slice(0, 8)}`,
+            }
+          });
+
+          console.log(`[assignManualPoints] Direct Reward ${directRewardTP} TP → sponsor ${sponsor.id}`);
+        } else {
+          console.warn(`[assignManualPoints] No sponsor found for member ${memberId}. Direct reward skipped.`);
+        }
       });
     }
 
-    // 2. Add Binary Volume (runs its own transaction inside)
-    if (volume.greaterThan(0)) {
+    // ── STEP 2: BINARY VOLUME → Tree roll-up (engine owns its transaction) ─
+    if (Number(binaryVolumeBV) > 0) {
       const { BinaryVolumeEngine } = await import('../modules/financial/BinaryVolumeEngine');
-      const binaryEngine = new BinaryVolumeEngine(prisma);
-      const dummyId = null as any; 
-      await binaryEngine.rollUpVolume(dummyId, memberId, volume);
+      const engine = new BinaryVolumeEngine(prisma);
+      await engine.rollUpVolume(null as any, memberId, new Prisma.Decimal(binaryVolumeBV));
+      console.log(`[assignManualPoints] Binary Volume ${binaryVolumeBV} BV rolled up from member ${memberId}`);
     }
 
-    // 3. Activate member
-    await prisma.member.update({
-      where: { id: memberId },
+    // ── STEP 3: TEAM BONUS → Compressed 5-qualified-upline roll-up ────────
+    // Walk upward, skip unqualified nodes, pay the next 5 qualified ones.
+    if (Number(teamBonusTP) > 0) {
+      await prisma.$transaction(async (tx) => {
+        const cutPerLevel = new Prisma.Decimal(Number(teamBonusTP) / 5);
+        let currentId: string | null = memberId;
+        let paidCount = 0;
+
+        while (currentId && paidCount < 5) {
+          const referral = await tx.referral.findFirst({
+            where: { referredMemberId: currentId, isValid: true }
+          });
+          const sponsorId = referral?.referrerMemberId ?? null;
+          if (!sponsorId) break; // reached root of tree
+
+          // Qualification gate: ≥1 confirmed booking
+          const bookingCount = await tx.booking.count({
+            where: {
+              memberId: sponsorId,
+              status: { in: ['BOOKING_CONFIRMED', 'TRAVEL_UPCOMING', 'TRAVELING', 'COMPLETED'] }
+            }
+          });
+
+          if (bookingCount > 0) {
+            const uplineWallet = await tx.wallet.findUnique({ where: { memberId: sponsorId } });
+
+            if (uplineWallet) {
+              const balResult = await tx.$queryRaw<{ available: number }[]>`
+                SELECT
+                  COALESCE(SUM(CASE WHEN "transactionType"::text LIKE 'CREDIT_%' AND status::text = 'AVAILABLE' THEN amount ELSE 0 END), 0) -
+                  COALESCE(SUM(CASE WHEN "transactionType"::text LIKE 'DEBIT_%'  AND status::text IN ('PENDING','APPROVED','PAID') THEN amount ELSE 0 END), 0)
+                AS available
+                FROM wallet_transactions WHERE "walletId" = ${uplineWallet.id}::uuid
+              `;
+              const bal = new Prisma.Decimal(balResult[0]?.available ?? 0);
+
+              await tx.walletTransaction.create({
+                data: {
+                  walletId:        uplineWallet.id,
+                  transactionType: 'CREDIT_TEAM_REWARD',
+                  status:          'AVAILABLE',
+                  amount:          cutPerLevel,
+                  balanceAfter:    bal.plus(cutPerLevel),
+                  notes:           `Manual Team Bonus (Qualified Upline ${paidCount + 1}/5): ${safeNotes}`,
+                  idempotencyKey:  `TB-Q${paidCount + 1}-${Date.now()}-${uuidv4().slice(0, 8)}`,
+                }
+              });
+
+              paidCount++;
+              console.log(`[assignManualPoints] Team Bonus ${cutPerLevel} TP → qualified upline ${paidCount}/5 (member ${sponsorId})`);
+            }
+          } else {
+            console.log(`[assignManualPoints] Upline ${sponsorId} unqualified — compressing upward.`);
+          }
+
+          currentId = sponsorId; // advance up the tree regardless of qualification
+        }
+
+        if (paidCount < 5) {
+          console.warn(`[assignManualPoints] Team bonus: only ${paidCount}/5 qualified uplines found.`);
+        }
+      });
+    }
+
+    // ── STEP 4: AUDIT LOG (immutable record) ──────────────────────────────
+    await prisma.auditLog.create({
       data: {
-        greenStatus: 'GREEN',
-        greenActivatedAt: now,
-        greenExpiresAt: new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000),
-      },
+        action:   'ADMIN_ACTION',
+        entity:   'members',
+        entityId: memberId,
+        metadata: { directRewardTP, binaryVolumeBV, teamBonusTP, notes: safeNotes },
+      }
     });
 
-    res.json({
-      success: true,
-      message: `Successfully assigned ${amountPaid || 0} INR and ${binaryVolume || 0} BV to ${member.user.name}.`
-    });
+    res.status(200).json({ success: true, message: 'Points distributed securely.' });
 
   } catch (error: any) {
     console.error('[assignManualPoints] Error:', error);
-    res.status(500).json({ error: error.message || 'Failed to assign points.' });
+    res.status(500).json({ success: false, error: error.message || 'Transaction failed. Points rolled back.' });
   }
 };
 
@@ -180,4 +233,3 @@ export const searchMembers = async (req: Request, res: Response): Promise<void> 
     res.status(500).json({ error: 'Member search failed.' });
   }
 };
-
