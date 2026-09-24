@@ -1,10 +1,43 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { prisma } from '../db';
 import { PackageStatus } from '@prisma/client';
-// @ts-ignore - Mock data import fallback
-
+import { getDecodedToken } from '../middleware/auth';
 
 export const packagesRouter = Router();
+
+packagesRouter.get('/active', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const decoded = getDecodedToken(req);
+    let hasBooked = false;
+
+    if (decoded?.memberId) {
+      const bookingCount = await prisma.booking.count({
+        where: {
+          memberId: decoded.memberId,
+          status: { in: ['BOOKING_CONFIRMED', 'TRAVEL_UPCOMING', 'TRAVELING', 'COMPLETED'] }
+        }
+      });
+      hasBooked = bookingCount > 0;
+    }
+
+    const packages = await prisma.package.findMany({
+      where: { status: PackageStatus.ACTIVE },
+      include: {
+        destination: true,
+        prices: {
+          where: { isActive: true },
+          take: 1,
+          orderBy: { createdAt: 'desc' }
+        }
+      }
+    });
+
+    res.status(200).json({ success: true, data: { packages, memberStatus: { hasBooked } } });
+  } catch (error) {
+    console.error("Failed to fetch active packages:", error);
+    res.status(500).json({ success: false, error: 'Failed to fetch packages' });
+  }
+});
 
 packagesRouter.get('/', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
