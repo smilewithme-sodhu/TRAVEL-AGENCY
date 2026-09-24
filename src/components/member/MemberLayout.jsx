@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 
 export const MemberLayout = () => {
-  const { currentView, navigateTo, memberProfile, setMemberStatusDemo, setIsLoggedIn, showToast } = useWanderlust();
+  const { currentView, navigateTo, memberProfile, setIsLoggedIn, showToast } = useWanderlust();
   const [unreadCount, setUnreadCount] = useState(2);
   const [searchQuery, setSearchQuery] = useState('');
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -86,23 +86,23 @@ export const MemberLayout = () => {
   const status = memberProfile?.status || 'ACTIVE';
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] flex flex-col pb-20 lg:pb-0">
+    <div className="min-h-screen bg-[#F4F7FC] flex flex-col pb-20 lg:pb-0">
       {/* 1. Global Top Header */}
-      <header className="sticky top-0 z-40 bg-white border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between shadow-xs">
+      <header className="sticky top-0 z-40 bg-white border-b border-blue-100/80 px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between shadow-xs">
         {/* Left Brand */}
         <div
           onClick={() => navigateTo('home')}
           className="flex items-center gap-3 cursor-pointer select-none group"
         >
-          <div className="w-9 h-9 rounded-xl bg-[#0F172A] flex items-center justify-center text-[#C9A455] shadow-xs group-hover:scale-105 transition-transform">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0284C7] to-[#0A3161] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
             <Compass className="w-5 h-5" />
           </div>
           <div>
-            <div className="font-display font-bold text-base text-slate-900 leading-tight">
-              WANDERLUST
+            <div className="font-display font-bold text-base text-[#0A3161] leading-tight">
+              Gumnu JUM
             </div>
-            <div className="font-mono text-[9px] uppercase tracking-widest text-[#C9A455] font-bold">
-              MEMBER ATELIER
+            <div className="font-mono text-[9px] uppercase tracking-widest text-[#2563EB] font-bold">
+              MEMBER PORTAL
             </div>
           </div>
         </div>
@@ -115,7 +115,7 @@ export const MemberLayout = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search journeys, network, or transactions..."
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200/80 rounded-full text-xs text-slate-900 focus:outline-none focus:bg-white focus:border-slate-400 transition-colors"
+            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-blue-100 rounded-full text-xs text-[#0A3161] placeholder-slate-400 focus:outline-none focus:bg-white focus:border-[#2563EB] transition-colors"
           />
         </div>
 
@@ -124,7 +124,7 @@ export const MemberLayout = () => {
           {/* Notifications Bell */}
           <button
             onClick={() => navigateTo('member-notifications')}
-            className="relative p-2 rounded-full text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+            className="relative p-2 rounded-full text-slate-600 hover:text-[#0A3161] hover:bg-blue-50 transition-colors cursor-pointer"
             title="Notifications"
           >
             <Bell className="w-5 h-5" />
@@ -137,21 +137,21 @@ export const MemberLayout = () => {
           <div className="relative">
             <button
               onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-              className="flex items-center gap-2 p-1 sm:px-3 sm:py-1.5 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200/80 transition-all cursor-pointer"
+              className="flex items-center gap-2 p-1 sm:px-3 sm:py-1.5 rounded-full bg-slate-50 hover:bg-blue-50 border border-blue-100 transition-all cursor-pointer"
             >
-              <div className="w-7 h-7 rounded-full bg-[#0F172A] text-[#C9A455] font-bold text-xs flex items-center justify-center">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#0284C7] to-[#0A3161] text-white font-bold text-xs flex items-center justify-center">
                 {memberProfile?.name?.charAt(0) || '-'}
               </div>
-              <span className="hidden sm:inline font-bold text-xs text-slate-900 max-w-[110px] truncate">
+              <span className="hidden sm:inline font-bold text-xs text-[#0A3161] max-w-[110px] truncate">
                 {memberProfile?.name?.split(' ')[0] || 'Member'}
               </span>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </button>
 
             {isUserDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50 animate-fadeIn">
+              <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-blue-100 p-2 z-50 animate-fadeIn">
                 <div className="p-3 border-b border-slate-100">
-                  <div className="font-bold text-xs text-slate-900">{memberProfile?.name || 'Loading Profile...'}</div>
+                  <div className="font-bold text-xs text-[#0A3161]">{memberProfile?.name || 'Loading Profile...'}</div>
                   <div className="font-mono text-[10px] text-slate-500">ID: #{memberProfile?.memberCode || '---'}</div>
                 </div>
                 <div className="py-1 space-y-0.5">
@@ -160,7 +160,7 @@ export const MemberLayout = () => {
                       navigateTo('member-profile');
                       setIsUserDropdownOpen(false);
                     }}
-                    className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 rounded-lg"
+                    className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50/60 rounded-lg"
                   >
                     My Profile & KYC
                   </button>
@@ -169,7 +169,7 @@ export const MemberLayout = () => {
                       navigateTo('member-support');
                       setIsUserDropdownOpen(false);
                     }}
-                    className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 rounded-lg"
+                    className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50/60 rounded-lg"
                   >
                     Support Desk
                   </button>
@@ -178,7 +178,7 @@ export const MemberLayout = () => {
                       navigateTo('home');
                       setIsUserDropdownOpen(false);
                     }}
-                    className="w-full text-left px-3 py-2 text-xs font-semibold text-blue-600 hover:bg-blue-50 rounded-lg flex items-center gap-1.5"
+                    className="w-full text-left px-3 py-2 text-xs font-semibold text-[#2563EB] hover:bg-blue-50 rounded-lg flex items-center gap-1.5"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back to Public Storefront</span>
@@ -203,7 +203,7 @@ export const MemberLayout = () => {
         {/* 2. Desktop Collapsible Sidebar */}
         <aside className="hidden lg:flex flex-col w-60 shrink-0 space-y-6">
           {/* Member Status Badge */}
-          <div className="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-2xs space-y-2">
+          <div className="p-4 bg-white rounded-2xl border border-blue-100 shadow-sm space-y-2">
             <div className="flex items-center justify-between">
               <span className="font-mono text-[10px] uppercase font-bold text-slate-400">Membership</span>
               <span
@@ -218,11 +218,11 @@ export const MemberLayout = () => {
                 {status === 'ACTIVE' || status === 'GREEN_ACTIVE' ? '🟢 Active' : '🟡 Registered'}
               </span>
             </div>
-            <div className="font-display font-bold text-sm text-slate-900">
+            <div className="font-display font-bold text-sm text-[#0A3161]">
               {memberProfile?.rank || 'Loading Rank...'}
             </div>
             <div className="text-[11px] text-slate-500 font-medium">
-              Sponsor: <span className="text-slate-800 font-semibold">{memberProfile?.sponsorName || 'Direct Sign Up'}</span>
+              Sponsor: <span className="text-[#0A3161] font-semibold">{memberProfile?.sponsorName || 'Direct Sign Up'}</span>
             </div>
           </div>
 
@@ -236,18 +236,16 @@ export const MemberLayout = () => {
                   onClick={() => navigateTo(item.view)}
                   className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#0F172A] text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white'
+                      ? 'bg-[#0A3161] text-white shadow-md shadow-blue-900/10'
+                      : 'text-slate-600 hover:text-[#0A3161] hover:bg-white'
                   }`}
                 >
-                  <span className={isActive ? 'text-[#C9A455]' : 'text-slate-400'}>{item.icon}</span>
+                  <span className={isActive ? 'text-[#FACC15]' : 'text-slate-400'}>{item.icon}</span>
                   <span>{item.label}</span>
                 </button>
               );
             })}
           </nav>
-
-
         </aside>
 
         {/* 3. Main Content Container */}
@@ -255,12 +253,12 @@ export const MemberLayout = () => {
       </div>
 
       {/* 4. Mobile Bottom Navigation Dock */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-2 flex items-center justify-around shadow-lg">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-blue-100 px-2 py-2 flex items-center justify-around shadow-lg">
         {/* Home */}
         <button
           onClick={() => handleMobileNavClick('member-dashboard')}
           className={`flex flex-col items-center gap-1 p-1 text-[10px] font-bold transition-colors cursor-pointer ${
-            currentView === 'member-dashboard' ? 'text-blue-600' : 'text-slate-500 hover:text-slate-800'
+            currentView === 'member-dashboard' ? 'text-[#2563EB]' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <LayoutDashboard className="w-4 h-4" />
@@ -271,7 +269,7 @@ export const MemberLayout = () => {
         <button
           onClick={() => handleMobileNavClick('member-trips')}
           className={`flex flex-col items-center gap-1 p-1 text-[10px] font-bold transition-colors cursor-pointer ${
-            currentView === 'member-trips' ? 'text-blue-600' : 'text-slate-500 hover:text-slate-800'
+            currentView === 'member-trips' ? 'text-[#2563EB]' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <CalendarCheck className="w-4 h-4" />
@@ -282,7 +280,7 @@ export const MemberLayout = () => {
         <button
           onClick={() => handleMobileNavClick('member-network')}
           className={`flex flex-col items-center gap-1 p-1 text-[10px] font-bold transition-colors cursor-pointer ${
-            currentView === 'member-network' ? 'text-blue-600' : 'text-slate-500 hover:text-slate-800'
+            currentView === 'member-network' ? 'text-[#2563EB]' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <Users className="w-4 h-4" />
@@ -293,7 +291,7 @@ export const MemberLayout = () => {
         <button
           onClick={() => handleMobileNavClick('member-wallet')}
           className={`flex flex-col items-center gap-1 p-1 text-[10px] font-bold transition-colors cursor-pointer ${
-            currentView === 'member-wallet' ? 'text-blue-600' : 'text-slate-500 hover:text-slate-800'
+            currentView === 'member-wallet' ? 'text-[#2563EB]' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <Wallet className="w-4 h-4" />
@@ -304,7 +302,7 @@ export const MemberLayout = () => {
         <button
           onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
           className={`flex flex-col items-center gap-1 p-1 text-[10px] font-bold transition-colors cursor-pointer ${
-            isMoreActive ? 'text-blue-600' : 'text-slate-500 hover:text-slate-800'
+            isMoreActive ? 'text-[#2563EB]' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
           <MoreHorizontal className="w-4 h-4" />
@@ -322,13 +320,13 @@ export const MemberLayout = () => {
           />
 
           {/* Bottom Sheet Card */}
-          <div className="bg-white rounded-t-3xl p-6 border-t border-slate-100 shadow-2xl space-y-4 max-h-[82vh] overflow-y-auto animate-slideUp">
+          <div className="bg-white rounded-t-3xl p-6 border-t border-blue-100 shadow-2xl space-y-4 max-h-[82vh] overflow-y-auto animate-slideUp">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
-                <span className="font-mono text-[10px] uppercase font-bold text-[#C9A455] tracking-widest block">
-                  MEMBER ATELIER
+                <span className="font-mono text-[10px] uppercase font-bold text-[#2563EB] tracking-widest block">
+                  GUMNU JUM
                 </span>
-                <h3 className="font-sans font-extrabold text-base text-slate-900">
+                <h3 className="font-sans font-extrabold text-base text-[#0A3161]">
                   More Navigation Options
                 </h3>
               </div>
@@ -351,14 +349,14 @@ export const MemberLayout = () => {
                     onClick={() => handleMobileNavClick(item.view)}
                     className={`flex items-center gap-3 p-3 rounded-2xl border text-left transition-all cursor-pointer ${
                       isActive
-                        ? 'bg-[#0F172A] text-white border-slate-900 shadow-sm'
-                        : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200/80'
+                        ? 'bg-[#0A3161] text-white border-[#0A3161] shadow-sm'
+                        : 'bg-slate-50 hover:bg-blue-50/50 text-slate-800 border-blue-100/60'
                     }`}
                   >
                     <div
                       className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
                         isActive
-                          ? 'bg-white/10 text-[#C9A455]'
+                          ? 'bg-white/10 text-[#FACC15]'
                           : 'bg-white text-slate-700 shadow-2xs'
                       }`}
                     >
@@ -386,7 +384,7 @@ export const MemberLayout = () => {
                   navigateTo('home');
                   setIsMoreMenuOpen(false);
                 }}
-                className="font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1.5 py-1"
+                className="font-bold text-[#2563EB] hover:text-[#0A3161] flex items-center gap-1.5 py-1"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Return to Public Website</span>
