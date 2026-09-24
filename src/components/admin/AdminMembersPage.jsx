@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { adminApi } from '../../api/adminApi';
 import { ShieldCheck, UserCheck } from 'lucide-react';
@@ -20,6 +20,16 @@ export const AdminMembersPage = () => {
     },
     onError: (err) => {
       alert(err.response?.data?.error || 'Failed to activate member.');
+    }
+  });
+
+  const setStatusMutation = useMutation({
+    mutationFn: ({ id, status }) => adminApi.setMemberStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-members'] });
+    },
+    onError: (err) => {
+      alert(err.message || 'Failed to update member status');
     }
   });
 
@@ -85,26 +95,16 @@ export const AdminMembersPage = () => {
                   <td className="py-4 px-5">{m.directSales} Bookings</td>
                   <td className="py-4 px-5 font-bold text-white">TP {m.balance.toLocaleString()}</td>
                   <td className="py-4 px-5">
-                    
-                      {m.status === 'GREEN' && (
-                        <button
-                          onClick={() => activateOrangeMutation.mutate(m.id)}
-                          disabled={activateOrangeMutation.isLoading}
-                          className="px-3 py-1.5 bg-orange-500 hover:bg-orange-400 text-white text-[10px] font-bold rounded-lg transition-colors flex items-center gap-1"
-                        >
-                          {activateOrangeMutation.isLoading ? 'Processing...' : 'Make Travel Agent (ORANGE)'}
-                        </button>
-                      )}
-                      {m.status === 'INACTIVE' && (
-                      <button
-                        onClick={() => activateMutation.mutate(m.id)}
-                        disabled={activateMutation.isLoading}
-                        className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold rounded-lg transition-colors flex items-center gap-1"
-                      >
-                        <UserCheck className="w-3 h-3" />
-                        Activate
-                      </button>
-                    )}
+                    <select
+                      value={m.status}
+                      disabled={setStatusMutation.isLoading}
+                      onChange={(e) => setStatusMutation.mutate({ id: m.id, status: e.target.value })}
+                      className="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg px-2 py-1.5 focus:outline-none focus:border-indigo-500"
+                    >
+                      <option value="INACTIVE">INACTIVE</option>
+                      <option value="GREEN">GREEN</option>
+                      <option value="ORANGE">ORANGE</option>
+                    </select>
                   </td>
                 </tr>
               ))}

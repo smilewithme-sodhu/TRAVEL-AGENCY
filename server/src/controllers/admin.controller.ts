@@ -1,4 +1,4 @@
-﻿import { BinaryVolumeEngine } from '../modules/financial/BinaryVolumeEngine';
+import { BinaryVolumeEngine } from '../modules/financial/BinaryVolumeEngine';
 import { TeamBonusEngine } from '../modules/financial/TeamBonusEngine';
 import crypto from 'crypto';
 import { Prisma } from '@prisma/client';
@@ -428,6 +428,22 @@ export const activateMemberToGreen = async (req: Request, res: Response): Promis
       if (!member) { res.status(404).json({ error: 'Member not found.' }); return; }
       await prisma.member.update({ where: { id: member.id }, data: { greenStatus: 'ORANGE' } });
       res.json({ success: true, message: 'Member successfully upgraded to ORANGE (Travel Agent, Binary/Team Qualified).' });
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
+  export const setMemberStatus = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { memberId, status } = req.body;
+      if (!['INACTIVE', 'GREEN', 'ORANGE'].includes(status)) {
+        res.status(400).json({ error: 'Invalid status.' });
+        return;
+      }
+      const member = await prisma.member.findUnique({ where: { id: memberId } });
+      if (!member) { res.status(404).json({ error: 'Member not found.' }); return; }
+      await prisma.member.update({ where: { id: member.id }, data: { greenStatus: status } });
+      res.json({ success: true, message: `Member status updated to ${status}.` });
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
     }

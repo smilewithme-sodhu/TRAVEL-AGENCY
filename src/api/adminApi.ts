@@ -1,4 +1,4 @@
-﻿import { apiClient } from './client';
+import { apiClient } from './client';
 import { ApiResponse, Booking, Package, User, WalletTransaction, PendingPayout } from '../types/api';
 
 export const authApi = {
@@ -12,6 +12,7 @@ export const adminApi = {
   getMembers: async () => apiClient.get('/api/admin/members').then(res => res.data),
   activateMember: async (memberId: string) => apiClient.post('/api/admin/members/activate', { memberId }).then(res => res.data),
   activateMemberToOrange: async (memberId: string) => apiClient.post('/api/admin/members/activate-orange', { memberId }).then(res => res.data),
+  setMemberStatus: async (memberId: string, status: string) => apiClient.post('/api/admin/members/set-status', { memberId, status }).then(res => res.data),
   distributeGlobalBonus: async (totalEarnings: number) => apiClient.post('/api/admin/bonuses/global', { totalEarnings }).then(res => res.data),
   getPendingPayouts: async (): Promise<ApiResponse<PendingPayout[]>> => {
     return apiClient.get('/api/admin/payouts/pending').then(res => res.data);

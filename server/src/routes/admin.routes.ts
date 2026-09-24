@@ -1,8 +1,8 @@
-﻿import express from 'express';
+import express from 'express';
 import { 
   getPackages, createPackage, updatePackage, deletePackage, 
   getPendingPayouts, approvePayout, rejectPayout, injectWhatsAppBooking,
-  activateMemberToGreen, activateMemberToOrange, getAdminMembers, getAdminDashboardMetrics, distributeGlobalBonus
+  activateMemberToGreen, activateMemberToOrange, setMemberStatus, getAdminMembers, getAdminDashboardMetrics, distributeGlobalBonus
 } from '../controllers/admin.controller';
 import { getBookings, confirmBookingWithPoints, assignManualPoints, searchMembers } from '../controllers/admin.bookings';
 
@@ -44,3 +44,4 @@ adminRouter.get('/members/search', searchMembers);
 adminRouter.get('/members', getAdminMembers);
 adminRouter.post('/members/activate', activateMemberToGreen);
 adminRouter.post('/members/activate-orange', activateMemberToOrange);
+adminRouter.post('/members/set-status', setMemberStatus);
