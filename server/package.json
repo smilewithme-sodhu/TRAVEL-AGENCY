@@ -1,0 +1,6 @@
+{
+  "name": "gumnujum-server",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "Gumnu JUM Travel Agency - Express API Server"
+}
