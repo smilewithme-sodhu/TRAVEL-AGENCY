@@ -5,6 +5,7 @@ import { prisma } from '../db';
 import { z } from 'zod';
 import { BookingStateMachineService } from '../modules/booking/BookingStateMachine';
 import { PrismaClient, BookingStatus } from '@prisma/client';
+import { requireAdmin } from '../middleware/auth';
 
 export const bookingsRouter = Router();
 
@@ -216,6 +217,8 @@ bookingsRouter.post('/:id/payment', async (req: Request, res: Response, next: Ne
 });
 
 export const adminBookingsRouter = Router();
+
+adminBookingsRouter.use(requireAdmin);
 
 const confirmPointsSchema = z.object({
   overrideVolume: z.number().optional(),
