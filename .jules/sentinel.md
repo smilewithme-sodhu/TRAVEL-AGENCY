@@ -1,0 +1,4 @@
+## 2026-09-25 - [CRITICAL] Added Authentication and Authorization to Admin Endpoints
+**Vulnerability:** Admin endpoints (`/api/admin/*` and `/api/admin/bookings/*`) had no authentication or authorization checks. Anyone could hit these API endpoints to modify sensitive data such as confirming bookings, mutating user statuses, creating or deleting travel packages, assigning manual reward points, and approving payouts.
+**Learning:** In an Express application structure where routes are separated, one must ensure route-level or router-level middlewares are applied properly. The sub-router mapping (`app.use('/api/admin', adminRouter)`) was correctly separated but lacked a security barrier (`adminRouter.use(requireAdmin)`).
+**Prevention:** Make sure `requireAdmin` or equivalent authorization middlewares are consistently applied at the root of any admin router before the specific routes are declared.
