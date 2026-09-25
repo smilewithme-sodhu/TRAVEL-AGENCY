@@ -27,8 +27,9 @@ const apiLimiter = rateLimit({
 });
 app.use('/api/', apiLimiter);
 
-const allowedOrigins = process.env.NODE_ENV === 'production' 
-  ? [process.env.FRONTEND_URL || ''] 
+// Support comma-separated list of origins: e.g. "https://gumnujum.com,https://gumnujum.vercel.app"
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? (process.env.FRONTEND_URL || '').split(',').map(o => o.trim()).filter(Boolean)
   : ['http://localhost:3000', 'http://localhost:5173'];
 
 app.use(cors({
