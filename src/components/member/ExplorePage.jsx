@@ -67,6 +67,10 @@ export const ExplorePage = () => {
                 <img
                   src={pkg.heroImage}
                   alt={pkg.name}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/gumnu-jum-logo.png';
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />

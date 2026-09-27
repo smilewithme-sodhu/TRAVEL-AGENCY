@@ -28,6 +28,10 @@ export const PackageCard = ({ pkg }) => {
             alt={title}
             loading="lazy"
             decoding="async"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/images/gumnu-jum-logo.png';
+            }}
             className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
           />
           {/* Subtle gradient */}

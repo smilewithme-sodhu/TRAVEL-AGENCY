@@ -1,5 +1,6 @@
 // Comprehensive Luxury Travel Magazine Package Dataset
 // 12 International + 10 Domestic Destinations
+// Updated with real uploaded photographic assets & distinct curated itineraries
 
 export const DESTINATION_PACKAGES = [
   // ==========================================
@@ -10,269 +11,269 @@ export const DESTINATION_PACKAGES = [
     name: 'Dubai',
     category: 'international',
     location: 'United Arab Emirates',
-    tagline: 'A sparkling oasis where futuristic marvels meet Arabian desert majesty.',
-    heroImage: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    tagline: 'Futuristic marvels, golden desert dunes, and luxury marina lifestyle.',
+    heroImage: '/images/destinations/dubai/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1546412414-e1885259563a?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1526481280693-3bfa7568e0f3?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/dubai/glimpse-1.jpg',
+      '/images/destinations/dubai/glimpse-2.jpg',
+      '/images/destinations/dubai/glimpse-3.jpg',
+      '/images/destinations/dubai/glimpse-4.jpg'
     ],
-    description: 'Dubai is a city of superlatives where ultramodern architecture seamlessly weaves into rich bedouin heritage. From standing atop the clouds at Burj Khalifa to gliding across golden sand dunes at sunset, Dubai promises a glamorous, unforgettable escape for travelers seeking luxury, thrill, and world-class hospitality.',
+    description: 'Dubai stands as the global capital of modern luxury, where soaring super-skyscrapers rise beside ancient Arabian dunes. From standing on the 125th floor of Burj Khalifa to soaring across red desert sands in a private 4x4 at golden hour, Dubai delivers a breathtaking fusion of high-octane glamour and bedouin hospitality.',
     whyVisit: [
-      { icon: '🌆', title: 'Futuristic Skyline', desc: 'Marvel at iconic architectural masterpieces including Burj Khalifa, Museum of the Future, and Dubai Frame.' },
-      { icon: '🏜', title: 'Golden Desert Safaris', desc: 'Experience luxury dune bashing, camel rides, and traditional bedouin dinners under starlit desert skies.' },
-      { icon: '🛍', title: 'World-Class Shopping', desc: 'Explore lavish mega-malls, traditional gold & spice souks, and waterfront promenades.' },
-      { icon: '✨', title: 'Unmatched Luxury', desc: 'Indulge in 5-star beach resorts, Michelin-star dining, and private yacht cruises across Dubai Marina.' }
+      { icon: '🌆', title: 'Burj Khalifa & Downtown', desc: 'Marvel at the world\'s tallest architectural marvel and the choreographed Dubai Fountain show.' },
+      { icon: '🏜', title: 'VIP Red Dune Safari', desc: 'High-adrenaline dune bashing, camel riding, and a starlit BBQ dinner under the desert sky.' },
+      { icon: '⛵', title: 'Dubai Marina Yacht Cruises', desc: 'Sunset luxury catamaran cruises gliding past twisting skyscrapers and Ain Dubai.' },
+      { icon: '🛍', title: 'Gold & Spice Souks', desc: 'Cross Dubai Creek on a traditional wooden Abra and explore vibrant ancient trading souks.' }
     ],
     highlights: [
-      { title: 'Burj Khalifa Sky Deck', desc: 'Ascend to the highest observation deck in the world for breathtaking panoramic views of the Arabian Gulf.' },
-      { title: 'Dubai Desert Conservation Reserve', desc: 'Private 4x4 safari with falconry demonstrations and authentic bedouin hospitality.' },
-      { title: 'The Palm Jumeirah & Atlantis', desc: 'Explore the world-famous man-made island, luxury beach clubs, and lost chambers aquarium.' },
-      { title: 'Dubai Creek & Gold Souk', desc: 'Ride a traditional wooden Abra boat across the historic creek and wander vibrant spice markets.' }
+      { title: 'Burj Khalifa Observation Deck', desc: 'Fast-track elevators ascending to Levels 124 & 125 for 360-degree Arabian Gulf panoramas.' },
+      { title: 'Lahbab Red Dune Desert Camp', desc: 'Private 4x4 dune bashing, falconry encounters, tanoura dance, and gourmet dinner.' },
+      { title: 'Dubai Marina & JBR Beach Walk', desc: 'Stroll along the waterfront promenade flanked by luxury yachts, cafes, and open-air bistros.' },
+      { title: 'Palm Jumeirah & The View', desc: 'Explore the iconic palm-shaped island and enjoy 240-meter panoramic views from The View.' }
     ]
   },
   {
     id: 'thailand',
     name: 'Thailand',
     category: 'international',
-    location: 'Southeast Asia',
-    tagline: 'Tropical islands, golden temples, and warm smiles in the Land of Smiles.',
-    heroImage: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Phuket, Krabi & Bangkok',
+    tagline: 'Phi Phi emerald lagoons, ornate Buddhist temples, and vibrant coastal gastronomy.',
+    heroImage: '/images/destinations/thailand/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1519451241324-20b4f6c42202?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/thailand/glimpse-1.jpg',
+      '/images/destinations/thailand/glimpse-2.jpg',
+      '/images/destinations/thailand/glimpse-3.jpg',
+      '/images/destinations/thailand/glimpse-4.jpg'
     ],
-    description: 'Thailand captivates the senses with its turquoise sea lagoons, limestone karsts rising from emerald waters, and ornate Buddhist temples. Whether island-hopping across Phuket and Krabi or immersing yourself in Bangkok\'s buzzing street life, Thailand offers an enchanting sanctuary of warmth, flavor, and natural beauty.',
+    description: 'Thailand captivates travelers with sheer limestone karsts rising out of emerald lagoons, sacred golden pagodas, and some of the world\'s most vibrant night street food markets. Whether speeding across the Andaman Sea to Maya Bay or taking a river shuttle past Bangkok\'s gilded Wat Arun, Thailand is pure tropical bliss.',
     whyVisit: [
-      { icon: '🏝', title: 'Idyllic Islands', desc: 'Discover world-famous islands with powder-white sands, hidden lagoons, and crystal sea waters.' },
-      { icon: '🛕', title: 'Sacred Temples', desc: 'Visit ornate golden temples like Wat Pho, Wat Arun, and the Grand Palace in Bangkok.' },
-      { icon: '🍲', title: 'Culinary Delights', desc: 'Savor world-renowned Thai cuisine from vibrant night markets to luxury rooftop dining.' },
-      { icon: '💆‍♀️', title: 'Wellness & Spas', desc: 'Rejuvenate with traditional Thai massages and beachfront holistic wellness retreats.' }
+      { icon: '🏝', title: 'Phi Phi & Maya Bay', desc: 'Speedboat catamaran charters to turquoise lagoons enclosed by dramatic sheer cliffs.' },
+      { icon: '🛕', title: 'Grand Palace & Wat Arun', desc: 'Discover gold-leaf royal complexes and porcelain spires along the Chao Phraya River.' },
+      { icon: '🍜', title: 'Yaowarat Street Gastronomy', desc: 'Explore Michelin-lauded street stalls and aromatic night markets in Bangkok and Phuket.' },
+      { icon: '💆‍♀️', title: 'Luxury Beachfront Spas', desc: 'Rejuvenate with traditional Royal Thai massages and beachfront wellness therapies.' }
     ],
     highlights: [
-      { title: 'Phi Phi Islands & Maya Bay', desc: 'Cruise on longtail boats through emerald sea lagoons and dramatic limestone cliffs.' },
-      { title: 'Bangkok Grand Palace & River Cruise', desc: 'Experience majestic royal architecture and romantic dinner cruises along the Chao Phraya River.' },
-      { title: 'Chiang Mai Elephant Sanctuaries', desc: 'Ethical encounters with rescued Asian elephants in lush northern mountain forests.' },
-      { title: 'Phuket & Krabi Beach Resorts', desc: 'Relax in luxury beachfront resorts with sunset views over the Andaman Sea.' }
+      { title: 'Phi Phi Islands & Pileh Lagoon', desc: 'Snorkel vibrant coral reefs and swim in the calm, emerald waters of Pileh Lagoon.' },
+      { title: 'Bangkok Grand Palace & Emerald Buddha', desc: 'Marvel at Thailand\'s most sacred Buddhist temple and intricately painted royal courtyards.' },
+      { title: 'Phuket Sunset Beachfront Resorts', desc: 'Unwind at handpicked 5-star ocean-view cliff villas overlooking the Andaman Sea.' },
+      { title: 'Chao Phraya River Dinner Cruise', desc: 'Romantic candlelight dinner cruise gliding past illuminated illuminated temples.' }
     ]
   },
   {
     id: 'vietnam',
     name: 'Vietnam',
     category: 'international',
-    location: 'Southeast Asia',
-    tagline: 'Timeless limestone bays, emerald rice terraces, and captivating heritage.',
-    heroImage: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Ha Long Bay, Hoi An & Hanoi',
+    tagline: 'Emerald limestone karsts, UNESCO lantern towns, and world-class street food culture.',
+    heroImage: '/images/destinations/vietnam/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1509030450996-939a26352b45?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/vietnam/glimpse-1.jpg',
+      '/images/destinations/vietnam/glimpse-2.jpg',
+      '/images/destinations/vietnam/glimpse-3.jpg',
+      '/images/destinations/vietnam/glimpse-4.jpg'
     ],
-    description: 'Vietnam is a land of staggering natural beauty and deep cultural soul. From floating among thousands of towering limestone islets in Ha Long Bay to wandering through lantern-lit ancient streets in Hoi An, Vietnam weaves together dramatic landscapes, rich history, and world-renowned gastronomy.',
+    description: 'Vietnam is a land of jaw-dropping natural wonder and rich cultural soul. From waking up aboard a private luxury cruise among Ha Long Bay\'s 1,969 limestone islands to releasing paper lanterns onto the Thu Bon River in Hoi An\'s golden ancient town, Vietnam is an unforgettable sensory adventure.',
     whyVisit: [
-      { icon: '⛵', title: 'Ha Long Bay Cruises', desc: 'Overnight luxury cruises through UNESCO World Heritage limestone seascapes.' },
-      { icon: '🏮', title: 'Hoi An Lantern Town', desc: 'Stroll through romantic preserved yellow merchant houses glowing with colorful silk lanterns.' },
-      { icon: '🍜', title: 'Authentic Gastronomy', desc: 'Taste fresh Pho, Banh Mi, and aromatic Vietnamese egg coffee in historic street cafes.' },
-      { icon: '⛰', title: 'Sapa Mist Terraces', desc: 'Trek through breathtaking cascaded green rice fields tucked into northern mountain peaks.' }
+      { icon: '⛵', title: 'Ha Long Bay Luxury Cruise', desc: 'Overnight boutique cruise through UNESCO-protected emerald waters and karst sea caves.' },
+      { icon: '🏮', title: 'Hoi An Lantern Town', desc: 'Stroll romantic cobblestone streets lined with French-colonial houses and silk lanterns.' },
+      { icon: '🍜', title: 'Hanoi Street Food Trail', desc: 'Savor steaming bowls of authentic Pho, crispy Banh Mi, and creamy egg coffee in Old Quarter.' },
+      { icon: '🌉', title: 'Da Nang Golden Bridge', desc: 'Walk across the breathtaking pedestrian bridge held aloft by giant stone hands in the clouds.' }
     ],
     highlights: [
-      { title: 'Ha Long & Lan Ha Bay Expedition', desc: 'Kayak through hidden sea caves and sleep under stars on a luxury boutique cruise ship.' },
-      { title: 'Da Nang Golden Bridge', desc: 'Walk across the iconic bridge held up by giant stone hands in the Ba Na Hills.' },
-      { title: 'Hanoi Old Quarter', desc: 'Discover French colonial architecture, ancient temples, and vibrant coffee culture.' },
-      { title: 'Mekong Delta River Life', desc: 'Explore coconut groves, floating markets, and riverboat passages in southern Vietnam.' }
+      { title: 'Ha Long Bay Overnight Expedition', desc: 'Kayak through secluded sea caves, swim in hidden lagoons, and enjoy sunset deck dining.' },
+      { title: 'Hoi An Evening Lantern Ceremony', desc: 'Release glowing candle lanterns on the river and explore centuries-old merchant houses.' },
+      { title: 'Hanoi 36 Guilds Old Quarter', desc: 'Pedicab cyclo ride around ancient artisanal streets and tranquil Hoan Kiem Lake.' },
+      { title: 'Ba Na Hills & French Village', desc: 'Ascend world-record cable cars to misty mountain peaks and panoramic coastal viewpoints.' }
     ]
   },
   {
     id: 'bali',
     name: 'Bali',
     category: 'international',
-    location: 'Indonesia',
-    tagline: 'An island of gods, emerald rice terraces, and tranquil ocean sanctuaries.',
-    heroImage: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Ubud, Uluwatu & Nusa Penida',
+    tagline: 'Volcanic sunrises, sacred emerald rice terraces, and cliffside sea temples.',
+    heroImage: '/images/destinations/bali/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/bali/glimpse-1.jpg',
+      '/images/destinations/bali/glimpse-2.jpg',
+      '/images/destinations/bali/glimpse-3.jpg',
+      '/images/destinations/bali/glimpse-4.jpg'
     ],
-    description: 'Bali is a destination where every moment feels magical. From peaceful ancient cliffside temples to lush jungle rain sanctuaries in Ubud and vibrant sunset beach clubs in Seminyak, Bali offers the ultimate blend of romantic luxury, spiritual harmony, and tropical paradise.',
+    description: 'Bali is Indonesia\'s spiritual and tropical sanctuary. Renowned for lush jungle sanctuaries in Ubud, dramatic sea cliff temples in Uluwatu, and turquoise lagoons in Nusa Penida, Bali provides the ultimate harmony of romance, wellness, and island serenity.',
     whyVisit: [
-      { icon: '🌊', title: 'Beautiful Beaches', desc: 'Relax on world-famous beaches with crystal clear waters, surf breaks, and golden sunsets.' },
-      { icon: '🏛', title: 'Rich Culture', desc: 'Explore ancient cliffside temples, sacred water palaces, and traditional Balinese dance.' },
-      { icon: '🌿', title: 'Natural Beauty', desc: 'Discover jungle waterfalls, volcanic craters, and cascaded Tegalalang rice terraces.' },
-      { icon: '✨', title: 'Unforgettable Memories', desc: 'Experience floating pool breakfasts, luxury jungle villas, and beachfront dining.' }
+      { icon: '🌿', title: 'Tegallalang Rice Terraces', desc: 'Walk through cascading emerald valleys engineered with ancient Subak irrigation.' },
+      { icon: '🏝', title: 'Nusa Penida Day Expedition', desc: 'Witness the iconic Kelingking T-Rex cliff and swim in crystal-clear coastal pools.' },
+      { icon: '🔥', title: 'Uluwatu Sunset Kecak Dance', desc: 'Watch hypnotic fire dances on 70-meter sea cliffs as the sun dips below the horizon.' },
+      { icon: '🏊‍♂️', title: 'Private Jungle Pool Villas', desc: 'Indulge in private infinity pool villas in Ubud with floating breakfasts.' }
     ],
     highlights: [
-      { title: 'Ubud Jungle Sanctuary & Rice Terraces', desc: 'Stay in luxury pool villas surrounded by tropical rainforest and emerald rice fields.' },
-      { title: 'Uluwatu Sunset Temple & Kecak Fire Dance', desc: 'Watch dramatic cliffside sunsets while experiencing hypnotic traditional Balinese performances.' },
-      { title: 'Nusa Penida Island Excursion', desc: 'Visit Kelingking T-Rex Beach and swim with gentle manta rays in crystal turquoise sea waters.' },
-      { title: 'Tanah Lot Sea Temple', desc: 'Marvel at the sacred sea temple perched dramatically on offshore rock formations.' }
+      { title: 'Ubud Rainforest Sanctuary & Swings', desc: 'Experience the famous jungle swing soaring over lush palm canopies and rice paddies.' },
+      { title: 'Kelingking T-Rex Beach Nusa Penida', desc: 'High-speed catamaran cruise to world-renowned dramatic coastal cliff viewpoints.' },
+      { title: 'Uluwatu Temple Ocean Sunset', desc: 'Perched on sheer ocean ramparts with live chanting performances and seafood dining.' },
+      { title: 'Tanah Lot Offshore Sea Temple', desc: 'Sacred Hindu shrine perched on an ancient wave-swept rock formation at dusk.' }
     ]
   },
   {
     id: 'azerbaijan',
     name: 'Azerbaijan',
     category: 'international',
-    location: 'Caspian Sea Region',
-    tagline: 'The Land of Fire where ancient Silk Road romance meets modern elegance.',
-    heroImage: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Baku, Gobustan & Gabala',
+    tagline: 'Land of Fire where ancient Silk Road romance meets futuristic Caspian elegance.',
+    heroImage: '/images/destinations/azerbaijan/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/azerbaijan/glimpse-1.jpg',
+      '/images/destinations/azerbaijan/glimpse-2.jpg',
+      '/images/destinations/azerbaijan/glimpse-3.jpg',
+      '/images/destinations/azerbaijan/glimpse-4.jpg'
     ],
-    description: 'Azerbaijan, known as the Land of Fire, is a captivating bridge between East and West. From the futuristic Flame Towers and UNESCO-listed medieval Old City of Baku to the snow-capped Caucasus Mountains and eternal natural flames of Yanar Dag, Azerbaijan offers an intriguing, sophisticated travel experience.',
+    description: 'Azerbaijan is the undiscovered jewel of the Caucasus. Here on the shores of the Caspian Sea, centuries-old medieval caravanserais in Baku\'s UNESCO Walled City stand beneath the glowing glass Flame Towers, while natural gas flames burn perpetually on mountainsides.',
     whyVisit: [
-      { icon: '🔥', title: 'Land of Fire Mysteries', desc: 'Witness natural gas flames burning perpetually at Yanar Dag mountain.' },
-      { icon: '🏰', title: 'Baku Old City (Icherisheher)', desc: 'Wander medieval stone alleyways, Maiden Tower, and Palace of the Shirvanshahs.' },
-      { icon: '🏔', title: 'Caucasus Mountain Resorts', desc: 'Experience alpine skiing and cable cars in Gabala and Shahdag.' },
-      { icon: '🏙', title: 'Futuristic Architecture', desc: 'Admire Zaha Hadid\'s Heydar Aliyev Center and illuminated Flame Towers.' }
+      { icon: '🏰', title: 'Baku Old City (Icherisheher)', desc: 'Wander medieval stone alleys, the 12th-century Maiden Tower, and Shirvanshahs Palace.' },
+      { icon: '🌋', title: 'Gobustan Mud Volcanoes', desc: 'Explore lunar landscapes with bubbling mud craters and 40,000-year-old rock petroglyphs.' },
+      { icon: '🔥', title: 'Yanar Dag Burning Mountain', desc: 'Witness natural subterranean gas flames that have burned uninterrupted for centuries.' },
+      { icon: '🏙', title: 'Futuristic Baku Architecture', desc: 'Admire Zaha Hadid\'s fluid Heydar Aliyev Centre and the iconic LED Flame Towers.' }
     ],
     highlights: [
-      { title: 'Baku City Center & Caspian Boulevard', desc: 'Stroll along seaside parks, fountain squares, and high-end luxury fashion boutiques.' },
-      { title: 'Gobustan Rock Art & Mud Volcanoes', desc: 'Explore prehistoric petroglyphs and rare bubbling mud volcanoes.' },
-      { title: 'Ateshgah Fire Temple', desc: 'Visit the historic castle-style temple used by Zoroastrian travelers on the Silk Road.' },
-      { title: 'Gabala Alpine Resort', desc: 'Ride cable cars up Tufandag mountain and enjoy serene lake views at Nohur Lake.' }
+      { title: 'Icherisheher Medieval Walking Tour', desc: 'Discover Silk Road trading history, authentic carpet weavers, and saffron tea houses.' },
+      { title: 'Gobustan National Historical Reserve', desc: 'Guided excursion across prehistoric UNESCO rock art and rare volcanic mud craters.' },
+      { title: 'Caspian Sea Promenade & Ferris Wheel', desc: 'Stroll Baku Boulevard\'s seaside fountains, Venetian canals, and waterfront restaurants.' },
+      { title: 'Gabala Caucasus Mountain Cable Car', desc: 'Ride cable cars up Tufandag mountain for panoramic Caucasus alpine views.' }
     ]
   },
   {
     id: 'singapore',
     name: 'Singapore',
     category: 'international',
-    location: 'Southeast Asia',
-    tagline: 'A futuristic garden city of innovation, luxury, and vibrant heritage.',
-    heroImage: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Singapore',
+    tagline: 'A futuristic garden city of vertical green wonders, luxury, and vibrant heritage.',
+    heroImage: '/images/destinations/singapore/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1565967511849-76a60a516170?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/singapore/glimpse-1.jpg',
+      '/images/destinations/singapore/glimpse-2.jpg',
+      '/images/destinations/singapore/glimpse-3.jpg',
+      '/images/destinations/singapore/glimpse-4.jpg'
     ],
-    description: 'Singapore is a global metropolis where nature and cutting-edge design flourish together. From the surreal Supertree Grove at Gardens by the Bay to luxury shopping on Orchard Road and Sentosa Island\'s beach resorts, Singapore provides an effortless, pristine, and inspiring holiday.',
+    description: 'Singapore is a global metropolis where futuristic architecture and lush equatorial nature blend in perfect harmony. From the jaw-dropping Supertrees at Gardens by the Bay to the rooftop infinity pool atop Marina Bay Sands and Sentosa Island\'s resort playgrounds, Singapore is unmatched.',
     whyVisit: [
-      { icon: '🌳', title: 'Gardens by the Bay', desc: 'Be awed by giant glowing Supertrees and the world\'s largest glass greenhouse Flower Dome.' },
-      { icon: '🏨', title: 'Marina Bay Sands', desc: 'Experience the world-famous rooftop infinity pool looking out over Singapore Skyline.' },
-      { icon: '🎡', title: 'Sentosa Island Resorts', desc: 'Universal Studios, golden beaches, luxury spas, and world-class entertainment.' },
-      { icon: '🛍', title: 'Orchard Road Shopping', desc: 'Premier luxury fashion malls, Michelin-star hawker dining, and heritage enclaves.' }
+      { icon: '🌳', title: 'Gardens by the Bay', desc: 'Marvel at 18 giant vertical Supertrees and the world\'s largest indoor mist greenhouse.' },
+      { icon: '🏨', title: 'Marina Bay Sands SkyPark', desc: 'Enjoy 360-degree skyline views 200 meters above the bay and waterfront light shows.' },
+      { icon: '🎡', title: 'Sentosa Island Resorts', desc: 'Universal Studios Singapore, S.E.A. Aquarium, and tropical golden beach clubs.' },
+      { icon: '🍜', title: 'Michelin Hawker Trails', desc: 'Feast on Hainanese chicken rice, chilli crab, and laksa in historic hawker centres.' }
     ],
     highlights: [
-      { title: 'Gardens by the Bay & Light Show', desc: 'Witness the nightly synchronized music and light show under towering bio-domes.' },
-      { title: 'Jewel Changi Rain Vortex', desc: 'See the world\'s tallest indoor waterfall surrounded by a multi-tier lush rainforest.' },
-      { title: 'Sentosa Cable Car & Universal Studios', desc: 'Aerial cable car rides over the harbor to Sentosa\'s theme parks and beach clubs.' },
-      { title: 'Chinatown & Little India Cultural Walks', desc: 'Taste Michelin-lauded street food and explore vibrant heritage shophouses.' }
+      { title: 'Supertree Grove Light & Sound Show', desc: 'Experience the magical evening Garden Rhapsody light spectacle among glowing canopies.' },
+      { title: 'Jewel Changi Rain Vortex', desc: 'Gaze upon the world\'s tallest indoor waterfall framed by a multi-tiered rainforest.' },
+      { title: 'Universal Studios Full-Day Access', desc: 'World-class movie-themed rollercoasters and immersive family entertainment zones.' },
+      { title: 'Chinatown & Marina Waterfront Walk', desc: 'Heritage shophouses, traditional tea houses, and evening Spectra water displays.' }
     ]
   },
   {
     id: 'malaysia',
     name: 'Malaysia',
     category: 'international',
-    location: 'Southeast Asia',
-    tagline: 'Petronas twin towers, ancient rainforests, and island beach paradises.',
-    heroImage: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Kuala Lumpur, Langkawi & Penang',
+    tagline: 'Petronas twin towers, Langkawi island geoparks, and rich colonial street food.',
+    heroImage: '/images/destinations/malaysia/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1541417904950-b855846fe074?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/malaysia/glimpse-1.jpg',
+      '/images/destinations/malaysia/glimpse-2.jpg',
+      '/images/destinations/malaysia/glimpse-3.jpg',
+      '/images/destinations/malaysia/glimpse-4.jpg'
     ],
-    description: 'Malaysia offers a rich tapestry of cultures, modern cityscapes, and pristine nature. Stand in awe beneath the towering Petronas Twin Towers in Kuala Lumpur, explore 130-million-year-old rainforests in Genting and Cameron Highlands, or relax on the white sandy beaches of Langkawi island.',
+    description: 'Malaysia offers an incredible tapestry of modern cityscapes, ancient rainforests, and island archipelagos. Gaze up at the iconic Petronas Twin Towers in Kuala Lumpur, explore Langkawi\'s pristine mangrove geoparks and sky bridges, and sample legendary street food in Penang.',
     whyVisit: [
-      { icon: '🏙', title: 'Petronas Twin Towers', desc: 'Iconic chrome and glass skyscrapers soaring high above Kuala Lumpur city.' },
-      { icon: '🏝', title: 'Langkawi Archipelago', desc: '99 tropical islands with mangroves, sky bridges, and luxury beach resorts.' },
-      { icon: '🛕', title: 'Batu Caves Sanctuary', desc: 'Climb 272 vibrant rainbow stairs leading to ancient limestone cave temples.' },
-      { icon: '🍵', title: 'Cameron Highlands', desc: 'Cool mountain air, rolling green tea plantations, and strawberry farms.' }
+      { icon: '🏙', title: 'Petronas Twin Towers', desc: 'World\'s tallest twin towers standing at 452 meters with a sky bridge on Level 41.' },
+      { icon: '🏝', title: 'Langkawi UNESCO Geopark', desc: 'Cruise mangrove rivers, feed sea eagles, and ride the steep Langkawi SkyCab.' },
+      { icon: '🛕', title: 'Batu Caves Hindu Shrine', desc: 'Ascend 272 rainbow steps past the massive golden statue of Lord Murugan.' },
+      { icon: '🍲', title: 'Penang George Town Heritage', desc: 'UNESCO-listed colonial mansions, interactive street art, and legendary Nyonya laksa.' }
     ],
     highlights: [
-      { title: 'Langkawi Sky Bridge & Cable Car', desc: 'Ride one of the steepest cable cars in the world over ancient rainforest canopies.' },
-      { title: 'Genting Highlands Cable Car & Theme Park', desc: 'Cool mountain casino resort with high-altitude indoor and outdoor amusement parks.' },
-      { title: 'Kuala Lumpur Golden Triangle', desc: 'Boutique shopping, rooftop lounge bars, and vibrant street markets on Jalan Alor.' },
-      { title: 'Penang Street Art & Heritage Food', desc: 'UNESCO World Heritage town famous for colonial architecture and food culture.' }
+      { title: 'Petronas Skybridge & Observation Deck', desc: 'Timed priority tickets offering panoramic views of Kuala Lumpur\'s Golden Triangle.' },
+      { title: 'Langkawi Eagle Safari & Mangrove Boat Tour', desc: 'Cruise through limestone sea caves and feed white-bellied sea eagles in Kilim Geopark.' },
+      { title: 'Batu Caves Limestone Temple Exploration', desc: 'Vibrant limestone cave cathedral dating back hundreds of millions of years.' },
+      { title: 'George Town Street Art & Food Walk', desc: 'Walk historic shophouse streets discovering world-famous murals and hawker stalls.' }
     ]
   },
   {
     id: 'srilanka',
     name: 'Sri Lanka',
     category: 'international',
-    location: 'Indian Ocean',
-    tagline: 'The Pearl of the Indian Ocean, rich in tea gardens, ancient ruins, and wildlife.',
-    heroImage: 'https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Sigiriya, Ella, Galle & Mirissa',
+    tagline: 'The Pearl of the Indian Ocean with ancient rock fortresses, tea trains, and whales.',
+    heroImage: '/images/destinations/srilanka/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1578637387939-43c525550085?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/srilanka/glimpse-1.jpg',
+      '/images/destinations/srilanka/glimpse-2.jpg',
+      '/images/destinations/srilanka/glimpse-3.jpg',
+      '/images/destinations/srilanka/glimpse-4.jpg'
     ],
-    description: 'Sri Lanka is an island of endless charm, where golden beaches, emerald hill country, and ancient UNESCO fortress cities come together. Take iconic scenic train rides through Nuwara Eliya\'s tea estates, spot wild leopards in Yala, and unwind in colonial coastal forts.',
+    description: 'Sri Lanka packs staggering diversity into a pristine tropical island. Climb the 5th-century Sigiriya Lion Rock citadel rising above jungle plains, take the iconic blue train through Ella\'s misty tea-clad hills, and watch giant blue whales breach off the southern coast of Mirissa.',
     whyVisit: [
-      { icon: '🗿', title: 'Sigiriya Rock Fortress', desc: 'Ascend the 5th-century ancient palace fortress carved atop a massive 200m rock.' },
-      { icon: '🚂', title: 'Ella Scenic Train Ride', desc: 'Journey across Nine Arch Bridge through misty mountain tea plantations.' },
-      { icon: '🐆', title: 'Yala Wildlife Safaris', desc: 'Spot wild Asian elephants, leopards, and sloth bears in their natural habitat.' },
-      { icon: '🏖', title: 'Bentota & Galle Beaches', desc: 'Golden sands, stilt fishermen, and luxury beachfront boutique villas.' }
+      { icon: '🗿', title: 'Sigiriya Lion Rock Fortress', desc: 'Ascend the UNESCO ancient palace citadel built atop a 200m vertical granite peak.' },
+      { icon: '🚂', title: 'Ella Scenic Blue Train', desc: 'World-famous mountain railway looping across the Nine Arch Bridge through tea hills.' },
+      { icon: '🐋', title: 'Mirissa Blue Whale Safari', desc: 'Prime deep-water encounters with blue whales, sperm whales, and spinner dolphins.' },
+      { icon: '🏰', title: 'Galle Dutch Colonial Fort', desc: 'Walk ancient ocean-facing stone ramparts, boutique cafes, and lighthouse promenades.' }
     ],
     highlights: [
-      { title: 'Sigiriya Lion Rock Climb', desc: 'Explore ancient water gardens, frescoes, and panoramic views over jungle wilderness.' },
-      { title: 'Temple of the Sacred Tooth Relic (Kandy)', desc: 'Visit Sri Lanka\'s most revered Buddhist temple situated beside Kandy Lake.' },
-      { title: 'Nuwara Eliya "Little England"', desc: 'Tour historic Ceylon tea factories and stay in colonial English country mansions.' },
-      { title: 'Galle Dutch Fort Walk', desc: 'Wander cobble streets, boutique jewelry shops, and historic ocean ramparts.' }
+      { title: 'Sigiriya 1,200 Steps Ancient Climb', desc: 'Ancient frescoes, mirror walls, and summit palace ruins overlooking wilderness.' },
+      { title: 'Nine Arch Bridge & Little Adam\'s Peak', desc: 'Watch steam trains cross colonial brick viaducts surrounded by emerald tea bushes.' },
+      { title: 'Temple of the Tooth Relic Kandy', desc: 'Visit Sri Lanka\'s most sacred Buddhist shrine beside tranquil Kandy Lake.' },
+      { title: 'Bentota & Galle Coastline Luxury', desc: 'Relax in boutique colonial beach villas along Sri Lanka\'s sun-drenched golden coast.' }
     ]
   },
   {
     id: 'europe',
-    name: 'Europe',
+    name: 'Europe Grand Tour',
     category: 'international',
-    location: 'Schengen Europe',
-    tagline: 'Romantic capitals, alpine glaciers, Mediterranean coasts, and rich history.',
-    heroImage: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Paris, Rome & Swiss Alps',
+    tagline: 'Eiffel Tower sunsets, Colosseum history, and alpine glaciers in one epic journey.',
+    heroImage: '/images/destinations/europe/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1520939817895-060bdef4fe17?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/europe/glimpse-1.jpg',
+      '/images/destinations/europe/glimpse-2.jpg',
+      '/images/destinations/europe/glimpse-3.jpg',
+      '/images/destinations/europe/glimpse-4.jpg'
     ],
-    description: 'Europe is the ultimate dream destination, offering a magnificent canvas of fairy-tale castles, snow-peaked Swiss Alps, romantic Parisian boulevards, and sun-drenched Italian coastlines. Tailored for those seeking timeless culture, luxury, and unmatched European elegance.',
+    description: 'The European Grand Tour represents the zenith of travel romance and cultural splendor. Gaze upon the sparkling Eiffel Tower from a private Seine cruise in Paris, take the cogwheel glacier train through snow-crowned Swiss Alpine peaks, and marvel at the 2,000-year-old Colosseum in Rome.',
     whyVisit: [
-      { icon: '🏰', title: 'Fairy-Tale Castles', desc: 'Explore historic royal palaces in Paris, Rome, Venice, and Swiss Alpine valleys.' },
-      { icon: '🏔', title: 'Swiss Alps & Glaciers', desc: 'Panoramic mountain trains past Matterhorn and snow-clad Jungfraujoch.' },
-      { icon: '🍕', title: 'Gastronomy & Wine', desc: 'Taste fine wines, Italian gelato, French pastries, and authentic continental cuisine.' },
-      { icon: '🎨', title: 'World-Class Art', desc: 'Discover Louvre, Vatican Museums, and centuries of architecture and art.' }
+      { icon: '🗼', title: 'Paris: The City of Light', desc: 'Eiffel Tower summit access, Louvre Museum treasures, and private Seine dinner cruises.' },
+      { icon: '🏔', title: 'Swiss Alps Glacier Wonder', desc: 'Ride panoramic mountain trains to Jungfraujoch and Mount Titlis above eternal snow.' },
+      { icon: '🏛', title: 'Rome & The Vatican', desc: 'Priority access to the Colosseum, Roman Forum, Sistine Chapel, and St. Peter\'s.' },
+      { icon: '🛶', title: 'Venice Gondola Romance', desc: 'Glide through historic canals and under the Bridge of Sighs in a handcrafted gondola.' }
     ],
     highlights: [
-      { title: 'Paris Eiffel Tower & Seine Cruise', desc: 'Romantic evening cruises under illuminated bridges and iconic city views.' },
-      { title: 'Swiss Glacier 3000 & Zermatt Train', desc: 'Ride high-altitude alpine cable cars over eternal snow fields.' },
-      { title: 'Venice Gondola & Colosseum Rome', desc: 'Glide through romantic canals and explore ancient Roman amphitheaters.' },
-      { title: 'Amsterdam Canal & Tulip Fields', desc: 'Scenic waterways, windmills, and vibrant Keukenhof floral gardens.' }
+      { title: 'Eiffel Tower Summit & Seine River Cruise', desc: 'Sip champagne with panoramic vistas over Paris followed by an illuminated evening cruise.' },
+      { title: 'Jungfraujoch — Top of Europe (3,454m)', desc: 'Travel on the highest altitude cogwheel railway to the Sphinx Observatory and Ice Palace.' },
+      { title: 'Vatican Museums & Sistine Chapel', desc: 'Private guided tour of Michelangelo\'s frescoes and St. Peter\'s Basilica dome climb.' },
+      { title: 'Venice Grand Canal & St. Mark\'s Square', desc: 'Private water taxi transfers and romantic gondola glides through Venetian waterways.' }
     ]
   },
   {
     id: 'egypt',
     name: 'Egypt',
     category: 'international',
-    location: 'North Africa',
-    tagline: 'Ancient Pyramids, majestic Nile River cruises, and Pharaoh mysteries.',
-    heroImage: 'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Cairo, Giza & Nile River Cruise',
+    tagline: 'Great Pyramids of Giza, luxury Nile cruises, and royal Pharaoh tombs.',
+    heroImage: '/images/destinations/egypt/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/egypt/glimpse-1.jpg',
+      '/images/destinations/egypt/glimpse-2.jpg',
+      '/images/destinations/egypt/glimpse-3.jpg',
+      '/images/destinations/egypt/glimpse-4.jpg'
     ],
-    description: 'Egypt is a land of timeless wonder where ancient history comes alive. Stand face to face with the Great Pyramids of Giza, gaze upon the enigmatic Sphinx, and sail along the legendary Nile River aboard a luxury cruise liner past Karnak and Luxor temples.',
+    description: 'Egypt is humanity\'s most awe-inspiring open-air museum. Stand face to face with the Great Pyramid of Khufu—the only surviving Wonder of the Ancient World—gaze upon the enigmatic Sphinx, and embark on a luxury 5-star Nile cruise sailing between Luxor and Aswan.',
     whyVisit: [
-      { icon: '🔺', title: 'Great Pyramids of Giza', desc: 'Marvel at the last surviving Wonder of the Ancient World and the Great Sphinx.' },
-      { icon: '🚢', title: 'Nile River Cruise', desc: 'Sail in comfort between Luxor and Aswan past ancient sandstone temples.' },
-      { icon: '👑', title: 'Valley of the Kings', desc: 'Explore underground royal tombs decorated with vivid 3,000-year-old hieroglyphics.' },
-      { icon: '🌊', title: 'Red Sea Resort Luxury', desc: 'Snorkel crystal coral reefs in Sharm El Sheikh and Hurghada.' }
+      { icon: '🔺', title: 'Great Pyramids of Giza & Sphinx', desc: 'Explore the 4,500-year-old royal pyramids and take sunrise camel rides on the plateau.' },
+      { icon: '🚢', title: '5-Star Nile River Cruise', desc: 'Sail past sandstone cliffs, palm groves, and ancient temples with full luxury service.' },
+      { icon: '👑', title: 'Valley of the Kings Luxor', desc: 'Descend into brightly painted underground royal tombs, including King Tutankhamun.' },
+      { icon: '🏛', title: 'Karnak & Luxor Temples', desc: 'Walk through massive hypostyle halls supported by 134 towering stone columns.' }
     ],
     highlights: [
-      { title: 'Giza Pyramids & Camel Safari', desc: 'Private guided exploration inside ancient pyramids and desert plateau panoramas.' },
-      { title: 'Luxor & Karnak Temple Complex', desc: 'Walk through massive hypostyle halls of colossal carved stone columns.' },
-      { title: 'Grand Egyptian Museum Cairo', desc: 'See King Tutankhamun\'s solid gold treasures and royal mummies.' },
-      { title: 'Abu Simbel Sun Temples', desc: 'Monumental rock-cut sun temples of King Ramses II overlooking Lake Nasser.' }
+      { title: 'Giza Plateau Private Guided Exploration', desc: 'Enter the interior chambers of the Great Pyramid and stand before the colossal Sphinx.' },
+      { title: 'Luxor to Aswan Luxury Nile Voyage', desc: 'Relax on the sun deck as ancient Egyptian river life and sunset temples glide by.' },
+      { title: 'Abu Simbel Sun Temples Excursion', desc: 'Colossal 20-meter rock-carved statues of Ramses II and Queen Nefertari.' },
+      { title: 'Grand Egyptian Museum Tour', desc: 'Witness the complete golden treasure collection of Tutankhamun and royal mummies.' }
     ]
   },
   {
@@ -280,53 +281,53 @@ export const DESTINATION_PACKAGES = [
     name: 'Almaty',
     category: 'international',
     location: 'Kazakhstan',
-    tagline: 'Snow-peaked Tian Shan mountains, turquoise alpine lakes, and winter wonders.',
-    heroImage: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    tagline: 'Snow-peaked Tian Shan mountains, Charyn Canyon, and alpine glacial lakes.',
+    heroImage: '/images/destinations/almaty/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/almaty/glimpse-1.jpg',
+      '/images/destinations/almaty/glimpse-2.jpg',
+      '/images/destinations/almaty/glimpse-3.jpg',
+      '/images/destinations/almaty/glimpse-4.jpg'
     ],
-    description: 'Almaty, the apple city of Central Asia, is framed by the dramatic, snow-capped Trans-Ili Alatau mountains. From alpine lake reflections at Big Almaty Lake to high-altitude skiing at Shymbulak and canyon landscapes at Charyn Canyon, Almaty is a pristine alpine wonderland.',
+    description: 'Almaty, the cultural jewel of Kazakhstan, is cradled beneath the dramatic snow-capped Tian Shan mountain range. Experience world-class alpine gondola rides at Shymbulak, visit turquoise glacial lakes, and explore the red sandstone towers of Charyn Canyon.',
     whyVisit: [
-      { icon: '❄️', title: 'Shymbulak Ski Resort', desc: 'World-class modern cable cars and powder snow skiing slopes.' },
-      { icon: '🏞', title: 'Big Almaty Lake', desc: 'Turquoise glacial alpine lake cradled by 4,000m snow peaks.' },
-      { icon: '🏜', title: 'Charyn Canyon', desc: 'Kazakhstan\'s Grand Canyon featuring majestic red rock castles.' },
-      { icon: '🍎', title: 'Vibrant Green Bazaar', desc: 'Taste local dried fruits, chocolates, and Central Asian specialties.' }
+      { icon: '🏔', title: 'Shymbulak Ski Resort', desc: 'Modern gondola ascent up to 3,200m Talgar Pass with ski slopes and alpine restaurants.' },
+      { icon: '🏞', title: 'Big Almaty Lake', desc: 'Turquoise glacial reservoir situated at 2,511m altitude reflecting snow-clad peaks.' },
+      { icon: '🏜', title: 'Charyn Canyon Castles', desc: 'Central Asia\'s Grand Canyon featuring majestic red sandstone gorges and river trails.' },
+      { icon: '🍎', title: 'Green Bazaar & Nomad Flavors', desc: 'Taste local mountain honey, dried fruits, chocolates, and traditional horse milk kumis.' }
     ],
     highlights: [
-      { title: 'Shymbulak Gondola Peak Ride', desc: 'Ascend to 3,200m altitude for unobstructed mountain valley panoramas.' },
-      { title: 'Kok Tobe Hill Cable Car', desc: 'Panoramic city views, Ferris wheel rides, and cozy hilltop cafes.' },
-      { title: 'Kaindy Sunken Forest Lake', desc: 'Unique mountain lake created by an earthquake with submerged pine tree trunks.' },
-      { title: 'Zenkov Wooden Cathedral', desc: 'Colorful 19th-century Orthodox cathedral built entirely of wood without metal nails.' }
+      { title: 'Medeu to Shymbulak Mountain Gondola', desc: 'Ride the world\'s third-longest gondola system over pristine pine-clad gorges.' },
+      { title: 'Charyn Canyon Valley of Castles Hike', desc: 'Guided trek through dramatic eroded red rock pillars down to the roaring Charyn River.' },
+      { title: 'Kok Tobe Hill Cable Car Ride', desc: 'Panoramic evening views over Almaty\'s twinkling skyline with Ferris wheel and cafes.' },
+      { title: 'Zenkov Cathedral Panfilov Park', desc: 'Historic 19th-century colorful Orthodox cathedral built entirely of wood without nails.' }
     ]
   },
   {
     id: 'bhutan',
     name: 'Bhutan',
     category: 'international',
-    location: 'Eastern Himalayas',
-    tagline: 'The Last Shangri-La of Gross National Happiness and cliffside monasteries.',
-    heroImage: 'https://images.unsplash.com/photo-1578637387939-43c525550085?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Paro, Thimphu & Punakha',
+    tagline: 'The Last Shangri-La of Gross National Happiness and cliff-hanging monasteries.',
+    heroImage: '/images/destinations/bhutan/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1578637387939-43c525550085?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/bhutan/glimpse-1.jpg',
+      '/images/destinations/bhutan/glimpse-2.jpg',
+      '/images/destinations/bhutan/glimpse-3.jpg',
+      '/images/destinations/bhutan/glimpse-4.jpg'
     ],
-    description: 'Bhutan is a peaceful Himalayan kingdom where ancient tradition and environmental conservation reign. Home to the iconic cliff-clinging Paro Taktsang (Tiger\'s Nest) monastery, pristine forested valleys, and warm mountain culture, Bhutan offers a soul-stirring sanctuary.',
+    description: 'Bhutan is the mystical Himalayan Kingdom where cultural preservation and environmental purity take precedence over all else. Trek through prayer-flagged pine forests to the cliff-hanging Tiger\'s Nest monastery, and explore monumental dzong fortresses between rushing mountain rivers.',
     whyVisit: [
-      { icon: '🛕', title: 'Tiger\'s Nest Monastery', desc: 'Hike to the legendary Paro Taktsang monastery perched on a 900m sheer cliff.' },
-      { icon: '🌿', title: 'Gross National Happiness', desc: 'Experience a culture focused on spiritual wellbeing and environmental harmony.' },
-      { icon: '🏔', title: 'Himalayan Pass Scenery', desc: 'Dochula Pass with 108 memorial stupas overlooking snow mountain ranges.' },
-      { icon: '🏰', title: 'Majestic Dzongs', desc: 'Explore monumental fortress monasteries like Punakha Dzong at river confluence.' }
+      { icon: '🛕', title: 'Tiger\'s Nest (Paro Taktsang)', desc: 'Sacred 17th-century monastery clinging impossibly to a 900-meter vertical sheer cliff.' },
+      { icon: '🏰', title: 'Punakha Dzong Palace', desc: 'The most beautiful fortress in the Himalayas, situated at the confluence of two holy rivers.' },
+      { icon: '🏔', title: 'Dochula Pass 108 Chortens', desc: 'Mountain pass framed by 108 memorial stupas with sweeping views of 7,000m peaks.' },
+      { icon: '🌿', title: 'Gross National Happiness', desc: 'Experience a tranquil kingdom free from mass tourism, traffic lights, and rush.' }
     ],
     highlights: [
-      { title: 'Taktsang Monastery Trek', desc: 'Walk through pine forests fluttering with colorful prayer flags to the cliff temple.' },
-      { title: 'Punakha Dzong & Suspension Bridge', desc: 'Marvel at Bhutan\'s most beautiful fortress situated between Mo and Pho rivers.' },
-      { title: 'Thimphu Buddha Dordenma Statue', desc: 'Visit the massive 51m golden Buddha statue overlooking Thimphu Valley.' },
-      { title: 'Traditional Hot Stone Bath', desc: 'Relax in river-stone heated herbal mineral water baths.' }
+      { title: 'Paro Taktsang Mountain Pilgrimage', desc: '4-hour round-trip trek to the sacred meditation cave of Guru Rinpoche in the clouds.' },
+      { title: 'Punakha Dzong & Long Suspension Bridge', desc: 'Explore ornate golden murals, courtyards, and walk the iconic wooden suspension bridge.' },
+      { title: 'Buddha Dordenma Golden Colossus', desc: 'Visit one of the largest Buddha statues in the world overlooking Thimphu Valley.' },
+      { title: 'Traditional Bhutanese Hot Stone Bath', desc: 'Therapeutic river-stone heated mineral baths infused with native medicinal herbs.' }
     ]
   },
 
@@ -337,270 +338,297 @@ export const DESTINATION_PACKAGES = [
     id: 'sikkim',
     name: 'Sikkim',
     category: 'domestic',
-    location: 'Northeast India',
-    tagline: 'Discover the hidden paradise of snow peaks, lakes, and peaceful monasteries.',
-    heroImage: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Gangtok, Pelling & Yumthang',
+    tagline: 'Discover the hidden paradise of Kanchenjunga peaks, alpine lakes, and monasteries.',
+    heroImage: '/images/destinations/sikkim/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/sikkim/glimpse-1.jpg',
+      '/images/destinations/sikkim/glimpse-2.jpg',
+      '/images/destinations/sikkim/glimpse-3.jpg',
+      '/images/destinations/sikkim/glimpse-4.jpg'
     ],
-    description: 'Sikkim is a land of otherworldly beauty nestled beneath Kanchenjunga, the world\'s third highest peak. Where majestic snow mountains, tranquil glacial lakes like Tsomgo, rhododendron valleys, and serene Buddhist monasteries create an unforgettable Himalayan sanctuary.',
+    description: 'Nestled in the Eastern Himalayas, Sikkim is a serene wonderland where snow-crowned Kanchenjunga peaks meet high-altitude glacial lakes, ancient Buddhist monasteries, and vibrant rhododendron valleys. Experience crisp mountain sunrises, peaceful Tibetan chants, and pristine mountain wilderness.',
     whyVisit: [
-      { icon: '🏔', title: 'Kanchenjunga Views', desc: 'Witness golden sunrise reflections on the world\'s third-highest mountain peak.' },
-      { icon: '🌊', title: 'Glacial Tsomgo Lake', desc: 'Explore the high-altitude frozen lake surrounded by steep snow-clad mountains.' },
-      { icon: '🌸', title: 'Yumthang Valley of Flowers', desc: 'Walk through vibrant hot springs and rhododendron blossom sanctuaries.' },
-      { icon: '🛕', title: 'Rumtek & Pemayangtse Monasteries', desc: 'Immerse yourself in centuries of Tibetan Buddhist spiritual tranquility.' }
+      { icon: '🏔', title: 'Mt. Kanchenjunga Sunrise', desc: 'Witness golden sunrise reflections on the world\'s third-highest peak from Pelling and Gangtok.' },
+      { icon: '🌊', title: 'Sacred Tsomgo Glacial Lake', desc: 'High-altitude 12,400 ft glacial lake reflecting snow peaks, with historic Nathula Pass.' },
+      { icon: '🌸', title: 'Yumthang Valley of Flowers', desc: 'River valleys blanketed with 24+ species of rhododendrons and natural thermal hot springs.' },
+      { icon: '🛕', title: 'Rumtek & Pemayangtse Monasteries', desc: 'Centuries-old Tibetan Buddhist monasteries echoing with morning prayer chants.' }
     ],
     highlights: [
-      { title: 'Tsomgo Lake & Nathula Pass', desc: 'High-altitude border pass journey through pristine snowfields and Yak rides.' },
-      { title: 'Gangtok Ropeway & MG Marg Walk', desc: 'Pedestrian boulevard with cozy cafes, shopping, and cable car valley views.' },
-      { title: 'Gurudongmar Lake Expedition', desc: 'Visit one of the highest sacred lakes in the world at 17,800 feet elevation.' },
-      { title: 'Pelling Skywalk & Ruins', desc: 'Walk on India\'s first glass skywalk facing the breathtaking Kanchenjunga range.' }
+      { title: 'Tsomgo Lake & Nathula Pass Border Excursion', desc: 'Private 4x4 mountain drive to 12,400 ft altitude with scenic Yak rides.' },
+      { title: 'Yumthang Valley & Zero Point Glaciers', desc: 'Explore North Sikkim\'s pristine rhododendron valleys and snow-covered glaciers.' },
+      { title: 'Pelling Skywalk & Chenrezig Colossus', desc: 'India\'s first glass skywalk facing the panoramic Kanchenjunga range.' },
+      { title: 'Gangtok MG Marg & Ropeway Ride', desc: 'Pedestrian European-style boulevard filled with cozy cafes and cable car valley views.' }
     ]
   },
   {
     id: 'goa',
     name: 'Goa',
     category: 'domestic',
-    location: 'West Coast India',
-    tagline: 'Golden beaches, Portuguese heritage mansions, and vibrant coastal bliss.',
-    heroImage: '/images/daden-bhutia-beach.jpg',
+    location: 'North & South Goa Coastlines',
+    tagline: 'Sun-drenched beaches, Portuguese Latin Quarter heritage, and coastal luxury.',
+    heroImage: '/images/destinations/goa/hero.jpg',
     galleryImages: [
-      '/images/daden-bhutia-beach.jpg',
-      'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/goa/glimpse-1.jpg',
+      '/images/destinations/goa/glimpse-2.jpg',
+      '/images/destinations/goa/glimpse-3.jpg',
+      '/images/destinations/goa/glimpse-4.jpg'
     ],
-    description: 'Goa is India\'s coastal paradise where golden sand beaches meet sway coconut palms and historic Portuguese architecture. From tranquil south Goa beach luxury resorts to private catamaran sunset cruises and spice plantation lunches, Goa offers the ultimate tropical escape.',
+    description: 'Goa is India\'s premier beach paradise, seamlessly blending golden sands, historic 17th-century Portuguese architecture, cascading jungle waterfalls, and world-class seafood dining. Escape on private sunset catamaran cruises, explore pastel Latin quarters, and unwind in luxury oceanfront villas.',
     whyVisit: [
-      { icon: '🏖', title: 'Golden Sandy Beaches', desc: 'Relax on pristine beaches from quiet Palolem in the South to lively Baga in North.' },
-      { icon: '⛵', title: 'Mandovi Sunset Cruises', desc: 'Catamaran cruises with live Konkani music and starlit river dining.' },
-      { icon: '🏛', title: 'Portuguese Heritage', desc: 'Visit UNESCO Basilica of Bom Jesus, Latin Quarter Fontainhas, and old forts.' },
-      { icon: '🌴', title: 'Spice Plantations', desc: 'Walk through organic spice gardens with traditional banana-leaf Goan meals.' }
+      { icon: '🏖', title: 'Golden Sandy Coastlines', desc: 'Relax on serene South Goa beaches or enjoy water sports on vibrant North Goa shores.' },
+      { icon: '🏛', title: 'Fontainhas Latin Quarter', desc: 'Wander pastel yellow, blue, and green Portuguese heritage streets and boutique bakeries.' },
+      { icon: '🌊', title: 'Dudhsagar Jungle Waterfall', desc: 'Thrilling 4x4 open jeep safari through Bhagwan Mahavir Sanctuary to four-tiered falls.' },
+      { icon: '⛵', title: 'Mandovi Sunset Catamaran Cruise', desc: 'Private sunset sailing with panoramic views over the Arabian Sea.' }
     ],
     highlights: [
-      { title: 'Fontainhas Latin Quarter Walk', desc: 'Wander pastel yellow Portuguese heritage villas and boutique art cafes.' },
-      { title: 'Dudhsagar Waterfalls Safari', desc: '4x4 open jeep safari through Bhagwan Mahavir Wildlife Sanctuary to four-tiered falls.' },
-      { title: 'South Goa Luxury Beach Resorts', desc: 'Unwind at 5-star beachfront sanctuaries with private pools and spa treatments.' },
-      { title: 'Aguada & Chapora Fort Sunset', desc: 'Panoramic ocean cliff views over the Arabian sea.' }
+      { title: 'Dudhsagar Waterfall Jeep Safari', desc: 'Open jeep jungle trek, swimming in natural freshwater pools, and spice plantation buffet.' },
+      { title: 'Fort Aguada & 1864 Lighthouse', desc: '17th-century Portuguese fortress ramparts offering commanding ocean sunset panoramas.' },
+      { title: 'Fontainhas Heritage Walking Trail', desc: 'Guided stroll through Asia\'s only Latin Quarter with authentic Bebinca and espresso tastings.' },
+      { title: 'South Goa 5-Star Beach Resorts', desc: 'Luxury beachfront stays with private cabanas, infinity pools, and Ayurvedic spa treatments.' }
     ]
   },
   {
     id: 'andaman',
     name: 'Andaman',
     category: 'domestic',
-    location: 'Bay of Bengal',
-    tagline: 'Turquoise ocean waters, coral reefs, and white sand island paradises.',
-    heroImage: 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Port Blair & Havelock Island',
+    tagline: 'Turquoise ocean waters, coral reef scuba diving, and Asia\'s finest beaches.',
+    heroImage: '/images/destinations/andaman/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/andaman/glimpse-1.jpg',
+      '/images/destinations/andaman/glimpse-2.jpg',
+      '/images/destinations/andaman/glimpse-3.jpg',
+      '/images/destinations/andaman/glimpse-4.jpg'
     ],
-    description: 'The Andaman and Nicobar Islands are an untouched tropical paradise in the Bay of Bengal. Famous for Radhanagar Beach—voted among Asia\'s finest—vibrant coral reefs, scuba diving, and historic Cellular Jail, Andaman is perfect for honeymoons and luxury beach escapes.',
+    description: 'The Andaman Islands are India\'s pristine tropical archipelago in the Bay of Bengal. Famous for Radhanagar Beach—acclaimed by TIME Magazine as Asia\'s best beach—crystalline coral reefs teeming with marine life, scuba diving, and the poignant history of Cellular Jail.',
     whyVisit: [
-      { icon: '🌊', title: 'Radhanagar Beach', desc: 'Powder-white sands and clear turquoise waters backed by mahua forests.' },
-      { icon: '🤿', title: 'Scuba & Coral Snorkeling', desc: 'Dive alongside sea turtles and colorful coral reefs in Elephant Beach.' },
-      { icon: '🏝', title: 'Havelock & Neil Islands', desc: 'Island-hopping on glass-bottom speedboats between secluded beaches.' },
-      { icon: '📜', title: 'Cellular Jail History', desc: 'Poignant national memorial with evening light and sound shows.' }
+      { icon: '🌊', title: 'Radhanagar Beach No. 7', desc: 'Sweeping 2km arc of powder-white sand lapped by calm turquoise waters and dense rainforest.' },
+      { icon: '🤿', title: 'World-Class Scuba Diving', desc: 'Dive along Elephant Beach and Nemo Reef amongst sea turtles, manta rays, and vivid coral.' },
+      { icon: '🏝', title: 'Havelock & Neil Islands', desc: 'High-speed catamaran ferry transfers to secluded island beaches and natural rock bridges.' },
+      { icon: '📜', title: 'Cellular Jail National Memorial', desc: 'Historic colonial prison in Port Blair with an evocative evening Sound & Light spectacle.' }
     ],
     highlights: [
-      { title: 'Radhanagar Beach Sunset Walk', desc: 'Stroll on Asia\'s acclaimed finest beach under golden evening hues.' },
-      { title: 'Scuba Diving at Havelock Reefs', desc: 'PADI guided diving in crystal underwater marine sanctuaries.' },
-      { title: 'Baratang Island Limestone Caves', desc: 'Speedboat ride through dense mangrove creeks to ancient caves.' },
-      { title: 'Ross Island Colonial Ruins', desc: 'Peacocks and deer roaming amidst jungle-wrapped British colonial ruins.' }
+      { title: 'Radhanagar Beach Golden Sunset Walk', desc: 'Witness one of the most stunning beach sunsets on Earth across crystal-clear waters.' },
+      { title: 'Elephant Beach Snorkeling & Water Sports', desc: 'Glass-bottom boat excursions, sea karting, and guided reef snorkeling sessions.' },
+      { title: 'Cellular Jail Sound & Light Spectacle', desc: 'Moving historical narration of India\'s independence freedom fighters under the stars.' },
+      { title: 'Ross Island Colonial Ruins Walk', desc: 'Explore British colonial ruins enveloped by giant banyan tree roots and friendly spotted deer.' }
     ]
   },
   {
     id: 'rajasthan',
     name: 'Rajasthan',
     category: 'domestic',
-    location: 'Northwest India',
-    tagline: 'Royal palaces, desert forts, golden sands, and legendary hospitality.',
-    heroImage: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Jaipur, Jodhpur, Jaisalmer & Udaipur',
+    tagline: 'Grand royal palaces, living desert forts, Thar sand dunes, and regal lake views.',
+    heroImage: '/images/destinations/rajasthan/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/rajasthan/glimpse-1.jpg',
+      '/images/destinations/rajasthan/glimpse-2.jpg',
+      '/images/destinations/rajasthan/glimpse-3.jpg',
+      '/images/destinations/rajasthan/glimpse-4.jpg'
     ],
-    description: 'Rajasthan is the land of Maharajas, where opulent royal palaces, towering sandstone forts, and golden desert dunes evoke timeless romance. Explore Jaipur\'s Pink City, Udaipur\'s romantic Lake Pichola palace, and Jaisalmer\'s Thar desert luxury camps.',
+    description: 'Rajasthan is India\'s royal jewel where magnificent sandstone forts dominate the desert horizon, converted heritage palaces offer living royal hospitality, and camel safaris cross the golden Thar dunes at dusk. From Jaipur\'s pink city gates to Udaipur\'s Lake Pichola, Rajasthan is purely majestic.',
     whyVisit: [
-      { icon: '🏰', title: 'Royal Forts & Palaces', desc: 'Visit Amber Fort, City Palace Jaipur, and Mehrangarh Fort in Jodhpur.' },
-      { icon: '⛵', title: 'Udaipur Lake Pichola', desc: 'Sunset boat rides past Jag Mandir and Lake Palace.' },
-      { icon: '🏜', title: 'Thar Desert Luxury Camps', desc: 'Camel safaris, folk dances, and luxury glamping under desert stars.' },
-      { icon: '👑', title: 'Heritage Granduer', desc: 'Stay in authentic converted royal palaces with traditional Rajasthani dining.' }
+      { icon: '🏰', title: 'Amber Fort & City Palace Jaipur', desc: 'Explore the Hall of Mirrors (Sheesh Mahal), Ganesh Pol, and vibrant bazaar courtyards.' },
+      { icon: '🏜', title: 'Jaisalmer Sam Sand Dunes Glamping', desc: 'Sunset camel safaris across golden dunes followed by folk dance performances and stargazing.' },
+      { icon: '⛵', title: 'Lake Pichola Udaipur Cruises', desc: 'Private boat rides past the floating white marble Taj Lake Palace and City Palace.' },
+      { icon: '👑', title: 'Mehrangarh Fort Jodhpur', desc: 'Imposing fortress towering 400 feet above the famous blue-painted rooftops of the old city.' }
     ],
     highlights: [
-      { title: 'Jaipur Amber Fort & Hawa Mahal', desc: 'Elephant-carved courtyards, mirror halls (Sheesh Mahal), and pink city markets.' },
-      { title: 'Udaipur Lake Palace & Boat Ride', desc: 'The Venice of the East with white marble palaces reflecting in calm waters.' },
-      { title: 'Jaisalmer Golden Fort & Sam Dunes', desc: 'Living sandstone fort city and starlit desert cultural camps.' },
-      { title: 'Jodhpur Blue City & Mehrangarh', desc: 'Imposing fortress overlooking blue painted historic houses.' }
+      { title: 'Amber Fort Morning Palace Tour', desc: 'Ascend the royal ramparts and marvel at intricate mirror mosaics and Maota Lake views.' },
+      { title: 'Sam Dunes Camel Trek & Luxury Camp', desc: 'Ride camels into the dunes at sunset, followed by traditional Rajasthani buffet and folk songs.' },
+      { title: 'Udaipur City Palace & Sunset Boat Ride', desc: 'Marvel at royal courtyards, stained glass balconies, and tranquil lake reflections.' },
+      { title: 'Jodhpur Blue City Heritage Walk', desc: 'Wander labyrinthine indigo-hued streets beneath the sheer cliffs of Mehrangarh Fort.' }
     ]
   },
   {
     id: 'kerala',
     name: 'Kerala',
     category: 'domestic',
-    location: 'South India',
-    tagline: 'God\'s Own Country of palm-lined backwaters, mist tea hills, and Ayurveda.',
-    heroImage: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Alleppey, Munnar & Thekkady',
+    tagline: 'God\'s Own Country of palm-lined backwaters, misty tea plantations, and Ayurveda.',
+    heroImage: '/images/destinations/kerala/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1609828913639-6f6d56d47d43?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/kerala/glimpse-1.jpg',
+      '/images/destinations/kerala/glimpse-2.jpg',
+      '/images/destinations/kerala/glimpse-3.jpg',
+      '/images/destinations/kerala/glimpse-4.jpg'
     ],
-    description: 'Kerala, known as God\'s Own Country, is a tropical paradise of serene backwaters, mist-covered tea plantations in Munnar, pristine Kovalam beaches, and authentic Ayurvedic wellness retreats. Cruise on a private luxury Kettuvallam houseboat for pure relaxation.',
+    description: 'Celebrated as "God\'s Own Country", Kerala offers a tranquil tropical world of serene palm-fringed backwater canals, cool spice-scented mountain stations in Munnar, and centuries-old Ayurvedic holistic healing. Drift peacefully on a private luxury Kettuvallam houseboat with a personal chef.',
     whyVisit: [
-      { icon: '🛶', title: 'Alleppey Houseboat Cruise', desc: 'Glide through calm green backwaters lined with coconut palms and villages.' },
-      { icon: '🍵', title: 'Munnar Tea Plantations', desc: 'Cool mountain air, cascaded tea gardens, and misty Anamudi peaks.' },
-      { icon: '💆‍♂️', title: 'Ayurvedic Wellness', desc: 'Rejuvenating herbal oil massages and holistic wellness treatments.' },
-      { icon: '🐅', title: 'Periyar Wildlife Sanctuary', desc: 'Boat safaris on Lake Periyar spotting wild elephants and exotic birds.' }
+      { icon: '🛶', title: 'Private Alleppey Houseboat Stay', desc: 'Slow luxury navigation through serene canals, paddy fields, and Vembanad Lake lagoons.' },
+      { icon: '🍵', title: 'Munnar Tea Plantations', desc: 'Rolling emerald tea hills 1,600m above sea level with cool mountain air and waterfalls.' },
+      { icon: '💆‍♂️', title: 'Authentic Ayurvedic Spa', desc: 'Rejuvenating traditional Abhyangam herbal oil massages and holistic wellness therapies.' },
+      { icon: '🐅', title: 'Periyar Wildlife Lake Safari', desc: 'Boat cruises on Lake Periyar spotting wild elephant herds, sambar deer, and rare birds.' }
     ],
     highlights: [
-      { title: 'Overnight Alleppey Houseboat Stay', desc: 'Private luxury Kettuvallam with personal chef preparing fresh Kerala meals.' },
-      { title: 'Munnar Tea Factory & Eravikulam National Park', desc: 'See rare Nilgiri Tahr mountain goats amidst rolling green hills.' },
-      { title: 'Kochi Chinese Fishing Nets & Fort Kochi', desc: 'Colonial heritage walk, Kathakali dance, and sea view promenades.' },
-      { title: 'Kovalam & Varkala Cliff Beaches', desc: 'Dramatic red cliff beaches overlooking the Arabian sea.' }
+      { title: 'Overnight Houseboat Backwater Cruise', desc: 'Traditional wood-and-coir luxury houseboat with freshly cooked Karimeen fish curry on deck.' },
+      { title: 'Munnar Tea Museum & Eravikulam National Park', desc: 'Spot endangered Nilgiri Tahr mountain goats and learn 100-year-old tea craft.' },
+      { title: 'Thekkady Spice Plantation Guided Walk', desc: 'Discover growing cardamom, cinnamon, vanilla, and black pepper vines with local botanists.' },
+      { title: 'Kochi Fort & Chinese Fishing Nets', desc: 'Colonial Portuguese and Dutch heritage streets, art cafes, and sea view promenades.' }
     ]
   },
   {
     id: 'ladakh',
     name: 'Ladakh',
     category: 'domestic',
-    location: 'Trans-Himalayas',
-    tagline: 'Land of High Passes, azure Pangong Lake, and stark mountain grandeur.',
-    heroImage: 'https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Leh, Pangong Tso & Nubra Valley',
+    tagline: 'Roof of the World with azure Pangong Lake, double-humped camels, and 18,000 ft passes.',
+    heroImage: '/images/destinations/ladakh/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/ladakh/glimpse-1.jpg',
+      '/images/destinations/ladakh/glimpse-2.jpg',
+      '/images/destinations/ladakh/glimpse-3.jpg',
+      '/images/destinations/ladakh/glimpse-4.jpg'
     ],
-    description: 'Ladakh is an awe-inspiring high-altitude cold desert surrounded by snow-capped Himalayan and Karakoram peaks. Home to the magical color-changing Pangong Lake, Nubra Valley\'s double-humped camels, and ancient cliffside monasteries like Thiksey and Hemis.',
+    description: 'Ladakh is the crown of the Indian Trans-Himalayas—an awe-inspiring high-altitude desert where azure glacial lakes mirror towering snow giants, ancient mud-brick monasteries cling to cliff edges, and double-humped Bactrian camels wander through stark sand dune valleys.',
     whyVisit: [
-      { icon: '💙', title: 'Pangong Tso Lake', desc: 'Watch the high-altitude lake shift colors from turquoise to deep indigo blue.' },
-      { icon: '🐪', title: 'Nubra Valley Sand Dunes', desc: 'Ride Bactrian double-humped camels amidst cold desert dunes in Hunder.' },
-      { icon: '🏍', title: 'Khardung La Pass', desc: 'Travel across one of the highest motorable roads in the world at 18,380 ft.' },
-      { icon: '🛕', title: 'Thiksey & Hemis Monasteries', desc: 'Majestic Tibetan Buddhist monasteries carved into rugged hill slopes.' }
+      { icon: '💙', title: 'Pangong Tso Lake (4,350m)', desc: 'Famous 134km lake whose colors shift dramatically from turquoise to cobalt blue.' },
+      { icon: '🐪', title: 'Nubra Valley Sand Dunes', desc: 'Ride double-humped Bactrian camels through the cold desert dunes of Hunder.' },
+      { icon: '🏍', title: 'Khardung La Pass (18,380 ft)', desc: 'Cross one of the highest motorable mountain roads in the world with snow peak vistas.' },
+      { icon: '🛕', title: 'Thiksey & Hemis Monasteries', desc: '12-storey hilltop gompa complexes echoing with deep morning Buddhist horn chants.' }
     ],
     highlights: [
-      { title: 'Pangong Lake Luxury Camping', desc: 'Overnight glamping right on the shores of Pangong Lake under clear starry skies.' },
-      { title: 'Diskit Monastery & Giant Buddha', desc: 'Visit the 32-meter tall Maitreya Buddha statue facing Nubra Valley.' },
-      { title: 'Magnetic Hill & Sangam Confluence', desc: 'Witness the gravity-defying hill and confluence of Indus and Zanskar rivers.' },
-      { title: 'Leh Palace & Shanti Stupa', desc: 'White-domed stupa offering panoramic sunset views over Leh town.' }
+      { title: 'Overnight Glamping at Pangong Lake', desc: 'Luxury tented stay right on the lakeshore under one of the clearest Milky Way night skies.' },
+      { title: 'Diskit Monastery & 32m Maitreya Buddha', desc: 'Visit the colossal outdoor Buddha statue gazing across the vast Nubra Valley floor.' },
+      { title: 'Magnetic Hill & Indus-Zanskar Sangam', desc: 'Experience the gravity-defying road and the dramatic confluence of emerald and brown rivers.' },
+      { title: 'Leh Palace & Shanti Stupa Sunset', desc: 'White-domed peace pagoda offering 360-degree panoramas of Leh town and the Stok range.' }
     ]
   },
   {
     id: 'darjeeling',
     name: 'Darjeeling',
     category: 'domestic',
-    location: 'West Bengal',
-    tagline: 'The Queen of the Hills, famous for tea gardens, toy train, and Tiger Hill sunrise.',
-    heroImage: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Tiger Hill, Batasia Loop & Kurseong',
+    tagline: 'Queen of the Hills with Tiger Hill Kanchenjunga sunrise, UNESCO Toy Train, and tea estates.',
+    heroImage: '/images/destinations/darjeeling/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/darjeeling/glimpse-1.jpg',
+      '/images/destinations/darjeeling/glimpse-2.jpg',
+      '/images/destinations/darjeeling/glimpse-3.jpg',
+      '/images/destinations/darjeeling/glimpse-4.jpg'
     ],
-    description: 'Darjeeling, known as the Queen of the Hills, is a charming hill station nestled among rolling emerald tea gardens. Wake up early for the golden sunrise over Mt. Kanchenjunga from Tiger Hill, ride the heritage Himalayan Toy Train, and sip world-famous Darjeeling tea.',
+    description: 'Darjeeling is India\'s most romantic colonial hill station, nestled amidst emerald slopes carpeted with the world\'s finest tea gardens. Watch the dawn sun turn Mt. Kanchenjunga to shimmering gold from Tiger Hill, ride the heritage narrow-gauge steam Toy Train, and stroll Mall Road.',
     whyVisit: [
-      { icon: '🌅', title: 'Tiger Hill Sunrise', desc: 'Witness the first rays of sunlight illuminate the snow peaks of Kanchenjunga.' },
-      { icon: '🚂', title: 'UNESCO Heritage Toy Train', desc: 'Ride the iconic steam locomotive through Batasia Loop and misty mountain curves.' },
-      { icon: '🍵', title: 'World-Famous Tea Gardens', desc: 'Tour Happy Valley tea estate and taste authentic champagne of teas.' },
-      { icon: '🏔', title: 'Colonial Hill Charm', desc: 'Stroll along Mall Road (Chowrasta) filled with bakeries and mountain views.' }
+      { icon: '🌅', title: 'Tiger Hill Golden Sunrise', desc: 'Witness Kanchenjunga and Himalayan peaks turn from silver to fiery gold above the clouds.' },
+      { icon: '🚂', title: 'UNESCO Heritage Toy Train', desc: 'Ride the 140-year-old steam locomotive looping through Batasia Loop\'s mountain spirals.' },
+      { icon: '🍵', title: 'First-Flush Tea Tasting', desc: 'Tour historic Happy Valley tea gardens and taste authentic champagne of teas.' },
+      { icon: '🐾', title: 'Snow Leopard & Red Panda Zoo', desc: 'Visit the world-acclaimed Padmaja Naidu Himalayan Zoological Park.' }
     ],
     highlights: [
-      { title: 'Tiger Hill Golden Sunrise Panorama', desc: 'Breathtaking 360-degree views of Himalayan snow peaks.' },
-      { title: 'Batasia Loop & War Memorial', desc: 'Spiral railway loop offering manicured gardens and Kanchenjunga backdrop.' },
-      { title: 'Himalayan Mountaineering Institute & Zoo', desc: 'See rare Snow Leopards and Red Pandas in natural alpine enclosures.' },
-      { title: 'Peace Pagoda & Japanese Temple', desc: 'Tranquil Buddhist pagoda nestled amidst towering pine trees.' }
+      { title: 'Tiger Hill Pre-Dawn Excursion (2,590m)', desc: 'Early morning private 4x4 drive to witness the world\'s most famous Himalayan sunrise.' },
+      { title: 'Darjeeling Himalayan Railway Joy Ride', desc: 'First-class heritage steam train journey looping through misty mountain loops to Ghoom.' },
+      { title: 'Happy Valley Tea Estate Guided Tour', desc: 'Walk alongside tea pluckers, observe factory sorting, and enjoy a professional cupping session.' },
+      { title: 'Japanese Peace Pagoda & Chowrasta Walk', desc: 'Tranquil Buddhist pagoda amidst pine forests and lively evening strolls along Chowrasta.' }
     ]
   },
   {
     id: 'srinagar',
     name: 'Srinagar',
     category: 'domestic',
-    location: 'Jammu & Kashmir',
-    tagline: 'Paradise on Earth with Dal Lake houseboats, Mughal gardens, and Shikaras.',
-    heroImage: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Dal Lake & Mughal Gardens',
+    tagline: 'Cedar houseboat living, sunrise floating flower markets, and cascading Mughal terraces.',
+    heroImage: '/images/destinations/srinagar/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/srinagar/glimpse-1.jpg',
+      '/images/destinations/srinagar/glimpse-2.jpg',
+      '/images/destinations/srinagar/glimpse-3.jpg',
+      '/images/destinations/srinagar/glimpse-4.jpg'
     ],
-    description: 'Srinagar, long celebrated as Paradise on Earth, is centered around the serene waters of Dal Lake. Stay on carved cedar wooden houseboats, glide past floating flower markets on traditional Shikara boats, and wander through historic Mughal gardens terraced with fountains.',
+    description: 'Srinagar—the summer jewel of Kashmir—is centered around the tranquil mirror waters of Dal Lake. Stay aboard hand-carved cedar houseboats with personal butler service, glide across floating flower and vegetable markets on wooden Shikaras, and wander centuries-old royal Mughal gardens.',
     whyVisit: [
-      { icon: '🛶', title: 'Dal Lake Houseboats & Shikara', desc: 'Stay on luxurious carved wooden houseboats with personal butler service.' },
-      { icon: '🌸', title: 'Mughal Gardens', desc: 'Explore Shalimar Bagh, Nishat Bagh, and Chashme Shahi terraced fountains.' },
-      { icon: '🌷', title: 'Indira Gandhi Tulip Garden', desc: 'Asia\'s largest tulip garden blooming under Zabarwan mountain range.' },
-      { icon: '🏔', title: 'Pahalgam & Gulmarg Excursions', desc: 'Saffron fields, pine valleys, and Gondola rides over snow slopes.' }
+      { icon: '🛶', title: 'Dal Lake Luxury Houseboats', desc: 'Hand-carved cedar wood floating suites with antique Kashmiri rugs and private verandas.' },
+      { icon: '🌸', title: 'Sunrise Floating Market', desc: 'Traditional 5 AM Shikara paddle to the lively water market where vendors trade boat-to-boat.' },
+      { icon: '⛲', title: 'Mughal Gardens of Jahangir', desc: 'Cascading terraced fountains at Shalimar Bagh and Nishat Bagh overlooking the lake.' },
+      { icon: '🛕', title: 'Shankaracharya Hilltop Temple', desc: 'Ancient stone temple offering 360-degree panoramas of Srinagar and the Zabarwan range.' }
     ],
     highlights: [
-      { title: 'Morning Floating Vegetable Market Shikara Ride', desc: 'Experience the unique sunrise market trading flowers and fresh produce on Dal Lake.' },
-      { title: 'Gulmarg Gondola Cable Car Ride', desc: 'Asia\'s highest cable car taking you to Phase 2 snow peaks at 13,780 ft.' },
-      { title: 'Pahalgam Betaab & Aru Valleys', desc: 'Pristine Lidder river meadows surrounded by dense fir forests.' },
-      { title: 'Historic Old City & Jamia Masjid', desc: 'Wood-carved Kashmiri architecture and traditional saffron shopping.' }
+      { title: 'Early Morning Shikara Market Ride', desc: 'Glide through morning lake mist, lotus channels, and watch local merchants trade fresh produce.' },
+      { title: 'Shalimar & Nishat Bagh Guided Stroll', desc: 'Emperor Jahangir\'s royal pleasure gardens shaded by centuries-old giant Chinar trees.' },
+      { title: 'Indira Gandhi Memorial Tulip Garden', desc: 'Asia\'s largest tulip garden blooming in vibrant rainbow carpets beneath snow mountains (spring).' },
+      { title: 'Old City Saffron & Papier-Mâché Artisans', desc: 'Explore historic wood-carved mosques and meet master craftsmen weaving Pashmina shawls.' }
+    ]
+  },
+  {
+    id: 'kashmir',
+    name: 'Kashmir Valley',
+    category: 'domestic',
+    location: 'Gulmarg, Pahalgam & Sonamarg',
+    tagline: 'World\'s highest cable cars, alpine ski slopes, and pine-fringed Lidder river valleys.',
+    heroImage: '/images/destinations/kashmir/hero.jpg',
+    galleryImages: [
+      '/images/destinations/kashmir/glimpse-1.jpg',
+      '/images/destinations/kashmir/glimpse-2.jpg',
+      '/images/destinations/kashmir/glimpse-3.jpg',
+      '/images/destinations/kashmir/glimpse-4.jpg'
+    ],
+    description: 'Beyond the lakes of Srinagar lies the great Himalayan valley of Kashmir. Ascend to 13,780 feet on the world-renowned Gulmarg Gondola for world-class skiing and snow views, ride mountain ponies through the lush pine forests of Pahalgam\'s Betaab Valley, and touch glaciers in Sonamarg.',
+    whyVisit: [
+      { icon: '🚡', title: 'Gulmarg Gondola Phase 2', desc: 'World\'s second-highest cable car taking you to Apharwat Peak at 13,780 ft.' },
+      { icon: '🌲', title: 'Pahalgam Betaab & Aru Valleys', desc: 'Lush meadows bordered by deodar pine forests, trout streams, and pony trails.' },
+      { icon: '❄️', title: 'Sonamarg Thajiwas Glacier', desc: 'Pristine "Meadow of Gold" surrounded by towering glaciers and snow passes.' },
+      { icon: '⛷', title: 'Winter Skiing & Sledging', desc: 'Powder snow skiing, snowboarding, and sledging on high-altitude slopes.' }
+    ],
+    highlights: [
+      { title: 'Gulmarg Apharwat Peak Gondola Ascent', desc: 'Soar above pine canopies on Phase 1 to Kongdoori and Phase 2 to the snow summit.' },
+      { title: 'Pahalgam Lidder River Walk & Valley Pony Ride', desc: 'Walk alongside rushing crystal glacial waters and explore iconic Bollywood cinema valleys.' },
+      { title: 'Sonamarg Thajiwas Glacier Sledge Excursion', desc: 'Pony trek up to the foot of eternal glaciers with snow activities year-round.' },
+      { title: 'Boutique Alpine Mountain Resort Stay', desc: 'Warm wooden chalet stays with roaring fireplaces and traditional Kashmiri Wazwan cuisine.' }
     ]
   },
   {
     id: 'manali',
     name: 'Manali',
     category: 'domestic',
-    location: 'Himachal Pradesh',
-    tagline: 'Alpine valleys, Solang adventure, snow passes, and cedar forests.',
-    heroImage: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Solang Valley, Rohtang Pass & Old Manali',
+    tagline: 'Rohtang snow fields, Solang Valley adventure sports, and cedar pagoda temples.',
+    heroImage: '/images/destinations/manali/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1581793745862-99fde7fa73d2?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/manali/glimpse-1.jpg',
+      '/images/destinations/manali/glimpse-2.jpg',
+      '/images/destinations/manali/glimpse-3.jpg',
+      '/images/destinations/manali/glimpse-4.jpg'
     ],
-    description: 'Manali is Himachal Pradesh\'s premier mountain destination, set along the Beas River valley. Surrounded by snow-covered peaks, dense deodar forests, and alpine meadows, Manali offers a perfect retreat for honeymooners, nature lovers, and adventure enthusiasts.',
+    description: 'Manali is Himachal Pradesh\'s premier mountain destination, set along the crystal waters of the Beas River valley. Surrounded by snow-covered peaks, dense deodar forests, and alpine meadows, Manali offers the perfect mix of high-adrenaline adventure sports and romantic mountain retreats.',
     whyVisit: [
-      { icon: '❄️', title: 'Solang Valley & Atal Tunnel', desc: 'Snow sports, paragliding, ropeway rides, and access to Lahaul valley.' },
-      { icon: '🌲', title: 'Old Manali Deodar Forests', desc: 'Rustic wooden cafes, riverwalks, and laid-back mountain vibes.' },
-      { icon: '♨️', title: 'Vashisht Hot Springs', desc: 'Natural sulfur hot springs surrounded by ancient wood-carved temples.' },
-      { icon: '🏔', title: 'Rohtang Pass Snow Experience', desc: 'High alpine pass offering year-round snow landscapes at 13,050 ft.' }
+      { icon: '❄️', title: 'Rohtang Pass & Atal Tunnel', desc: 'Play in year-round snow fields at 13,054 ft and drive through the 9km Atal Tunnel to Lahaul.' },
+      { icon: '🪂', title: 'Solang Valley Adventure', desc: 'Tandem paragliding, 500m zip-lining, quad biking, and winter snowmobiling.' },
+      { icon: '🛕', title: 'Hadimba Devi Pagoda Temple', desc: '16th-century four-tiered wooden pagoda temple nestled inside an ancient cedar forest.' },
+      { icon: '🛶', title: 'Beas River White-Water Rafting', desc: 'Exhilarating Class III-IV river rafting down the roaring Beas River in Kullu valley.' }
     ],
     highlights: [
-      { title: 'Solang Valley Adventure & Paragliding', desc: 'Soar over pine forests and snow valleys on tandem paragliders.' },
-      { title: 'Hadimba Wooden Temple', desc: 'Unique 16th-century pagoda-style wooden temple tucked inside cedar forest.' },
-      { title: 'Atal Tunnel Drive to Sissu', desc: 'Drive through the 9km engineering marvel into the snow-clad Lahaul valley.' },
-      { title: 'Beas River Rafting & Riverside Dining', desc: 'Exciting river rafting in Kullu valley followed by fresh trout dining.' }
+      { title: 'Rohtang Snow Point Excursion', desc: 'Special permit mountain drive to snow fields offering panoramic vistas into Spiti & Lahaul.' },
+      { title: 'Solang Valley Tandem Paragliding', desc: 'Soar high above pine forests and mountain meadows with experienced flight instructors.' },
+      { title: 'Hadimba Temple & Old Manali Village Walk', desc: 'Ancient wood-carved shrine, rustic apple orchards, and lively riverside cafes.' },
+      { title: 'Vashisht Natural Thermal Sulfur Springs', desc: 'Relax in natural hot mineral water baths surrounded by carved stone temples.' }
     ]
   },
   {
     id: 'mountabu',
     name: 'Mount Abu',
     category: 'domestic',
-    location: 'Rajasthan',
-    tagline: 'Rajasthan\'s only hill station, famous for marble Dilwara temples and Nakki Lake.',
-    heroImage: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1600&q=80&fm=webp',
+    location: 'Aravalli Hills, Rajasthan',
+    tagline: 'Rajasthan\'s only hill station with intricate Dilwara marble temples and Nakki Lake.',
+    heroImage: '/images/destinations/mountabu/hero.jpg',
     galleryImages: [
-      'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1000&q=80&fm=webp',
-      'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80&fm=webp'
+      '/images/destinations/mountabu/glimpse-1.jpg',
+      '/images/destinations/mountabu/glimpse-2.jpg',
+      '/images/destinations/mountabu/glimpse-3.jpg',
+      '/images/destinations/mountabu/glimpse-4.jpg'
     ],
-    description: 'Mount Abu is an oasis in the royal desert state of Rajasthan, nestled in the green Aravalli mountain range. Famous for the intricate white marble carvings of the Dilwara Jain Temples, romantic paddle boating on Nakki Lake, and breathtaking sunsets from Sunset Point.',
+    description: 'Mount Abu is a miraculous green oasis rising from Rajasthan\'s desert plains—the state\'s only hill station. Cradled in the ancient Aravalli mountain range, it is celebrated for the breathtaking white marble carvings of the Dilwara Jain Temples, romantic sunset boating on Nakki Lake, and high-altitude mountain vistas.',
     whyVisit: [
-      { icon: '🏛', title: 'Dilwara Jain Temples', desc: 'World-renowned 11th-century white marble temples with unbelievable intricate detail.' },
-      { icon: '⛵', title: 'Nakki Lake Boating', desc: 'Picturesque artificial mountain lake surrounded by rocks, hills, and gardens.' },
-      { icon: '🌄', title: 'Sunset Point & Toad Rock', desc: 'Panoramic evening views overlooking Aravali valleys and unique rock formations.' },
-      { icon: '🏔', title: 'Guru Shikhar Peak', desc: 'The highest peak of the Aravali range offering panoramic mountain views.' }
+      { icon: '🏛', title: 'Dilwara Jain Temples', desc: 'World-renowned 11th-century white marble temples carved with unbelievable lace-like detail.' },
+      { icon: '⛵', title: 'Nakki Lake Sunset Boating', desc: 'Picturesque sacred mountain lake surrounded by wooded Aravalli hills and rock formations.' },
+      { icon: '🌄', title: 'Sunset Point & Toad Rock', desc: 'Panoramic evening views watching the desert horizon turn crimson and gold.' },
+      { icon: '🏔', title: 'Guru Shikhar Peak (1,722m)', desc: 'The highest summit in Rajasthan offering sweeping views over Gujarat and Rajasthan.' }
     ],
     highlights: [
-      { title: 'Dilwara Marble Carving Tour', desc: 'Guided marveling at delicate marble ceiling pendants carved like lace.' },
-      { title: 'Nakki Lake Pedal Boating & Mall Walk', desc: 'Stroll around the lake, ride horses, and savor Rajasthani sweets.' },
-      { title: 'Achalgarh Fort & Mandakini Lake', desc: 'Medieval fort ruins built by Rana Kumbha with ancient Shiva temple.' },
-      { title: 'Trevor\'s Crocodile Park Sanctuary', desc: 'Secluded wildlife sanctuary nestled in lush green hills.' }
+      { title: 'Dilwara Marble Carving Guided Tour', desc: 'Marvel at translucent marble ceiling pendants and filigree pillars carved 1,000 years ago.' },
+      { title: 'Nakki Lake Pedal Boating & Mall Walk', desc: 'Pedal boat across tranquil waters, visit Toad Rock, and stroll evening bazaars.' },
+      { title: 'Guru Shikhar Summit & Dattatreya Temple', desc: 'Ascend to the highest point of the Aravalli range for panoramic mountain vistas.' },
+      { title: 'Achalgarh Medieval Fort & Shiva Temple', desc: 'Explore historic fort ruins built by Rana Kumbha with a sacred brass Nandi bull.' }
     ]
   }
 ];

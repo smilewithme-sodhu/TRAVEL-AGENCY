@@ -55,6 +55,10 @@ export const DestinationDetail = () => {
         <img
           src={heroImage}
           alt={title}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/images/gumnu-jum-logo.png';
+          }}
           className="w-full h-full object-cover"
         />
         
@@ -180,7 +184,7 @@ export const DestinationDetail = () => {
           )}
 
           {/* Cinematic Photo Gallery */}
-          {galleryImages.length > 1 && (
+          {galleryImages.length > 0 && (
             <div className="space-y-4">
               <div className="font-mono text-xs uppercase tracking-widest text-[#0284C7] font-bold">
                 CINEMATIC GALLERY
@@ -188,10 +192,18 @@ export const DestinationDetail = () => {
               <h3 className="font-display font-bold text-2xl text-[#0C4A6E]">
                 Glimpses of {title}
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {galleryImages.map((imgUrl, idx) => (
-                  <div key={idx} className="h-36 sm:h-44 rounded-2xl overflow-hidden bg-slate-100 shadow-xs">
-                    <img src={imgUrl} alt={`${title} photo ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                  <div key={idx} className="h-40 sm:h-48 rounded-2xl overflow-hidden bg-slate-100 shadow-xs border border-sky-100/60 group">
+                    <img
+                      src={imgUrl}
+                      alt={`${title} glimpse ${idx + 1}`}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = heroImage;
+                      }}
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+                    />
                   </div>
                 ))}
               </div>
