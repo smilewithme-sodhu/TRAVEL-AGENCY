@@ -8,13 +8,13 @@ import { BinaryPlacementEngine } from '../modules/network/BinaryPlacementEngine'
 
 export const authRouter = express.Router();
 
-// ── Strict Auth Rate Limiter (5 req / 15 min per IP) ───────────────────
+// ── Auth Rate Limiter (30 req / 15 min per IP) ─────────────────────────
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 5,
+  max: 30,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { success: false, error: 'Too many login attempts. Please wait 15 minutes and try again.' },
+  message: { success: false, error: 'Too many login attempts. Please wait a few minutes and try again.' },
 });
 
 const placementEngine = new BinaryPlacementEngine();

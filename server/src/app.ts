@@ -27,18 +27,29 @@ const apiLimiter = rateLimit({
 });
 app.use('/api/', apiLimiter);
 
-// Support comma-separated list of origins: e.g. "https://gumnujum.com,https://gumnujum.vercel.app"
+// Support comma-separated list of origins + any Vercel and gumnujum.com domains
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? (process.env.FRONTEND_URL || '').split(',').map(o => o.trim()).filter(Boolean)
   : ['http://localhost:3000', 'http://localhost:5173'];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || /^https?:\/\/localhost:\d+$/.test(origin) || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+    if (!origin || /^https?:\/\/localhost(:\d+)?$/.test(origin) || allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
+    try {
+      const hostname = new URL(origin).hostname;
+      if (
+        hostname.endsWith('.vercel.app') ||
+        hostname === 'gumnujum.com' ||
+        hostname.endsWith('.gumnujum.com')
+      ) {
+        return callback(null, true);
+      }
+    } catch {
+      // Fallback
+    }
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
 }));
