@@ -112,7 +112,7 @@ export const TripsPage = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20" />
 
-                <div className="absolute top-3.5 left-3.5">
+                <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
                   <span
                     className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-xs ${
                       trip.status === 'UPCOMING'

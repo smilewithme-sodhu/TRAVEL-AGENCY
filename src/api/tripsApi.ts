@@ -3,6 +3,7 @@ import { apiClient, ApiResponse } from './client';
 export interface Trip {
   id: string;
   destination: string;
+  category: 'DOMESTIC' | 'INTERNATIONAL';
   heroImage: string;
   status: 'UPCOMING' | 'COMPLETED' | 'CANCELLED';
   referenceNumber: string;

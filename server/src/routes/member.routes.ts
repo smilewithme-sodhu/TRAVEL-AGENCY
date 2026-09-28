@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../db';
 
@@ -256,6 +256,7 @@ memberRouter.get('/trips', async (req, res) => {
     const mapped = bookings.map((b: any) => ({
       id: b.id,
       destination: b.package.name,
+      category: b.package.packageType,
       heroImage: '/images/destinations/' + b.package.slug + '/hero.jpg',
       status: b.status === 'COMPLETED' ? 'COMPLETED' : 'UPCOMING',
       referenceNumber: b.bookingRef,
