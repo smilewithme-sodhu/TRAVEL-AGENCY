@@ -34,21 +34,21 @@ export const WanderlustProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
-  // Fetch Packages from DB
-  useEffect(() => {
-    const fetchPackages = async () => {
-      try {
-        const response = await apiClient.get('/api/packages');
-        if (response.data && response.data.success && response.data.data.length > 0) {
-          setPackages(response.data.data);
-          setSelectedPackage(response.data.data[0]);
-        }
-      } catch (err) {
-        console.error("Failed to fetch packages from API:", err);
-      }
-    };
-    fetchPackages();
-  }, []);
+  // Temporarily disable fetching packages from DB to prioritize hardcoded packageData.js
+  // useEffect(() => {
+  //   const fetchPackages = async () => {
+  //     try {
+  //       const response = await apiClient.get('/api/packages');
+  //       if (response.data && response.data.success && response.data.data.length > 0) {
+  //         // setPackages(response.data.data);
+  //         // setSelectedPackage(response.data.data[0]);
+  //       }
+  //     } catch (err) {
+  //       console.error("Failed to fetch packages from API:", err);
+  //     }
+  //   };
+  //   fetchPackages();
+  // }, []);
 
   // Parse Initial URL for Referrals and Routing
   useEffect(() => {
