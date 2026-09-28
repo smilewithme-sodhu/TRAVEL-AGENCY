@@ -97,6 +97,42 @@ export const WanderlustProvider = ({ children }) => {
   // Upload Modal State
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
+  // Reviews System
+  const [reviews, setReviews] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gumnujum_reviews');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('gumnujum_reviews', JSON.stringify(reviews));
+  }, [reviews]);
+
+  const addReview = (reviewData, isAdmin = false) => {
+    const newReview = {
+      ...reviewData,
+      id: Date.now().toString(),
+      date: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase(),
+      approved: isAdmin ? true : false,
+      rating: reviewData.rating || 5,
+    };
+    setReviews(prev => [newReview, ...prev]);
+    showToast(isAdmin ? 'Review published successfully!' : 'Review submitted for admin approval!', 'success');
+  };
+
+  const approveReview = (id) => {
+    setReviews(prev => prev.map(r => r.id === id ? { ...r, approved: true } : r));
+    showToast('Review approved!', 'success');
+  };
+
+  const deleteReview = (id) => {
+    setReviews(prev => prev.filter(r => r.id !== id));
+    showToast('Review deleted!', 'success');
+  };
+
   // Toast System
   const [toast, setToast] = useState({ message: '', type: 'info', visible: false });
 
@@ -273,6 +309,10 @@ export const WanderlustProvider = ({ children }) => {
         toggleWishlist,
         galleryPhotos,
         setGalleryPhotos,
+        reviews,
+        addReview,
+        approveReview,
+        deleteReview,
         isUploadModalOpen,
         setIsUploadModalOpen,
         uploadTravelerPhoto,

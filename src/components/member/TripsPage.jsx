@@ -9,9 +9,11 @@ import {
   Users,
   Compass,
   ArrowRight,
-  MapPin
+  MapPin,
+  MessageSquarePlus
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ReviewModal } from '../ui/ReviewModal';
 
 export const TripsPage = () => {
   const { navigateTo } = useWanderlust();
@@ -19,6 +21,7 @@ export const TripsPage = () => {
   const [trips, setTrips] = useState([]);
   const [activeTab, setActiveTab] = useState('ALL');
   const [isLoading, setIsLoading] = useState(true);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -49,7 +52,16 @@ export const TripsPage = () => {
           </p>
         </div>
 
-        <WhatsAppConciergeButton size="sm" customMessage="Hi Gumnu JUM Concierge, I would like to plan a new holiday journey." />
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsReviewModalOpen(true)}
+            className="hidden sm:inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 hover:border-[#C9A455] hover:bg-[#C9A455]/5 text-slate-700 font-bold text-xs transition-all shadow-xs cursor-pointer shrink-0"
+          >
+            <MessageSquarePlus size={16} className="text-[#C9A455]" />
+            <span>Write a Review</span>
+          </button>
+          <WhatsAppConciergeButton size="sm" customMessage="Hi Gumnu JUM Concierge, I would like to plan a new holiday journey." />
+        </div>
       </div>
 
       {/* Tabs */}
@@ -157,6 +169,8 @@ export const TripsPage = () => {
           ))}
         </div>
       )}
+      
+      <ReviewModal isOpen={isReviewModalOpen} onClose={() => setIsReviewModalOpen(false)} />
     </div>
   );
 };
