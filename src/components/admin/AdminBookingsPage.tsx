@@ -12,11 +12,15 @@ import { CheckCircle2, Search, ArrowRight, User, Package, Plus, X, Loader2, Mess
 // AssignPointsModal — standalone sub-component for clarity
 // ---------------------------------------------------------------------------
 const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { showToast } = useWanderlust();
+  const { showToast, packages } = useWanderlust();
   const qclient = useQueryClient();
   const [memberQ, setMemberQ] = useState('');
   const [selectedMember, setSelectedMember] = useState<any>(null);
   
+  const [packageSlug, setPackageSlug] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
   const [directRewardTP, setDirectRewardTP] = useState('');
   const [binaryVolumeBV, setBinaryVolumeBV] = useState('');
   const [teamBonusTP, setTeamBonusTP] = useState('');
@@ -47,8 +51,8 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const binaryVolumeNum  = Number(binaryVolumeBV)  || 0;
     const teamBonusNum     = Number(teamBonusTP)      || 0;
     
-    if (directRewardNum <= 0 && binaryVolumeNum <= 0 && teamBonusNum <= 0) {
-      return showToast('Please enter at least one value greater than 0.', 'error');
+    if (directRewardNum <= 0 && binaryVolumeNum <= 0 && teamBonusNum <= 0 && !packageSlug) {
+      return showToast('Please enter at least one value greater than 0 or select a package.', 'error');
     }
 
     assignPoints.mutate(
@@ -57,7 +61,10 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         directRewardTP: directRewardNum, 
         binaryVolumeBV: binaryVolumeNum,
         teamBonusTP:   teamBonusNum,
-        notes:         notes || 'Admin Manual Assignment' 
+        notes:         notes || 'Admin Manual Assignment',
+        packageSlug,
+        startDate,
+        endDate
       },
       {
         onSuccess: (res) => {
@@ -142,6 +149,53 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </>
             )}
           </div>
+
+          <hr className="border-slate-700/50" />
+
+          <div className="space-y-3">
+            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">
+              Log a Destination (Optional)
+            </label>
+            <select
+              value={packageSlug}
+              onChange={(e) => setPackageSlug(e.target.value)}
+              className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+            >
+              <option value="">-- Select a Package / Destination --</option>
+              {packages && packages.map((pkg: any) => (
+                <option key={pkg.id} value={pkg.id}>{pkg.name}</option>
+              ))}
+            </select>
+
+            {packageSlug && (
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+                    Start Date
+                  </label>
+                  <input
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">
+                    End Date
+                  </label>
+                  <input
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:border-indigo-500"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <hr className="border-slate-700/50" />
 
           <div className="grid grid-cols-3 gap-3">
             <div>

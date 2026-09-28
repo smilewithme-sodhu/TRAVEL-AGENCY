@@ -237,3 +237,38 @@ memberRouter.put('/profile', async (req: Request, res: Response): Promise<void> 
 
 
 
+memberRouter.get('/trips', async (req, res) => {
+  const decoded = getDecodedToken(req);
+  if (!decoded || !decoded.memberId) {
+    res.status(401).json({ success: false, error: 'Unauthorized' });
+    return;
+  }
+
+  try {
+    const { prisma } = await import('../db');
+    
+    const bookings = await prisma.booking.findMany({
+      where: { memberId: decoded.memberId },
+      include: { package: true },
+      orderBy: { travelDateFrom: 'desc' }
+    });
+
+    const mapped = bookings.map((b: any) => ({
+      id: b.id,
+      destination: b.package.name,
+      heroImage: '/images/destinations/' + b.package.slug + '/hero.jpg',
+      status: b.status === 'COMPLETED' ? 'COMPLETED' : 'UPCOMING',
+      referenceNumber: b.bookingRef,
+      travelDates: b.travelDateFrom.toISOString().split('T')[0] + ' to ' + b.travelDateTo.toISOString().split('T')[0],
+      travellerCount: b.numTravellers.toString(),
+      travellerNames: [],
+      arrangementsNote: b.cancellationReason || '',
+      consultantName: 'Gumnu JUM Concierge'
+    }));
+
+    res.json({ success: true, data: mapped, timestamp: new Date().toISOString() });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Failed to fetch trips' });
+  }
+});

@@ -61,7 +61,7 @@ export const confirmBookingWithPoints = async (req: Request, res: Response): Pro
 //      (or the tree is exhausted). Each qualified recipient gets teamBonusTP / 5.
 // ---------------------------------------------------------------------------
 export const assignManualPoints = async (req: Request, res: Response): Promise<void> => {
-  const { memberId, directRewardTP, binaryVolumeBV, teamBonusTP, notes } = req.body;
+  const { memberId, directRewardTP, binaryVolumeBV, teamBonusTP, notes, packageSlug, startDate, endDate } = req.body;
 
   if (!memberId) {
     res.status(400).json({ error: 'memberId is required.' });
@@ -71,6 +71,45 @@ export const assignManualPoints = async (req: Request, res: Response): Promise<v
   const safeNotes = notes || 'Admin Manual Assignment';
 
   try {
+    // === NEW: Create Booking if packageSlug is provided ===
+    if (packageSlug) {
+      const pkg = await prisma.package.findUnique({
+        where: { slug: packageSlug },
+        include: { prices: true }
+      });
+
+      if (pkg && pkg.prices.length > 0) {
+        const member = await prisma.member.findUnique({ where: { id: memberId } });
+        if (member) {
+          const bookingRef = `BK-MANUAL-${Date.now().toString().slice(-6)}`;
+          await prisma.booking.create({
+            data: {
+              bookingRef,
+              customerId: member.userId,
+              memberId: member.id,
+              packageId: pkg.id,
+              packagePriceId: pkg.prices[0].id,
+              travelDateFrom: startDate ? new Date(startDate) : new Date(),
+              travelDateTo: endDate ? new Date(endDate) : new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+              numTravellers: 1,
+              sellingPrice: pkg.prices[0].sellingPrice,
+              supplierCost: pkg.prices[0].supplierCost,
+              operationalCost: pkg.prices[0].operationalCost,
+              paymentCost: pkg.prices[0].paymentCost,
+              taxAmount: pkg.prices[0].taxAmount,
+              grossContribution: pkg.prices[0].grossContribution,
+              directRewardBudget: pkg.prices[0].directRewardBudget,
+              teamRewardBudget: pkg.prices[0].teamRewardBudget,
+              binaryVolumeBudget: pkg.prices[0].binaryVolumeBudget,
+              refundReserveBudget: 0,
+              netContribution: pkg.prices[0].grossContribution,
+              status: 'COMPLETED',
+              cancellationReason: safeNotes
+            }
+          });
+        }
+      }
+    }
     // ── STEP 1: DIRECT REWARD → Sponsor's wallet ──────────────────────────
     if (Number(directRewardTP) > 0) {
       await prisma.$transaction(async (tx) => {
