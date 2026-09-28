@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
-import { Upload, MapPin, Camera, Sparkles } from 'lucide-react';
+import { Sparkles, Maximize2, Camera } from 'lucide-react';
+import { PhotoLightbox } from './PhotoLightbox';
 
 export const TravelerGalleryPage = () => {
-  const { galleryPhotos, setIsUploadModalOpen } = useWanderlust();
+  const { galleryPhotos } = useWanderlust();
   const [filter, setFilter] = useState('all');
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   const photosList = galleryPhotos && galleryPhotos.length > 0 ? galleryPhotos : [];
   const filteredPhotos = filter === 'all'
@@ -25,95 +27,60 @@ export const TravelerGalleryPage = () => {
             Traveler Gallery
           </h1>
           <p className="text-slate-500 text-sm mt-2 max-w-xl font-medium">
-            Explore authentic photos captured by travelers across our domestic & international journeys.
+            Explore authentic captures and moments from our travelers across domestic & international journeys.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Category Filters */}
+        {/* Category Filters */}
+        <div className="flex items-center gap-2">
           <div className="flex bg-slate-100 p-1 rounded-2xl border border-sky-100">
             {['all', 'domestic', 'international'].map((cat) => (
               <button
                 key={cat}
-                onClick={() => setFilter(cat)}
+                onClick={() => {
+                  setFilter(cat);
+                  setLightboxIndex(null);
+                }}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   filter === cat
-                    ? 'bg-[#0A3161] text-white shadow-sm'
-                    : 'text-slate-600 hover:text-[#0A3161]'
+                    ? 'bg-[#0C4A6E] text-white shadow-sm'
+                    : 'text-slate-600 hover:text-[#0C4A6E]'
                 }`}
               >
                 {cat === 'all' ? 'All Photos' : cat === 'domestic' ? 'Domestic (India)' : 'International'}
               </button>
             ))}
           </div>
-
-          <button
-            onClick={() => setIsUploadModalOpen(true)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-[#FACC15] hover:bg-yellow-400 text-[#0A3161] font-bold text-xs shadow-sm transition-all cursor-pointer"
-          >
-            <Upload size={16} />
-            <span>Upload Photo</span>
-          </button>
         </div>
       </div>
 
-      {/* Gallery Grid */}
+      {/* Gallery Grid - Pure Photography, Words Removed */}
       {filteredPhotos.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredPhotos.map((photo) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {filteredPhotos.map((photo, index) => (
             <div
-              key={photo.id}
-              className="bg-white rounded-3xl overflow-hidden border border-sky-100/80 shadow-xs hover:shadow-xl hover:shadow-blue-900/10 transition-all duration-300 flex flex-col justify-between group"
+              key={photo.id || index}
+              onClick={() => setLightboxIndex(index)}
+              className="relative aspect-square sm:aspect-[4/5] bg-slate-100 rounded-2xl sm:rounded-3xl overflow-hidden border border-sky-100/80 shadow-xs hover:shadow-xl transition-all duration-300 cursor-pointer group"
             >
-              {/* Image Container */}
-              <div className="relative w-full h-72 overflow-hidden bg-slate-100">
-                <img
-                  src={photo.image || photo.src}
-                  alt={photo.tripTitle || photo.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
-                />
+              <img
+                src={photo.image || photo.src}
+                alt={photo.alt || `Traveler Photo ${index + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-500 ease-out"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = "/images/gallery/aruna-rai-cruise.webp";
+                }}
+              />
 
-                {/* Category Tag */}
-                <span
-                  className={`absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm ${
-                    photo.category === 'domestic'
-                      ? 'bg-[#0284C7] text-white'
-                      : 'bg-[#F97316] text-white'
-                  }`}
-                >
-                  {photo.category === 'domestic' ? 'India' : 'International'}
-                </span>
-              </div>
-
-              {/* Card Meta Content */}
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                <div>
-                  <div className="flex items-center gap-1.5 text-xs text-[#0284C7] font-semibold mb-1">
-                    <MapPin size={14} className="shrink-0" />
-                    <span>{photo.location}</span>
-                  </div>
-
-                  <h3 className="font-display font-bold text-lg text-[#0C4A6E] line-clamp-1">
-                    {photo.tripTitle || photo.title}
-                  </h3>
-
-                  <p className="text-xs text-slate-500 italic line-clamp-2 leading-relaxed mt-1">
-                    "{photo.caption || 'Unforgettable journey arranged by Gumnu JUM Travels!'}"
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#0A3161]">
-                    {photo.travelerName || photo.traveler}
-                  </span>
-                  <span className="font-mono text-[10px] text-slate-400 font-semibold">
-                    {photo.date || 'VERIFIED'}
-                  </span>
+              {/* Hover Zoom Overlay */}
+              <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/25 transition-colors duration-300 flex items-center justify-center">
+                <div className="w-11 h-11 rounded-full bg-white/90 text-slate-800 shadow-lg opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 flex items-center justify-center">
+                  <Maximize2 className="w-5 h-5" />
                 </div>
               </div>
-
             </div>
           ))}
         </div>
@@ -123,9 +90,19 @@ export const TravelerGalleryPage = () => {
           <h3 className="font-display font-bold text-xl text-[#0C4A6E]">
             No photos found in this category
           </h3>
-          <p className="text-xs text-slate-500 mt-1">Try switching categories or uploading your vacation photo!</p>
+          <p className="text-xs text-slate-500 mt-1">Try switching back to "All Photos".</p>
         </div>
       )}
+
+      {/* Lightbox Modal */}
+      <PhotoLightbox
+        isOpen={lightboxIndex !== null}
+        photos={filteredPhotos}
+        currentIndex={lightboxIndex || 0}
+        onClose={() => setLightboxIndex(null)}
+        onPrev={() => setLightboxIndex(prev => (prev > 0 ? prev - 1 : filteredPhotos.length - 1))}
+        onNext={() => setLightboxIndex(prev => (prev < filteredPhotos.length - 1 ? prev + 1 : 0))}
+      />
 
     </div>
   );

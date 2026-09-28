@@ -14,7 +14,8 @@
         "build:server": "npx prisma generate && tsc -p server/tsconfig.json",
         "start:server": "node server/dist/server.js",
         "start": "node server/dist/server.js",
-        "dev:server": "cd server && npx tsx src/server.ts"
+        "dev:server": "cd server && npx tsx src/server.ts",
+        "update-gallery": "node scripts/update-gallery.js"
     },
     "dependencies": {
         "@prisma/adapter-pg": "^7.10.0",

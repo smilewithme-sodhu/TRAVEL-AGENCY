@@ -75,14 +75,17 @@ export const WanderlustProvider = ({ children }) => {
   // Saved Wishlist
   const [savedWishlist, setSavedWishlist] = useState(['sikkim', 'bali', 'dubai']);
 
-  // Gallery Photos (Always load all 66 real photos from dataset)
+  // Gallery Photos (Always load real photos from dataset)
   const [galleryPhotos, setGalleryPhotos] = useState(() => {
     try {
-      const saved = localStorage.getItem('gumnujum_gallery_photos');
+      const saved = localStorage.getItem('gumnujum_gallery_photos_v2');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length >= INITIAL_GALLERY_PHOTOS.length) {
-          return parsed;
+          // Verify paths contain /images/gallery/
+          if (parsed[0]?.image?.includes('/images/gallery/')) {
+            return parsed;
+          }
         }
       }
       return INITIAL_GALLERY_PHOTOS;
