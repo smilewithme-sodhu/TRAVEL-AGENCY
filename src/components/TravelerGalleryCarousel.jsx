@@ -97,7 +97,7 @@ export const TravelerGalleryCarousel = () => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
-                  e.currentTarget.src = "/images/gallery/aruna-rai-cruise.webp";
+                  e.currentTarget.src = "/images/gallery/daden-bhutia-beach.webp";
                 }}
               />
 
