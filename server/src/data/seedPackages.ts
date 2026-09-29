@@ -8,7 +8,7 @@ async function seedPackages() {
   const adminUser = await prisma.adminUser.findFirst();
   const createdBy = adminUser ? adminUser.userId : '00000000-0000-0000-0000-000000000000';
 
-  for (const pkgData of DESTINATION_PACKAGES) {
+  for (const pkgData of DESTINATION_PACKAGES as any[]) {
     // Check if destination exists
     let dest = await prisma.destination.findUnique({ where: { slug: pkgData.id } });
     if (!dest) {

@@ -27,7 +27,7 @@ export const AdminLogin = () => {
         navigate('/admin');
       }
     } catch (err) {
-      if (err.message === 'Network Error' || err.code === 'ERR_NETWORK') {
+      if (err.message === 'Network Error' || err.code === 'ERR_NETWORK' || err.code === 'ECONNABORTED' || err.response?.status >= 500) {
         const demoAdmin = {
           id: 'admin-demo-999',
           name: 'Demo Admin',

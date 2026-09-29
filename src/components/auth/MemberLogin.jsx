@@ -42,7 +42,7 @@ export const MemberLogin = () => {
       }
     } catch (err) {
       console.error(err);
-      if (err.message === 'Network Error' || err.code === 'ERR_NETWORK') {
+      if (err.message === 'Network Error' || err.code === 'ERR_NETWORK' || err.code === 'ECONNABORTED' || err.response?.status >= 500) {
         const demoUser = {
           id: 'demo-123',
           name: 'Demo Traveler',
