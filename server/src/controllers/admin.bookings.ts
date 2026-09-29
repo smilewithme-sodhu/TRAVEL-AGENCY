@@ -72,7 +72,7 @@ export const assignManualPoints = async (req: Request, res: Response): Promise<v
 
   try {
     // === NEW: Create Booking if packageSlug is provided ===
-    if (packageSlug) {
+    let createdBookingId: string | null = null; if (packageSlug) {
       const pkg = await prisma.package.findUnique({
         where: { slug: packageSlug },
         include: { prices: true }
@@ -82,7 +82,7 @@ export const assignManualPoints = async (req: Request, res: Response): Promise<v
         const member = await prisma.member.findUnique({ where: { id: memberId } });
         if (member) {
           const bookingRef = `BK-MANUAL-${Date.now().toString().slice(-6)}`;
-          await prisma.booking.create({
+          const nb = await prisma.booking.create({
             data: {
               bookingRef,
               customerId: member.userId,
@@ -153,7 +153,7 @@ export const assignManualPoints = async (req: Request, res: Response): Promise<v
     if (Number(binaryVolumeBV) > 0) {
       const { BinaryVolumeEngine } = await import('../modules/financial/BinaryVolumeEngine');
       const engine = new BinaryVolumeEngine(prisma);
-      await engine.rollUpVolume(null as any, memberId, new Prisma.Decimal(binaryVolumeBV));
+      await engine.rollUpVolume(createdBookingId as any, memberId, new Prisma.Decimal(binaryVolumeBV));
       console.log(`[assignManualPoints] Binary Volume ${binaryVolumeBV} BV rolled up from member ${memberId}`);
     }
 
