@@ -1,0 +1,4 @@
+## 2025-03-08 - Admin API Endpoints Unauthenticated
+**Vulnerability:** The backend application had the `/api/admin` and `/api/admin/bookings` endpoints entirely unprotected, allowing anyone to access and perform administrative functions (like payout approvals, booking confirmations, and package management) without providing any authentication token.
+**Learning:** The routing setup in `server/src/app.ts` simply mounted the `adminRouter` and `adminBookingsRouter` without any middleware. This represents a critical lack of defense-in-depth and authorization checks for sensitive actions.
+**Prevention:** Always implement role-based access control (RBAC) middleware for any endpoint modifying application state or handling sensitive data. Default to "deny all" for admin scopes unless explicitly authenticated as an admin.
