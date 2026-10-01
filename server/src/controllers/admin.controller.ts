@@ -538,13 +538,20 @@ export const getAdminMembers = async (req: Request, res: Response): Promise<void
 
 export const getAdminDashboardMetrics = async (req: Request, res: Response): Promise<void> => {
   try {
-    const totalPackages = await prisma.package.count();
-    
-      const activeMembers = await prisma.member.count({ where: { greenStatus: { in: ['GREEN', 'ORANGE'] } } });
+    // ⚡ Bolt: Execute independent queries concurrently to improve response time
+    const [
+      totalPackages,
+      activeMembers,
+      pendingWithdrawals,
+      globalBonusTransactions
+    ] = await Promise.all([
+      prisma.package.count(),
+      prisma.member.count({ where: { greenStatus: { in: ['GREEN', 'ORANGE'] } } }),
+      prisma.withdrawal.aggregate({ _sum: { requestedAmount: true }, where: { status: 'REQUESTED' } }),
+      prisma.walletTransaction.aggregate({ _sum: { amount: true }, where: { transactionType: 'CREDIT_MANUAL_ADJUSTMENT' } })
+    ]);
 
-    const pendingWithdrawals = await prisma.withdrawal.aggregate({ _sum: { requestedAmount: true }, where: { status: 'REQUESTED' } });
-      const globalBonusTransactions = await prisma.walletTransaction.aggregate({ _sum: { amount: true }, where: { transactionType: 'CREDIT_MANUAL_ADJUSTMENT' } });
-      res.json({ success: true, data: { totalPackages, activeMembers, pendingPayouts: Number(pendingWithdrawals._sum.requestedAmount || 0), totalGlobalBonus: Number(globalBonusTransactions._sum.amount || 0) } });
+    res.json({ success: true, data: { totalPackages, activeMembers, pendingPayouts: Number(pendingWithdrawals._sum.requestedAmount || 0), totalGlobalBonus: Number(globalBonusTransactions._sum.amount || 0) } });
   } catch (error) {
     console.error("ADMIN METRICS ERROR:", error); res.status(500).json({ error: "Failed", details: (error as Error).message });
   }
