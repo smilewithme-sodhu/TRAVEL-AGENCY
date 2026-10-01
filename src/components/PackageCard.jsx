@@ -2,7 +2,9 @@ import React from 'react';
 import { useWanderlust } from '../context/WanderlustContext';
 import { MapPin, ArrowRight, Heart, Sparkles, Flame } from 'lucide-react';
 
-export const PackageCard = ({ pkg }) => {
+// ⚡ Bolt: Wrapped in React.memo to prevent O(n) re-renders when parent state (like search queries) changes.
+// Impact: Reduces rendering time significantly on DestinationsCatalogPage during search typing.
+export const PackageCard = React.memo(({ pkg }) => {
   const { navigateTo, savedWishlist, toggleWishlist } = useWanderlust();
   const isSaved = savedWishlist?.includes(pkg.id);
 
@@ -105,4 +107,4 @@ export const PackageCard = ({ pkg }) => {
       </div>
     </div>
   );
-};
+});
