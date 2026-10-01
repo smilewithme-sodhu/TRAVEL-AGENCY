@@ -32,23 +32,29 @@ export const NetworkPage = () => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  if (isLoading) return <TableSkeleton rows={6} />;
-
   const members = overview?.members || [];
 
-  const filteredMembers = members.filter((m) => {
-    const matchesSearch =
-      m.name.toLowerCase().includes(search.toLowerCase()) ||
-      m.memberCode.toLowerCase().includes(search.toLowerCase());
+  // ⚡ Bolt: Memoized member filtering to prevent unnecessary re-computations when selecting a member.
+  // Extracted search.toLowerCase() outside the filter loop to avoid redundant string allocations.
+  const filteredMembers = React.useMemo(() => {
+    const searchLower = search.toLowerCase();
 
-    if (!matchesSearch) return false;
-    if (filter === 'ALL') return true;
-    if (filter === 'ACTIVE') return m.status === 'ACTIVE';
-    if (filter === 'INACTIVE') return m.status !== 'ACTIVE';
-    if (filter === 'LEFT') return m.position === 'LEFT';
-    if (filter === 'RIGHT') return m.position === 'RIGHT';
-    return true;
-  });
+    return members.filter((m) => {
+      const matchesSearch =
+        m.name.toLowerCase().includes(searchLower) ||
+        m.memberCode.toLowerCase().includes(searchLower);
+
+      if (!matchesSearch) return false;
+      if (filter === 'ALL') return true;
+      if (filter === 'ACTIVE') return m.status === 'ACTIVE';
+      if (filter === 'INACTIVE') return m.status !== 'ACTIVE';
+      if (filter === 'LEFT') return m.position === 'LEFT';
+      if (filter === 'RIGHT') return m.position === 'RIGHT';
+      return true;
+    });
+  }, [members, filter, search]);
+
+  if (isLoading) return <TableSkeleton rows={6} />;
 
   return (
     <div className="space-y-6 animate-fadeIn">
