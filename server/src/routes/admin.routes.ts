@@ -5,8 +5,11 @@ import {
   activateMemberToGreen, activateMemberToOrange, setMemberStatus, getAdminMembers, getAdminDashboardMetrics, distributeGlobalBonus
 } from '../controllers/admin.controller';
 import { getBookings, confirmBookingWithPoints, assignManualPoints, searchMembers } from '../controllers/admin.bookings';
+import { requireAdmin } from '../middleware/auth';
 
 export const adminRouter = express.Router();
+
+adminRouter.use(requireAdmin);
 
 // ---------------------------------------------------------------------------
 // Dashboard & Metrics

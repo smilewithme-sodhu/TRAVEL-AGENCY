@@ -17,3 +17,11 @@ export const getDecodedToken = (req: Request): DecodedToken | null => {
     return null;
   }
 };
+
+export const requireAdmin = (req: Request, res: any, next: any) => {
+  const decoded = getDecodedToken(req);
+  if (!decoded || decoded.role !== 'ADMIN') {
+    return res.status(403).json({ success: false, error: 'Forbidden: Admin access required' });
+  }
+  next();
+};
