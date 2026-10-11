@@ -133,6 +133,9 @@ export const useAssignManualPoints = () => {
       binaryVolumeBV: number;
       teamBonusTP: number;
       notes: string;
+      packageSlug?: string;
+      startDate?: string;
+      endDate?: string;
     }) => {
       const { data } = await apiClient.post('/api/admin/members/assign-points', payload);
       return data;

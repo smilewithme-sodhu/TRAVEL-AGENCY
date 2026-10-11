@@ -1,4 +1,4 @@
-﻿import { Prisma, TransactionType, RewardType, RewardStatus, TransactionStatus, MemberGreenStatus } from '@prisma/client';
+import { Prisma, TransactionType, RewardType, RewardStatus, TransactionStatus, MemberGreenStatus } from '@prisma/client';
 import { randomUUID } from 'crypto';
 
 export class TeamBonusEngine {
@@ -61,7 +61,7 @@ export class TeamBonusEngine {
     // 2. Dynamic Compression: Filter only "ACTIVE" / "ACTIVE_GRACE" / etc.
     // The prompt mentions "Green" (Active/qualified). Based on MemberGreenStatus enum.
     const activeSponsors = lineage.filter(
-      (node) => node.greenStatus === MemberGreenStatus.ORANGE
+      (node) => node.greenStatus === MemberGreenStatus.ORANGE || node.greenStatus === MemberGreenStatus.GREEN
     );
 
     // 3. Define Payout Matrix for 4 levels
@@ -114,6 +114,22 @@ export class TeamBonusEngine {
           notes: `Team Bonus (Level ${i + 1} Compressed, Actual L${sponsor.level}) for Booking ${bookingId}`,
         },
       });
+
+      const wallet = await tx.wallet.findUnique({ where: { memberId: sponsor.sponsorId } });
+      if (wallet) {
+        await tx.walletTransaction.create({
+          data: {
+            walletId: wallet.id,
+            rewardId,
+            transactionType: TransactionType.CREDIT_TEAM_REWARD,
+            status: TransactionStatus.PENDING,
+            amount: payoutAmount,
+            balanceAfter: new Prisma.Decimal(0),
+            notes: `Team Bonus (Level ${i + 1} Compressed, Actual L${sponsor.level}) for Booking ${bookingId}`,
+            idempotencyKey: idempotencyKey + '-wallet'
+          }
+        });
+      }
     }
   }
 }

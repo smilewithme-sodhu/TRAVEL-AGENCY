@@ -12,7 +12,7 @@ import { CheckCircle2, Search, ArrowRight, User, Package, Plus, X, Loader2, Mess
 // AssignPointsModal — standalone sub-component for clarity
 // ---------------------------------------------------------------------------
 const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { showToast, packages } = useWanderlust();
+  const { showToast, allPackages } = useWanderlust();
   const qclient = useQueryClient();
   const [memberQ, setMemberQ] = useState('');
   const [selectedMember, setSelectedMember] = useState<any>(null);
@@ -162,8 +162,8 @@ const AssignPointsModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               className="w-full px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
             >
               <option value="">-- Select a Package / Destination --</option>
-              {packages && packages.map((pkg: any) => (
-                <option key={pkg.id} value={pkg.id}>{pkg.name}</option>
+              {allPackages && allPackages.map((pkg: any) => (
+                <option key={pkg.id} value={pkg.slug}>{pkg.name}</option>
               ))}
             </select>
 

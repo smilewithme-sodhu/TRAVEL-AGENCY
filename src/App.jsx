@@ -38,6 +38,7 @@ const TermsOfServicePage = React.lazy(() => import('./components/TermsOfServiceP
 const MemberLogin = React.lazy(() => import('./components/auth/MemberLogin').then(m => ({ default: m.MemberLogin })));
 const AdminLogin = React.lazy(() => import('./components/auth/AdminLogin').then(m => ({ default: m.AdminLogin })));
 const RegisterPage = React.lazy(() => import('./components/auth/RegisterPage').then(m => ({ default: m.RegisterPage })));
+const ResetPasswordPage = React.lazy(() => import('./components/auth/ResetPasswordPage').then(m => ({ default: m.ResetPasswordPage })));
 const ForgotPasswordPage = React.lazy(() => import('./components/auth/ForgotPasswordPage').then(m => ({ default: m.ForgotPasswordPage })));
 
 // --- Lazy Load Member Pages ---
@@ -183,6 +184,7 @@ export default function App() {
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
 
               {/* Member Routes: ProtectedRoute guards, MemberLayout provides the shell */}
               <Route element={<ProtectedRoute />}>

@@ -1,4 +1,4 @@
-import { simulateNetworkDelay, ApiResponse } from './client';
+import { simulateNetworkDelay, ApiResponse, apiClient } from './client';
 
 export type AuthState = 'Unauthenticated' | 'Authenticating' | 'Authenticated' | 'SessionExpired' | 'LoggingOut';
 
@@ -51,10 +51,13 @@ export const authApi = {
   },
 
   forgotPassword: async (identifier: string): Promise<ApiResponse<{ sent: boolean; message: string }>> => {
-    return simulateNetworkDelay({
-      sent: true,
-      message: `A password reset link has been dispatched to ${identifier}.`,
-    }, 300);
+    const { data } = await apiClient.post('/api/auth/forgot-password', { email: identifier });
+    return { sent: true, message: data.message } as any;
+  },
+
+  resetPassword: async (payload: { uid: string; token: string; password: string }): Promise<{ message: string }> => {
+    const { data } = await apiClient.post('/api/auth/reset-password', payload);
+    return data;
   },
 
   getCurrentUser: async (): Promise<ApiResponse<UserSession | null>> => {

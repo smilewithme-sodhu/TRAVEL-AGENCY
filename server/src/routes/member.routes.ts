@@ -257,7 +257,7 @@ memberRouter.get('/trips', async (req, res) => {
       id: b.id,
       destination: b.package.name,
       category: b.package.packageType,
-      heroImage: '/images/destinations/' + b.package.slug + '/hero.jpg',
+      heroImage: b.package.heroImage || ('/images/destinations/' + b.package.slug + '/hero.jpg'),
       status: b.status === 'COMPLETED' ? 'COMPLETED' : 'UPCOMING',
       referenceNumber: b.bookingRef,
       travelDates: b.travelDateFrom.toISOString().split('T')[0] + ' to ' + b.travelDateTo.toISOString().split('T')[0],

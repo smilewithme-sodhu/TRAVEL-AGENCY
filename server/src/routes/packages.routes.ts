@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { prisma } from '../db';
 import { PackageStatus } from '@prisma/client';
 import { getDecodedToken } from '../middleware/auth';
+import { DESTINATION_PACKAGES } from '../data/packageData';
 
 export const packagesRouter = Router();
 
@@ -56,15 +57,19 @@ packagesRouter.get('/', async (req: Request, res: Response, next: NextFunction):
 
     if (dbPackages.length > 0) {
       // Map to frontend expected format
-      const mapped = dbPackages.map(pkg => ({
+
+
+      const mapped = dbPackages.map(pkg => {
+        const hc = DESTINATION_PACKAGES.find(p => p.id === pkg.slug);
+        return {
         id: pkg.id, // We return the true UUID here for subsequent Quote/Booking flows
         slug: pkg.slug,
         name: pkg.name,
         category: pkg.packageType.toLowerCase(),
         location: pkg.destination.country,
         tagline: pkg.destination.description || '',
-        heroImage: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=80',
-        galleryImages: [],
+        heroImage: pkg.heroImage || (hc ? hc.heroImage : 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=80'),
+          galleryImages: pkg.galleryImages && pkg.galleryImages.length > 0 ? pkg.galleryImages : (hc && hc.galleryImages ? hc.galleryImages : []),
         description: pkg.cancellationPolicy,
         whyVisit: [],
         highlights: pkg.highlights.map(title => ({ title, desc: '' })),
@@ -74,7 +79,8 @@ packagesRouter.get('/', async (req: Request, res: Response, next: NextFunction):
         price: pkg.prices.length > 0 ? Number(pkg.prices[0].sellingPrice) : 0,
         itinerary: [],
         reviews: []
-      }));
+        };
+      });
       res.status(200).json({ success: true, data: mapped, source: 'postgresql' });
       return;
     }
@@ -86,3 +92,4 @@ packagesRouter.get('/', async (req: Request, res: Response, next: NextFunction):
     res.status(200).json({ success: true, data: [] });
   }
 });
+

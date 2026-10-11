@@ -164,7 +164,7 @@ export const createPackage = async (req: Request, res: Response) => {
     const {
       destinationId, slug, name, packageType, durationNights, maxTravellers,
       highlights, inclusions, exclusions, cancellationPolicy, status,
-      sellingPrice, directRewardBudget, teamRewardBudget, binaryVolumeBudget
+      sellingPrice, directRewardBudget, teamRewardBudget, binaryVolumeBudget, heroImage, galleryImages
     } = req.body;
 
     const newPackage = await prisma.package.create({
@@ -175,6 +175,8 @@ export const createPackage = async (req: Request, res: Response) => {
         packageType: packageType || 'STANDARD',
         durationNights: Number(durationNights) || 1,
         maxTravellers: Number(maxTravellers) || 2,
+        heroImage: heroImage || null,
+        galleryImages: galleryImages || [],
         highlights: highlights || [],
         inclusions: inclusions || [],
         exclusions: exclusions || [],

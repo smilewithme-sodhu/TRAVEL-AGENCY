@@ -1,4 +1,4 @@
-﻿import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { prisma } from '../../db';
 
 export class BinaryMatchingEngine {
@@ -7,7 +7,7 @@ export class BinaryMatchingEngine {
       // 1. Fetch Node with Row Lock (Pessimistic)
       const nodes = await tx.$queryRaw<any[]>`
         SELECT id, "memberId", "leftCarryForward", "rightCarryForward", "totalMatchedVolume"
-        FROM "BinaryNode"
+        FROM "binary_nodes"
         WHERE id = ${nodeId}::uuid
         FOR UPDATE
       `;
@@ -36,7 +36,7 @@ export class BinaryMatchingEngine {
 
         // 1. Update BinaryNode
         await tx.$queryRaw`
-          UPDATE "BinaryNode"
+          UPDATE "binary_nodes"
           SET 
             "leftCarryForward" = "leftCarryForward" - ${matchedVolume},
             "rightCarryForward" = "rightCarryForward" - ${matchedVolume},
@@ -90,3 +90,4 @@ export class BinaryMatchingEngine {
     });
   }
 }
+

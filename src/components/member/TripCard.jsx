@@ -27,7 +27,8 @@ export const TripCard = ({ trip, onSelect }) => {
           >
             {trip.status}
           </span>
-        </div>
+        {trip.category && (<span className="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-xs bg-indigo-600 text-white ml-2">{trip.category}</span>)}
+                  </div>
 
         <div className="absolute bottom-3 left-4 right-4 text-white">
           <span className="font-mono text-[10px] text-sky-300 font-bold uppercase tracking-wider block">

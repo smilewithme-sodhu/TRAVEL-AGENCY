@@ -375,6 +375,9 @@ model Package {
   packageType        PackageType
   durationNights     Int
   maxTravellers      Int
+  heroImage          String?
+  galleryImages      String[]
+  description        String?       @db.Text
   highlights         String[]
   inclusions         String[]
   exclusions         String[]
